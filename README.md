@@ -6,7 +6,7 @@
 Identity → Policy → Capability → Planner → Execution → Audit → Replay.
 One vertical slice, one Commander audit, one signed release.
 
-[What it is](#what-it-is) · [Why care](#why-care) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
+[What it is](#what-it-is) · [Why It Matters](#why-it-matters) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
 
 </div>
 
@@ -56,7 +56,7 @@ audited by the Commander and recorded in
 
 ---
 
-## Why care
+## Why It Matters
 
 If you build software that **takes consequential actions on behalf of
 someone**, four properties matter: who is allowed to ask, what they are
