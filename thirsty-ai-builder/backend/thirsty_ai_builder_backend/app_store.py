@@ -20,16 +20,16 @@ SEED_TOOLS: list[dict[str, Any]] = [
     {
         "id": "little-dove",
         "name": "Little Dove",
-        "description": "Quiet conversational assistant. Routes to the LLM provider "
-        "configured at deploy time (Emergent or Anthropic).",
+        "description": "Quiet conversational assistant. Routes to the local Ollama "
+        "model configured at deploy time (OLLAMA_MODEL).",
         "category": "assistant",
         "version": "1.0.0",
     },
     {
         "id": "holli",
         "name": "Holli",
-        "description": "Holistic operations assistant. LLM-backed, audit-logged, "
-        "with deterministic stub fallback when no key is configured.",
+        "description": "Holistic operations assistant. Local-Ollama backed, "
+        "audit-logged. Returns 503 if Ollama is unreachable.",
         "category": "assistant",
         "version": "1.0.0",
     },

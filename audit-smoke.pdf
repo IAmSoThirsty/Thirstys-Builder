@@ -1,0 +1,52 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1352 >>
+stream
+BT /F1 12 Tf 50 770 Td (live-smoke) Tj ET
+BT /F1 12 Tf 50 750 Td () Tj ET
+BT /F1 12 Tf 50 730 Td (From: Thirsty's Projects LLC \(Entity #14694374-0160\)) Tj ET
+BT /F1 12 Tf 50 710 Td (Office: 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203) Tj ET
+BT /F1 12 Tf 50 690 Td (Registered agent: Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205) Tj ET
+BT /F1 12 Tf 50 670 Td () Tj ET
+BT /F1 12 Tf 50 650 Td (© 2026 Jeremy Karrick / Thirsty's Projects LLC. Entity #14694374-0160. All rights reserved.) Tj ET
+BT /F1 12 Tf 50 630 Td () Tj ET
+BT /F1 12 Tf 50 610 Td (SHA-256 attestation: d1350d5f5b3a81637f32086beff77f47afeca7c70f3ce10f6357f3db11583cbd) Tj ET
+BT /F1 12 Tf 50 590 Td () Tj ET
+BT /F1 12 Tf 50 570 Td (---) Tj ET
+BT /F1 12 Tf 50 550 Td () Tj ET
+BT /F1 12 Tf 50 530 Td (Target: live-smoke) Tj ET
+BT /F1 12 Tf 50 510 Td (Audit ID: audit-81dbb67165d17142) Tj ET
+BT /F1 12 Tf 50 490 Td () Tj ET
+BT /F1 12 Tf 50 470 Td (Custom target recorded without execution.) Tj ET
+BT /F1 12 Tf 50 450 Td () Tj ET
+BT /F1 12 Tf 50 430 Td (SHA-256: dd74a4dcc1c0eeb9aad697cac284a5ad5c2f3220d3f1ab1c168496d905a5dea6) Tj ET
+BT /F1 12 Tf 50 410 Td () Tj ET
+BT /F1 12 Tf 50 390 Td (---) Tj ET
+BT /F1 12 Tf 50 370 Td (metadata: {"audit_id": "audit-81dbb67165d17142", "target": "live-smoke"}) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001645 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1715
+%%EOF

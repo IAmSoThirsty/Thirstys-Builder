@@ -1,5 +1,5 @@
 {
-  "file_count": 278,
+  "file_count": 279,
   "files": [
     {
       "path": ".gitignore",
@@ -15,6 +15,11 @@
       "path": "README.md",
       "sha256": "3623dad3ea7c1459a0c5708fa7bc03a9f536663dfa1307828ce68db51387a0f1",
       "size_bytes": 2409
+    },
+    {
+      "path": "audit-smoke.pdf",
+      "sha256": "db06fdfb191626677e2362f9a5abf84b37890dd56d739933aa009b5b37ae510c",
+      "size_bytes": 1899
     },
     {
       "path": "benchmarks/benchmark_kernel.py",
@@ -148,18 +153,18 @@
     },
     {
       "path": "release/provenance.json",
-      "sha256": "7d6a58af9d91fbcd259431624a2543f267130f902cddd3f503d1741b4be4bd01",
+      "sha256": "39ce5c06e99f5207b5a60ac97b8a3a350c8ce783431c46eafff3429ee5ab094a",
       "size_bytes": 384
     },
     {
       "path": "release/provenance.signature.json",
-      "sha256": "3f09ea47d5798e2dc306e6725eee0c05c629182c87a068dba8710194da06df74",
+      "sha256": "3026db776d995d0fbd7a09ddc161e35f87b3f167f7f2240fa984e76b7838a532",
       "size_bytes": 276
     },
     {
       "path": "release/sbom.json",
-      "sha256": "706459b39c84d612744bbcd6395b6e22b6196ccf84339ac09b5f81c26ca993f3",
-      "size_bytes": 66404
+      "sha256": "1a9384424f47d4bae3da33057ea35df428060bd481f6a7b26437a971b6786019",
+      "size_bytes": 66591
     },
     {
       "path": "scripts/build_release_package.py",
@@ -588,8 +593,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/app_store.py",
-      "sha256": "16df3ab5f0a6830311f88599ac2fc4c9dbc3e3e454a33ea14e3dd94f4684bf80",
-      "size_bytes": 2457
+      "sha256": "cfd67414f55e9ac7439d0c6bee7bfd3be46e272d8a78fff4aec2180c2d7831c2",
+      "size_bytes": 2441
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/db.py",
@@ -1394,8 +1399,8 @@
   ],
   "package": {
     "path": "release/constitutional-builder-0.1.0.zip",
-    "sha256": "a0eff84e8dfb5047552c965a72e4ee666a58bfd919e6e2d09bacc0beae33ea63",
-    "size_bytes": 1273026
+    "sha256": "cfd45e2a4b6b4ef6602bf27519cdd97b4503f6b72b774647040f9517f7c101fa",
+    "size_bytes": 1274004
   },
   "package_name": "constitutional-builder-0.1.0.zip",
   "schema": "constitutional-builder-package-manifest-v1"

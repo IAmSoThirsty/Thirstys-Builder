@@ -1,5 +1,5 @@
 {
-  "component_count": 275,
+  "component_count": 276,
   "components": [
     {
       "path": ".gitignore",
@@ -17,6 +17,12 @@
       "path": "README.md",
       "sha256": "3623dad3ea7c1459a0c5708fa7bc03a9f536663dfa1307828ce68db51387a0f1",
       "size_bytes": 2409,
+      "type": "metadata"
+    },
+    {
+      "path": "audit-smoke.pdf",
+      "sha256": "db06fdfb191626677e2362f9a5abf84b37890dd56d739933aa009b5b37ae510c",
+      "size_bytes": 1899,
       "type": "metadata"
     },
     {
@@ -687,8 +693,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/app_store.py",
-      "sha256": "16df3ab5f0a6830311f88599ac2fc4c9dbc3e3e454a33ea14e3dd94f4684bf80",
-      "size_bytes": 2457,
+      "sha256": "cfd67414f55e9ac7439d0c6bee7bfd3be46e272d8a78fff4aec2180c2d7831c2",
+      "size_bytes": 2441,
       "type": "metadata"
     },
     {
