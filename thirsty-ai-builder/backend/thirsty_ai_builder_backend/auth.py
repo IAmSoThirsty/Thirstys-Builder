@@ -2,10 +2,13 @@
 
 Single source of truth for the Bearer-token check. The token is supplied
 via the `CB_API_KEY` env var. If unset, the server starts but rejects
-all authenticated routes with 401. Public routes (`/`, `/api/health`,
+all authenticated routes with 503. Public routes (`/`, `/api/health`,
 `/api/ownership`, `/api/docs`, `/openapi.json`) are still reachable
 so the system status, ownership block, and OpenAPI doc are visible
 without a key.
+
+For production/self-hosted deployments, set `THIRSTY_AI_REQUIRE_AUTH=1`;
+startup then fails closed unless `CB_API_KEY` is configured.
 
 Token format: a non-empty string. In production, generate one with
 `python -c "import secrets; print(secrets.token_urlsafe(32))"` and
@@ -23,6 +26,8 @@ import secrets
 from typing import Annotated
 
 from fastapi import Header, HTTPException, status
+
+TRUE_VALUES = {"1", "true", "yes", "on"}
 
 
 # Public routes that do NOT require a token. Everything else does.
@@ -47,6 +52,11 @@ def _configured_token() -> str | None:
 def configured() -> bool:
     """Whether a token is configured on this server."""
     return _configured_token() is not None
+
+
+def require_auth() -> bool:
+    """Return whether startup must fail unless `CB_API_KEY` is configured."""
+    return os.environ.get("THIRSTY_AI_REQUIRE_AUTH", "").strip().lower() in TRUE_VALUES
 
 
 def _digest(token: str) -> bytes:

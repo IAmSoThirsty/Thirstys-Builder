@@ -62,6 +62,7 @@ class AuthPublicPaths(unittest.TestCase):
         r = c.get("/api/health")
         self.assertEqual(r.status_code, 200)
         self.assertTrue(r.json()["auth_configured"])
+        self.assertIn(r.json()["database_backend"], ("mongo", "in-memory"))
 
     def test_health_ready_ok_when_auth_and_db_ok(self):
         c = _client()
@@ -201,6 +202,21 @@ class AuthNoKeyConfigured(unittest.TestCase):
         from thirsty_ai_builder_backend import auth
         with mock.patch.dict(os.environ, {"CB_API_KEY": "x"}):
             self.assertTrue(auth.configured())
+
+    def test_require_auth_flag(self):
+        from thirsty_ai_builder_backend import auth
+        with mock.patch.dict(os.environ, {"THIRSTY_AI_REQUIRE_AUTH": "1"}, clear=True):
+            self.assertTrue(auth.require_auth())
+        with mock.patch.dict(os.environ, {}, clear=True):
+            self.assertFalse(auth.require_auth())
+
+    def test_server_import_fails_when_auth_required_without_key(self):
+        with mock.patch.dict(os.environ, {"THIRSTY_AI_REQUIRE_AUTH": "1"}, clear=True):
+            for mod in list(sys.modules):
+                if mod.startswith("server") or mod.startswith("thirsty_ai_builder_backend"):
+                    del sys.modules[mod]
+            with self.assertRaisesRegex(RuntimeError, "requires CB_API_KEY"):
+                import server  # noqa: F401
 
 
 class AuthTokenHelpers(unittest.TestCase):

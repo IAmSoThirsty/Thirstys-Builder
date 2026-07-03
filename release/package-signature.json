@@ -3,7 +3,7 @@
   "key_scope": "local-test-key",
   "note": "Local test key is deterministic and not a production secret.",
   "package": "release/constitutional-builder-0.1.0.zip",
-  "package_sha256": "a9c2c2107d4bbfed8d38e5bed6ca6bd484c860aac222cce3697a8f8ede8b47e7",
+  "package_sha256": "a8dbb7986134a2c845b2f00f78c35e632cf25f1cf5fe5a82a858a896c94f9a03",
   "schema": "constitutional-builder-ed25519-package-signature-v1",
-  "signature_base64": "H430jEBPPrh+L+vxYG2i3BaBscVbU3R8zL0f7+58FcZTRowPLxJCO2hkygoE1S+OHtjEMUaowluXIwMBLHUpCg=="
+  "signature_base64": "GZGTkkm6+c3T6bPrQpBTAEL8OKrAKGP2RWqwCN/KGSwPKTrHEsqKhp/T8OgGBjUFfEIMXuZpOEqcokv2ja3LDw=="
 }

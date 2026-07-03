@@ -109,6 +109,39 @@ class MongoSelection(unittest.TestCase):
                 c = db.get_client()
                 self.assertEqual(db.backend_kind(), "in-memory")
 
+    def test_require_mongo_without_url_fails_closed(self):
+        with mock.patch.dict(os.environ, {"THIRSTY_AI_REQUIRE_MONGO": "1"}, clear=True):
+            db.reset_for_test()
+            with self.assertRaisesRegex(RuntimeError, "requires MONGO_URL"):
+                db.get_client()
+
+    def test_require_mongo_unreachable_fails_closed(self):
+        class _PyMongoError(Exception):
+            pass
+
+        class _FakeClient:
+            def __init__(self, url, **kwargs):
+                self.url = url
+            @property
+            def admin(self):
+                raise _PyMongoError("connection refused")
+
+        fake_pymongo = mock.MagicMock()
+        fake_pymongo.MongoClient = _FakeClient
+        fake_pymongo.errors.PyMongoError = _PyMongoError
+
+        with mock.patch.dict(
+            os.environ,
+            {"MONGO_URL": "mongodb://nope:27017", "THIRSTY_AI_REQUIRE_MONGO": "1"},
+        ):
+            with mock.patch.dict(
+                sys.modules,
+                {"pymongo": fake_pymongo, "pymongo.errors": fake_pymongo.errors},
+            ):
+                db.reset_for_test()
+                with self.assertRaisesRegex(RuntimeError, "reachable MongoDB"):
+                    db.get_client()
+
     def test_idempotent_resolution(self):
         """Calling get_client() multiple times returns the same backend."""
         c1 = db.get_client()

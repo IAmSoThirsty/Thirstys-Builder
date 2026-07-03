@@ -12,8 +12,11 @@ Four deploy paths. Pick one.
    OLLAMA_HOST=http://host.docker.internal:11434
    OLLAMA_MODEL=qwen2.5-coder:7b
    MONGO_URL=mongodb://mongo:27017
+   THIRSTY_AI_REQUIRE_MONGO=1
    DB_NAME=thirsty_ai_builder
-   CORS_ORIGINS=*
+   CORS_ORIGINS=https://<your-frontend-domain>
+   CB_API_KEY=<32-byte-url-safe-token-from-secret-manager>
+   THIRSTY_AI_REQUIRE_AUTH=1
    ```
 5. On the `frontend` service, add:
    ```
@@ -36,8 +39,10 @@ Four deploy paths. Pick one.
 
 ```bash
 fly launch        # in the repo root
-fly secrets set EMERGENT_LLM_KEY=sk-emergent-...
-fly secrets set MONGO_URL=mongodb://...
+fly secrets set CB_API_KEY=<32-byte-url-safe-token>
+fly secrets set THIRSTY_AI_REQUIRE_AUTH=1
+fly secrets set MONGO_URL=mongodb://<user>:<password>@<host>:27017/<db>
+fly secrets set THIRSTY_AI_REQUIRE_MONGO=1
 fly deploy
 ```
 
@@ -62,8 +67,10 @@ nano backend/.env   # OLLAMA_HOST stays at http://127.0.0.1:11434
 docker compose up -d
 ```
 
-Point a reverse proxy (Caddy, nginx) at ports 3000 (frontend) and
-8001 (backend). For production, terminate TLS at the proxy.
+Point a reverse proxy (Caddy, nginx) at the frontend on
+`127.0.0.1:3000`. The backend is not published to the host; the
+frontend nginx proxies `/api/*` to the backend on the compose network.
+For production, terminate TLS at the proxy.
 
 ## From your iPhone (no laptop needed)
 
@@ -75,10 +82,17 @@ Point a reverse proxy (Caddy, nginx) at ports 3000 (frontend) and
 
 ## After deploy
 
+Run the production preflight before exposing the service:
+
+```bash
+docker compose exec backend python -m thirsty_ai_builder_backend.preflight
+# expected: PASS: thirsty-ai-builder production preflight
+```
+
 Smoke-test:
 
 ```bash
-curl https://<your-backend>/api/health
+curl https://<your-frontend-domain>/api/health
 # expected: {"status":"ok","product":"ThirstyAi Builder",...}
 ```
 

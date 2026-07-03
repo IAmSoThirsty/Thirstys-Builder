@@ -628,3 +628,67 @@ Evidence:
   release SBOM, provenance, package, and Ed25519 signature refreshed.
 
 Signature: Commander-Agent / Wave-10 / 2026-07-04
+
+## Entry 0019 - Self-Hosted Production Deployment Gates
+
+Scope: ThirstyAi Builder production startup gates, deployment validation,
+release packaging exclusions, and full-gate coverage.
+
+Decision: signed off for self-hosted production deployment gates. Not a
+certification of external hosted deployment or multi-host distributed
+production.
+
+Findings:
+
+- Complete: backend production auth gate. When `THIRSTY_AI_REQUIRE_AUTH=1`
+  is set, importing/starting the backend fails closed unless `CB_API_KEY`
+  is configured.
+- Complete: backend production persistence gate. When
+  `THIRSTY_AI_REQUIRE_MONGO=1` is set, importing/starting the backend fails
+  closed unless `MONGO_URL` is configured and pingable.
+- Complete: `thirsty-ai-builder/docker-compose.yml` sets both production
+  gates and requires `CB_API_KEY` through compose variable interpolation.
+- Complete: `scripts/validate_thirsty_ai_builder_deployment.py` validates
+  compose config, backend image build, frontend image build, missing-auth
+  fail-closed behavior, missing-Mongo fail-closed behavior, and production
+  preflight execution inside the backend image.
+- Complete: compose no longer publishes the backend host port; the frontend is
+  the only public compose entrypoint and proxies `/api` to the backend.
+- Complete: frontend host binding is localhost-scoped and configurable through
+  `THIRSTY_AI_FRONTEND_PORT`, so validation and reverse-proxy deployments do
+  not require publishing private services.
+- Complete: frontend API defaults to same-origin `/api` calls instead of
+  falling back to `http://localhost:8001`.
+- Complete: `thirsty_ai_builder_backend.preflight` rejects missing/weak
+  `CB_API_KEY`, missing fail-closed production flags, malformed `MONGO_URL`,
+  wildcard CORS, and unsafe `OLLAMA_HOST`.
+- Complete: `scripts/validate_thirsty_ai_builder_deployment.py` now starts the
+  full compose stack under an isolated project name, probes frontend `/healthz`,
+  proxied `/api/health`, and an authenticated proxied `/api/appstore/tools`,
+  then tears the stack and volume down.
+- Complete: `scripts/verify_all.py` includes backend tests, frontend
+  test/build, Rust auditor tests, and the ThirstyAi Builder deployment
+  validator.
+- Complete: release package builder excludes generated dependency/build
+  directories (`node_modules`, `target`, `build`, `dist`, caches), keeping
+  the release artifact source-focused instead of shipping local build output.
+- Risk: no external Railway/Render/Fly/VPS deployment was executed in this
+  thread.
+- Classification: not blocking local/self-hosted deployment readiness;
+  requires separate follow-up for real hosted production rollout and
+  independent external review.
+
+Evidence:
+
+- `python -m unittest thirsty-ai-builder\backend\tests\test_auth.py`:
+  28 tests passed.
+- `python -m unittest thirsty-ai-builder\backend\tests\test_db.py`:
+  10 tests passed.
+- `python -m unittest thirsty-ai-builder\backend\tests\test_review_readiness.py`:
+  34 tests passed.
+- `python scripts\validate_thirsty_ai_builder_deployment.py`: passed.
+- `npm run build`: passed after same-origin API default change.
+- Full compose smoke: passed frontend health, proxied API health, authenticated
+  proxied API route, and cleanup.
+
+Signature: Commander-Agent / Self-Hosted-Deploy-Gates / 2026-07-03

@@ -1,43 +1,117 @@
+# docker-compose for local development and small-team self-hosting.
+#
+# Security posture (matches the HOSTED_OLLAMA.md / DEPLOY.md runbooks):
+# - Mongo binds to the compose network only. No host port mapping.
+#   Operators who need a remote Mongo use Atlas or a self-hosted replica
+#   set; the compose file is for local dev.
+# - The backend runs as a non-root UID inside its container.
+# - The backend uses read-only root filesystem with tmpfs for /tmp.
+# - No new privileges. Dropped Linux capabilities.
+# - CORS is constrained to the frontend origin (single-origin is
+#   preferred; the frontend nginx proxies /api to the backend on the
+#   same origin so the browser never sees a cross-origin request).
+# - Ollama is NOT in this compose file. Run it on the host (or its
+#   own service) so model storage stays out of the app's volume
+#   namespace. See HOSTED_OLLAMA.md.
+
 version: "3.9"
 
 services:
   mongo:
-    image: mongo:7
+    image: mongo:7.0.14
     restart: unless-stopped
+    user: "999:999"
     volumes:
       - mongo_data:/data/db
-    ports:
-      - "27017:27017"
+    # No `ports:`. Mongo is reachable only on the compose network.
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ping:1}).ok"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    security_opt:
+      - no-new-privileges:true
+    read_only: false   # mongod needs to write its data dir; we set the user above
+    tmpfs:
+      - /tmp:size=64m
 
   backend:
     build: ./backend
     restart: unless-stopped
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
+      # Real Mongo on the compose network.
       MONGO_URL: mongodb://mongo:27017
+      THIRSTY_AI_REQUIRE_MONGO: "1"
       DB_NAME: thirsty_ai_builder
-      CORS_ORIGINS: "*"
-      # On macOS/Windows Docker Desktop, the host's Ollama server is
-      # reachable at host.docker.internal. On Linux, replace with the
-      # host's IP (e.g. 172.17.0.1) or run Ollama in its own service.
+      # Same-origin: the frontend nginx proxies /api to this service.
+      CORS_ORIGINS: "http://localhost:3000"
+      # Operator MUST set CB_API_KEY. The server prints a clear
+      # warning at startup if it is missing; the /api/health/ready
+      # probe reports "missing CB_API_KEY" until it is set.
+      CB_API_KEY: "${CB_API_KEY:?CB_API_KEY must be set in .env}"
+      THIRSTY_AI_REQUIRE_AUTH: "1"
       OLLAMA_HOST: http://host.docker.internal:11434
       OLLAMA_MODEL: qwen2.5-coder:7b
       PORT: "8001"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    ports:
-      - "8001:8001"
+    expose:
+      - "8001"
+    # Defense in depth: the backend already does Bearer-token auth on
+    # every non-public endpoint, but we also run it with a minimal
+    # capability set and read-only root fs.
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE   # uvicorn binds a port
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; r=urllib.request.urlopen('http://127.0.0.1:8001/api/health',timeout=3); sys.exit(0 if r.status==200 else 1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
 
   frontend:
     build: ./frontend
     restart: unless-stopped
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     environment:
-      REACT_APP_BACKEND_URL: http://localhost:8001
+      # Single-origin: the browser hits the frontend on :3000 and
+      # the nginx inside the container proxies /api to the backend
+      # on the compose network. No CORS, no public backend port.
+      REACT_APP_BACKEND_URL: http://localhost:3000
     ports:
-      - "3000:3000"
+      - "127.0.0.1:${THIRSTY_AI_FRONTEND_PORT:-3000}:80"
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx:size=16m
+      - /var/run:size=4m
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+      - CHOWN
+      - SETUID
+      - SETGID
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   mongo_data:

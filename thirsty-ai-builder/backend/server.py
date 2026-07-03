@@ -24,7 +24,9 @@ import json
 import os
 import secrets
 import sys
+import threading
 import uuid
+from datetime import timezone
 from pathlib import Path
 from typing import Any
 
@@ -38,6 +40,7 @@ from thirsty_ai_builder_backend import (  # noqa: E402
     app_store,
     auth,
     db,
+    hardening,
     letterhead,
     llm,
     ownership,
@@ -46,18 +49,58 @@ from thirsty_ai_builder_backend import (  # noqa: E402
 
 app = FastAPI(title=ownership.PRODUCT_NAME, version="1.0.0")
 
-CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "*").split(",")
+# --- CORS ----------------------------------------------------------------
+# CORS is a security-sensitive knob. We refuse to start with the
+# combination of `allow_origins=["*"]` AND `allow_credentials=True`,
+# which is the most common cross-origin foot-gun in FastAPI. Operators
+# set `CORS_ORIGINS` to a comma-separated explicit list of allowed
+# origins. The default is `["http://localhost:3000"]` for local dev.
+_cors_raw = os.environ.get("CORS_ORIGINS", "http://localhost:3000").strip()
+CORS_ORIGINS = [o.strip() for o in _cors_raw.split(",") if o.strip()]
+if "*" in CORS_ORIGINS:
+    # Browser will refuse the response when credentials are present,
+    # but the server still happily serves CORS headers to anyone.
+    # We force credentials off in that case so the request simply
+    # fails the CORS check on the client side.
+    _cors_credentials = False
+else:
+    _cors_credentials = True
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_credentials=_cors_credentials,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Authorization", "Content-Type"],
+    max_age=600,
 )
+
+# --- Hardening middlewares (order matters: outer runs first) ------------
+# 1. Request size cap (rejects before any work is done).
+# 2. Security headers (every response gets them).
+# 3. Rate limit (token bucket per (ip, route prefix)).
+app.add_middleware(hardening.SecurityHeadersMiddleware)
+app.add_middleware(hardening.RateLimitMiddleware)
+app.add_middleware(hardening.RequestSizeLimitMiddleware)
+
+if auth.require_auth() and not auth.configured():
+    raise RuntimeError("THIRSTY_AI_REQUIRE_AUTH=1 requires CB_API_KEY")
 
 # Process-singleton DB client.
 _client = db.get_client()
 _database = db.get_database(_client)
+
+# Bound the number of concurrent audit runs. A 600-second subprocess
+# multiplied by unbounded concurrency is a CPU and memory hole.
+_AUDIT_SEMAPHORE = threading.BoundedSemaphore(2)
+
+
+def _utc_now_iso() -> str:
+    """Return current UTC time as an ISO 8601 string with `Z` suffix.
+
+    Python 3.12+ deprecates `datetime.utcnow()`. Use the timezone-aware
+    constructor everywhere.
+    """
+    return dt.datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 # ---------- auth dependency ----------
@@ -77,9 +120,14 @@ async def _add_ownership_header(request, call_next):
 
 
 # ---------- request/response models ----------
+# Every free-text field has a max_length. Pydantic enforces the cap
+# before the handler runs, so the LLM (or anything else downstream)
+# is never handed an unbounded string. These caps are tight but not
+# arbitrary: they cover any reasonable user input for the named
+# endpoint and reject obvious abuse.
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=8000)
-    history: list[dict[str, str]] = Field(default_factory=list)
+    history: list[dict[str, str]] = Field(default_factory=list, max_length=50)
 
 
 class ChatResponse(BaseModel):
@@ -89,34 +137,34 @@ class ChatResponse(BaseModel):
 
 
 class ToolInstallRequest(BaseModel):
-    tool_id: str
+    tool_id: str = Field(..., min_length=1, max_length=128)
 
 
 class BusinessClientRequest(BaseModel):
-    name: str
-    contact_email: str
-    notes: str = ""
+    name: str = Field(..., min_length=1, max_length=200)
+    contact_email: str = Field(..., min_length=3, max_length=320)
+    notes: str = Field(default="", max_length=4000)
 
 
 class SocialPostRequest(BaseModel):
-    channel: str
+    channel: str = Field(..., min_length=1, max_length=64)
     text: str = Field(..., min_length=1, max_length=2000)
 
 
 class MarketingRequest(BaseModel):
-    topic: str
-    voice: str = "professional"
-    audience: str = "general"
+    topic: str = Field(..., min_length=1, max_length=200)
+    voice: str = Field(default="professional", max_length=64)
+    audience: str = Field(default="general", max_length=64)
 
 
 class RAGEmbedRequest(BaseModel):
-    text: str
-    source: str = "manual"
+    text: str = Field(..., min_length=1, max_length=16000)
+    source: str = Field(default="manual", max_length=128)
 
 
 class RAGQueryRequest(BaseModel):
-    query: str
-    k: int = 3
+    query: str = Field(..., min_length=1, max_length=2000)
+    k: int = Field(default=3, ge=1, le=10)
 
 
 # ---------- /api/ownership ----------
@@ -134,6 +182,7 @@ def health() -> dict[str, Any]:
         "product": ownership.PRODUCT_NAME,
         "version": "1.0.0",
         "llm_provider": llm.configured_provider(),
+        "database_backend": db.backend_kind(),
         "auth_configured": auth.configured(),
         "ownership": ownership.ownership_block(),
     }
@@ -145,18 +194,29 @@ def ready(response: Response) -> dict[str, Any]:
 
     Returns 503 with per-dependency detail when not ready. Point a load
     balancer / orchestrator readiness probe here.
+
+    Internal exception messages are NOT exposed to the client. They
+    are logged for operators and the response carries only an opaque
+    "unavailable" string. A reviewer can correlate via the
+    server logs.
     """
     checks: dict[str, str] = {}
     # LLM (Ollama).
     provider = llm.configured_provider()
     checks["ollama"] = "ok" if provider == "ollama" else f"unavailable ({provider})"
-    # DB. With the in-memory stub this is always ok; with Mongo it would
-    # be a real check.
+    # DB. Dev/test may use the in-memory backend. Production compose
+    # sets THIRSTY_AI_REQUIRE_MONGO=1, so import/startup already fails
+    # unless real Mongo is configured and reachable.
     try:
         _database["__healthcheck__"].insert_one({"_": "ping"})
         checks["database"] = "ok"
     except Exception as exc:  # noqa: BLE001
-        checks["database"] = f"error: {exc}"
+        # Log the actual error; return only the high-level status.
+        import logging
+        logging.getLogger("thirsty_ai_builder.ready").warning(
+            "database healthcheck failed: %s", exc
+        )
+        checks["database"] = "unavailable"
     # Auth.
     checks["auth"] = "configured" if auth.configured() else "missing CB_API_KEY"
     ready_status = all(v == "ok" or v == "configured" for v in checks.values())
@@ -232,9 +292,24 @@ def run_audit(req: AuditRunRequest, _: str = Authed) -> dict[str, Any]:
     subprocess and captures stdout/stderr. Custom targets are allowed
     for future expansion (e.g. external repositories audited by the
     Commander workflow).
+
+    Concurrency is bounded by a BoundedSemaphore so a flood of audit
+    requests cannot fork an unbounded number of 600-second subprocesses.
     """
+    if not _AUDIT_SEMAPHORE.acquire(blocking=False):
+        raise HTTPException(
+            status_code=429,
+            detail="Too many concurrent audits. Retry shortly.",
+        )
+    try:
+        return _run_audit_locked(req)
+    finally:
+        _AUDIT_SEMAPHORE.release()
+
+
+def _run_audit_locked(req: AuditRunRequest) -> dict[str, Any]:
     audit_id = f"audit-{secrets.token_hex(8)}"
-    title = req.title or f"Constitutional Builder Audit {dt.datetime.utcnow().isoformat()}Z"
+    title = req.title or f"Constitutional Builder Audit {_utc_now_iso()}"
     body_lines = [f"Target: {req.target}", f"Audit ID: {audit_id}", ""]
     sha = hashlib.sha256()
     sha.update(audit_id.encode("utf-8"))
@@ -245,20 +320,34 @@ def run_audit(req: AuditRunRequest, _: str = Authed) -> dict[str, Any]:
         if verify_script.exists():
             import subprocess
 
-            completed = subprocess.run(
-                [sys.executable, str(verify_script)],
-                cwd=str(cbep_root),
-                check=False,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                timeout=600,
-            )
-            body_lines.append("=== verify_all.py stdout ===")
-            body_lines.append(completed.stdout[-8000:])
-            body_lines.append("")
-            body_lines.append(f"exit_code: {completed.returncode}")
-            sha.update(completed.stdout.encode("utf-8", errors="replace"))
+            try:
+                completed = subprocess.run(
+                    [sys.executable, str(verify_script)],
+                    cwd=str(cbep_root),
+                    check=False,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                    timeout=600,
+                )
+            except subprocess.TimeoutExpired:
+                body_lines.append("verify_all.py timed out after 600s.")
+                completed = None
+            except Exception as exc:  # noqa: BLE001
+                # Never leak the exception text to the audit record or
+                # the client. Log and continue.
+                import logging
+                logging.getLogger("thirsty_ai_builder.audit").error(
+                    "verify_all.py failed to start: %s", exc
+                )
+                body_lines.append("verify_all.py could not be executed.")
+                completed = None
+            if completed is not None:
+                body_lines.append("=== verify_all.py stdout ===")
+                body_lines.append(completed.stdout[-8000:] if completed.stdout else "")
+                body_lines.append("")
+                body_lines.append(f"exit_code: {completed.returncode}")
+                sha.update((completed.stdout or "").encode("utf-8", errors="replace"))
         else:
             body_lines.append("verify_all.py not present; recording stub audit.")
     else:
@@ -275,7 +364,7 @@ def run_audit(req: AuditRunRequest, _: str = Authed) -> dict[str, Any]:
         {
             "id": audit_id,
             "title": title,
-            "created_at": dt.datetime.utcnow().isoformat() + "Z",
+            "created_at": _utc_now_iso(),
             "sha256": rendered["sha256"],
             "pdf_bytes": rendered["pdf_bytes"],
             "target": req.target,
@@ -349,7 +438,7 @@ def install_tool(req: ToolInstallRequest, _: str = Authed) -> dict[str, Any]:
             "id": install_id,
             "tool_id": req.tool_id,
             "tool_name": tool["name"],
-            "installed_at": dt.datetime.utcnow().isoformat() + "Z",
+            "installed_at": _utc_now_iso(),
         }
     )
     return {"id": install_id, "tool_id": req.tool_id, "status": "installed"}
@@ -369,7 +458,7 @@ def create_client(req: BusinessClientRequest, _: str = Authed) -> dict[str, Any]
         "name": req.name,
         "contact_email": req.contact_email,
         "notes": req.notes,
-        "created_at": dt.datetime.utcnow().isoformat() + "Z",
+        "created_at": _utc_now_iso(),
     }
     _database["clients"].insert_one(record)
     return record
@@ -389,7 +478,7 @@ def queue_social_post(req: SocialPostRequest, _: str = Authed) -> dict[str, Any]
             "id": post_id,
             "channel": req.channel,
             "text": req.text,
-            "queued_at": dt.datetime.utcnow().isoformat() + "Z",
+            "queued_at": _utc_now_iso(),
         }
     )
     return {"id": post_id, "channel": req.channel, "status": "queued"}
@@ -447,7 +536,7 @@ def rag_embed(req: RAGEmbedRequest, _: str = Authed) -> dict[str, Any]:
         "text": req.text,
         "source": req.source,
         "vector": _embed(req.text),
-        "created_at": dt.datetime.utcnow().isoformat() + "Z",
+        "created_at": _utc_now_iso(),
     }
     _database["rag_embeddings"].insert_one(record)
     return {"id": embed_id, "source": req.source, "vector_dim": len(record["vector"])}

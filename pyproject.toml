@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Deterministic governed execution kernel reference implementation."
 requires-python = ">=3.11"
 dependencies = [
+  "cryptography>=46.0.7,<50",
   "grpcio>=1.81.1,<2",
   "protobuf>=6.33.5,<7"
 ]

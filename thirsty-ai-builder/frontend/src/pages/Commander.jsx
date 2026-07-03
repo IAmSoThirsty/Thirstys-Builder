@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { api, backendUrl } from "../api";
+import { api } from "../api";
 
 export default function Commander() {
   const [audits, setAudits] = useState([]);
@@ -20,6 +20,15 @@ export default function Commander() {
       await refresh();
     } catch (e) { setError(e.message); }
     finally { setRunning(false); }
+  };
+
+  const downloadPdf = async (auditId) => {
+    setError(null);
+    try {
+      await api.commander.downloadPdf(auditId);
+    } catch (e) {
+      setError(e.message);
+    }
   };
 
   return (
@@ -49,14 +58,13 @@ export default function Commander() {
                   {a.created_at} • sha256: {a.sha256?.slice(0, 16)}...
                 </div>
               </div>
-              <a
+              <button
                 className="btn"
-                href={api.commander.pdfUrl(a.id)}
-                target="_blank"
-                rel="noreferrer"
+                type="button"
+                onClick={() => downloadPdf(a.id)}
               >
                 Download PDF
-              </a>
+              </button>
             </div>
           ))
         )}

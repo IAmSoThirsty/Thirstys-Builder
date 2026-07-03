@@ -10,7 +10,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE_DIR = ROOT / "release"
-EXCLUDED_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".tool-cache", "states"}
+EXCLUDED_DIRS = {
+    ".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
+    ".tool-cache", "states", "target", "node_modules", "dist", "build",
+}
 EXCLUDED_PREFIXES = {"deploy/runtime"}
 
 
@@ -75,6 +78,7 @@ def iter_source_files() -> list[Path]:
 
 
 def build_sbom(files: list[Path]) -> dict[str, object]:
+    generated_utc = stable_timestamp(files)
     components = []
     for path in files:
         relative = path.relative_to(ROOT).as_posix()
@@ -88,7 +92,7 @@ def build_sbom(files: list[Path]) -> dict[str, object]:
         )
     return {
         "schema": "constitutional-builder-sbom-v1",
-        "generated_utc": stable_timestamp(),
+        "generated_utc": generated_utc,
         "component_count": len(components),
         "components": components,
     }
@@ -104,7 +108,7 @@ def build_provenance(files: list[Path], sbom: dict[str, object]) -> dict[str, ob
         tree_hash.update(b"\n")
     return {
         "schema": "constitutional-builder-provenance-v1",
-        "generated_utc": stable_timestamp(),
+        "generated_utc": stable_timestamp(files),
         "builder": "local-codex",
         "source_root": str(ROOT),
         "tree_sha256": tree_hash.hexdigest(),
@@ -144,11 +148,18 @@ def classify(relative: str) -> str:
     return "metadata"
 
 
-def stable_timestamp() -> str:
+def stable_timestamp(files: list[Path]) -> str:
+    """Return a stable ISO 8601 UTC timestamp.
+
+    For reproducible builds, respect `SOURCE_DATE_EPOCH` if set.
+    Otherwise use the newest source file mtime so `--check` is stable
+    while still reporting a real source-derived timestamp.
+    """
     env_value = os.environ.get("SOURCE_DATE_EPOCH")
     if env_value:
         return datetime.fromtimestamp(int(env_value), tz=timezone.utc).isoformat()
-    return "1970-01-01T00:00:00+00:00"
+    newest = max((path.stat().st_mtime for path in files), default=0)
+    return datetime.fromtimestamp(int(newest), tz=timezone.utc).isoformat()
 
 
 if __name__ == "__main__":

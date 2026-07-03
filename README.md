@@ -61,5 +61,10 @@ python -m constitutional_builder.api --config deploy/example-config.json --port 
 
 Commander certification is recorded in
 `commander/final-certification-report.md`. The current repository is certified
-as a complete Stage 1 reference foundation, not as a fully deployed production
-platform. Remaining production expansion work is explicitly tracked there.
+as a complete local reference foundation with self-hosted production deployment
+gates: full local verification, Docker/Kubernetes smoke for the CBEP reference,
+ThirstyAi Builder compose config, backend/frontend image builds, fail-closed
+auth/Mongo startup checks, SBOM/provenance, package manifest, and release
+signature. Multi-host consensus, cloud/edge/air-gapped production deployments,
+external CI execution, independent security review, and production key custody
+remain separately tracked production-expansion work.

@@ -2,12 +2,17 @@
 
 ## Certification Decision
 
-Status: Local end-to-end reference foundation certified.
+Status: Local end-to-end reference foundation and self-hosted production
+deployment gates certified.
 
 The repository satisfies the local end-to-end CBEP reference objective: a clean,
 versioned specification, deterministic single-node reference kernel, file-based
 configuration, HTTP API, SDK, conformance fixtures, deployment artifacts, and a
-single local verification gate.
+single local verification gate. The ThirstyAi Builder app also has verified
+self-hosted deployment gates: compose config validation, backend/frontend image
+builds, fail-closed auth startup, fail-closed Mongo startup, security hardening
+tests, production preflight, same-origin frontend API routing, private backend
+compose exposure, isolated compose runtime smoke, and frontend/Rust validation.
 
 This is not certified as a complete production distributed platform. The
 evidence does not yet support Gold, High-Assurance, Government, or Critical
@@ -42,6 +47,11 @@ Infrastructure certification.
 - Security: `security/threat-model.md`.
 - Formal obligations: `formal/proof-obligations.md`.
 - Operations: `docs/operations/runbook.md`.
+- ThirstyAi Builder app: `thirsty-ai-builder/`.
+- ThirstyAi Builder security: `thirsty-ai-builder/THREAT_MODEL.md`,
+  `thirsty-ai-builder/SECURITY.md`.
+- ThirstyAi Builder deployment validation:
+  `scripts/validate_thirsty_ai_builder_deployment.py`.
 
 ## Validation Results
 
@@ -93,6 +103,21 @@ Infrastructure certification.
 - `python scripts/validate_deployment.py`: passed Docker image build, container
   CLI smoke, container API health smoke, Kubernetes image import, and temporary
   namespace apply/wait smoke.
+- `python scripts/validate_thirsty_ai_builder_deployment.py`: passed compose
+  config validation, backend image build, frontend image build, backend
+  fail-closed startup without `CB_API_KEY`, backend fail-closed startup without
+  `MONGO_URL` when Mongo is required, and production preflight inside the
+  backend image. The same validator starts the full compose stack under an
+  isolated project name, validates frontend `/healthz`, proxied `/api/health`,
+  and authenticated proxied `/api/appstore/tools`, then tears down containers
+  and volumes.
+- `python -m unittest discover -s thirsty-ai-builder/backend/tests`: passed,
+  covering auth, DB selection, fail-closed production flags, security headers,
+  request size limits, rate limiting, TLS/runbook artifacts, API surface, and
+  review-readiness assertions.
+- `npm test -- --watchAll=false --passWithNoTests`: passed.
+- `npm run build`: passed.
+- `cargo +stable-x86_64-pc-windows-gnu test`: passed with `rust-lld` linker.
 
 ## Remaining Gaps
 
@@ -102,6 +127,9 @@ Infrastructure certification.
   Local Docker image build, container CLI/API smoke, and Docker Desktop
   Kubernetes apply/wait are verified. Real multi-node/cloud/edge/air-gapped
   deployment remains separate environment work.
+- ThirstyAi Builder is verified for local/self-hosted deployment gates, but no
+  external Railway/Render/Fly/VPS production deployment has been executed from
+  this thread.
 - Additional SDK languages beyond Python, TypeScript, and PowerShell: requires
   separate follow-up work. Native gRPC transport, protobuf contract, and JSON
   gRPC-compatibility endpoint exist.
@@ -121,13 +149,15 @@ Infrastructure certification.
 ## Commander Answers
 
 - Is this component complete and production-ready? Local end-to-end reference
-  scope is complete; full production distributed platform is not yet complete.
+  scope and self-hosted production deployment gates are complete; full
+  production distributed platform is not yet complete.
 - Does it satisfy invariants, traceability, and conformance requirements? Local
   end-to-end invariants and traceability are implemented; higher assurance
   proofs remain open.
 - Are there gaps, assumptions, risks, or deviations? Yes, listed above.
 - Can an independent team implement, verify, deploy, operate, and evolve this
-  without unpublished knowledge? For local end-to-end reference deployment, yes.
-  For production distributed deployment, they need the listed follow-up work.
+  without unpublished knowledge? For local end-to-end reference deployment and
+  self-hosted ThirstyAi Builder deployment, yes. For production distributed
+  deployment, they need the listed follow-up work.
 
-Signature: Commander-Agent / Local-E2E / 2026-07-03
+Signature: Commander-Agent / Local-E2E-Self-Hosted-Deploy / 2026-07-03

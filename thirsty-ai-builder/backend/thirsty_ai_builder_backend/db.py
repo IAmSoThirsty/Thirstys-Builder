@@ -4,10 +4,11 @@ Production: connects to a real MongoDB via pymongo. Dev / tests: an
 in-memory dict-backed stub with a Mongo-compatible surface (`insert_one`,
 `find`, `find_one`, `update_one`, `delete_one`, `count`).
 
-The Mongo path is exercised on first call by pinging the server. If the
-server is unreachable, the wrapper falls back to the in-memory stub and
-logs a warning. This keeps the API surface exercisable when a developer
-forgets to start Mongo, and keeps the in-memory tests self-contained.
+The Mongo path is exercised on first call by pinging the server. By
+default, an unreachable or missing Mongo falls back to the in-memory
+stub so local tests remain self-contained. In production, set
+`THIRSTY_AI_REQUIRE_MONGO=1`; that mode fails closed instead of using
+volatile in-memory storage.
 """
 from __future__ import annotations
 
@@ -99,6 +100,8 @@ _BACKEND_STATE = _Backend()
 _BACKEND_LOCK = threading.Lock()
 _RESOLVED = False
 
+TRUE_VALUES = {"1", "true", "yes", "on"}
+
 
 def backend_kind() -> str:
     """Return the active backend: `"mongo"` or `"in-memory"`."""
@@ -108,6 +111,11 @@ def backend_kind() -> str:
 def mongo_url() -> str | None:
     """Return the configured `MONGO_URL` if any."""
     return os.environ.get("MONGO_URL")
+
+
+def require_mongo() -> bool:
+    """Return whether startup must fail unless a real MongoDB is available."""
+    return os.environ.get("THIRSTY_AI_REQUIRE_MONGO", "").strip().lower() in TRUE_VALUES
 
 
 def _try_mongo(url: str) -> Any | None:
@@ -142,6 +150,9 @@ def _resolve_client() -> Any:
                 pass
             return _current_client()
         url = os.environ.get("MONGO_URL")
+        must_use_mongo = require_mongo()
+        if must_use_mongo and not url:
+            raise RuntimeError("THIRSTY_AI_REQUIRE_MONGO=1 requires MONGO_URL")
         if url:
             client = _try_mongo(url)
             if client is not None:
@@ -151,6 +162,8 @@ def _resolve_client() -> Any:
                 LOG.info("db: using MongoDB at %s", url)
                 _RESOLVED = True
                 return client
+            if must_use_mongo:
+                raise RuntimeError("THIRSTY_AI_REQUIRE_MONGO=1 requires a reachable MongoDB")
             LOG.warning("db: MONGO_URL=%s unreachable; using in-memory stub", url)
         _BACKEND_STATE.kind = "in-memory"
         client = _InMemoryClient()

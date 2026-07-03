@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
 import ThirstyLogo from "./components/ThirstyLogo";
 import Footer from "./components/Footer";
+import AuthTokenControl from "./components/AuthTokenControl";
 import Home from "./pages/Home";
 import Commander from "./pages/Commander";
 import Dove from "./pages/Dove";
@@ -55,6 +56,9 @@ export default function App() {
               </NavLink>
             ))}
           </nav>
+          <div className="ml-auto">
+            <AuthTokenControl />
+          </div>
         </div>
       </header>
       <main className="flex-1">

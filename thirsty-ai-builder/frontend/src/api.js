@@ -1,6 +1,32 @@
-// Shared client for the ThirstyAi Builder backend. Falls back to a no-op
-// in dev if the backend is unreachable so the UI can still render.
-const BASE = process.env.REACT_APP_BACKEND_URL || "http://localhost:8001";
+// Shared client for the ThirstyAi Builder backend. Production defaults
+// to same-origin: nginx serves the SPA and proxies /api to the backend.
+const BASE = process.env.REACT_APP_BACKEND_URL || "";
+const TOKEN_KEY = "thirsty_ai_builder_api_token";
+
+export function getApiToken() {
+  if (typeof window === "undefined") return "";
+  return window.localStorage.getItem(TOKEN_KEY) || "";
+}
+
+export function setApiToken(token) {
+  if (typeof window === "undefined") return;
+  const clean = (token || "").trim();
+  if (clean) {
+    window.localStorage.setItem(TOKEN_KEY, clean);
+  } else {
+    window.localStorage.removeItem(TOKEN_KEY);
+  }
+  window.dispatchEvent(new Event("thirsty-auth-token-changed"));
+}
+
+function authHeaders(extra) {
+  const headers = { ...(extra || {}) };
+  const token = getApiToken();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+}
 
 async function safeJson(res) {
   if (!res.ok) {
@@ -11,17 +37,34 @@ async function safeJson(res) {
 }
 
 async function get(path) {
-  const res = await fetch(`${BASE}${path}`);
+  const res = await fetch(`${BASE}${path}`, { headers: authHeaders() });
   return safeJson(res);
 }
 
 async function post(path, body) {
   const res = await fetch(`${BASE}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders({ "Content-Type": "application/json" }),
     body: JSON.stringify(body || {}),
   });
   return safeJson(res);
+}
+
+async function download(path, filename) {
+  const res = await fetch(`${BASE}${path}`, { headers: authHeaders() });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`HTTP ${res.status}: ${text || res.statusText}`);
+  }
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(url);
 }
 
 export const api = {
@@ -33,7 +76,7 @@ export const api = {
   commander: {
     list: () => get("/api/commander/audits"),
     run: (target) => post("/api/commander/audits/run", { target }),
-    pdfUrl: (id) => `${BASE}/api/commander/audits/${id}/pdf`,
+    downloadPdf: (id) => download(`/api/commander/audits/${id}/pdf`, `${id}.pdf`),
   },
   dove: (message, history) => post("/api/dove/chat", { message, history }),
   holli: (message, history) => post("/api/holli/chat", { message, history }),

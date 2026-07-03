@@ -66,3 +66,37 @@ a {
 .h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em; }
 .h2 { font-size: 1.5rem; font-weight: 600; }
 .muted { color: #9aacce; }
+
+.auth-token-button {
+  height: 2.25rem;
+  min-width: 5.75rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  color: #c8d3e7;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.auth-token-button.is-set {
+  border-color: rgba(98, 188, 139, 0.45);
+  color: #a7e7c4;
+}
+
+.auth-token-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.auth-token-input {
+  width: 13rem;
+  height: 2.25rem;
+  padding-block: 0;
+}
+
+.auth-token-save {
+  height: 2.25rem;
+  padding-block: 0;
+}
