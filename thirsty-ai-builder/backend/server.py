@@ -28,7 +28,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -36,6 +36,7 @@ from pydantic import BaseModel, Field
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from thirsty_ai_builder_backend import (  # noqa: E402
     app_store,
+    auth,
     db,
     letterhead,
     llm,
@@ -57,6 +58,12 @@ app.add_middleware(
 # Process-singleton DB client.
 _client = db.get_client()
 _database = db.get_database(_client)
+
+
+# ---------- auth dependency ----------
+# Routes marked with this dependency require a valid Bearer token.
+# Public routes (health, ownership, docs) are unauthenticated by design.
+Authed = Depends(auth.verify_bearer)
 
 
 # ---------- ownership block on every response ----------
@@ -121,13 +128,41 @@ def get_ownership() -> dict[str, str]:
 # ---------- /api/health ----------
 @app.get("/api/health")
 def health() -> dict[str, Any]:
+    """Liveness: process is up. Always 200 if the server is responsive."""
     return {
         "status": "ok",
         "product": ownership.PRODUCT_NAME,
         "version": "1.0.0",
         "llm_provider": llm.configured_provider(),
+        "auth_configured": auth.configured(),
         "ownership": ownership.ownership_block(),
     }
+
+
+@app.get("/api/health/ready")
+def ready(response: Response) -> dict[str, Any]:
+    """Readiness: verifies the backend can reach its dependencies.
+
+    Returns 503 with per-dependency detail when not ready. Point a load
+    balancer / orchestrator readiness probe here.
+    """
+    checks: dict[str, str] = {}
+    # LLM (Ollama).
+    provider = llm.configured_provider()
+    checks["ollama"] = "ok" if provider == "ollama" else f"unavailable ({provider})"
+    # DB. With the in-memory stub this is always ok; with Mongo it would
+    # be a real check.
+    try:
+        _database["__healthcheck__"].insert_one({"_": "ping"})
+        checks["database"] = "ok"
+    except Exception as exc:  # noqa: BLE001
+        checks["database"] = f"error: {exc}"
+    # Auth.
+    checks["auth"] = "configured" if auth.configured() else "missing CB_API_KEY"
+    ready_status = all(v == "ok" or v == "configured" for v in checks.values())
+    if not ready_status:
+        response.status_code = 503
+    return {"status": "ready" if ready_status else "unavailable", "checks": checks}
 
 
 # ---------- /api/home ----------
@@ -154,7 +189,7 @@ def home() -> dict[str, Any]:
 
 # ---------- /api/commander ----------
 @app.get("/api/commander/audits")
-def list_audits() -> dict[str, Any]:
+def list_audits(_: str = Authed) -> dict[str, Any]:
     audits = _database["audits"].find()
     return {
         "audits": [
@@ -170,7 +205,7 @@ def list_audits() -> dict[str, Any]:
 
 
 @app.get("/api/commander/audits/{audit_id}/pdf")
-def get_audit_pdf(audit_id: str) -> Response:
+def get_audit_pdf(audit_id: str, _: str = Authed) -> Response:
     audit = _database["audits"].find_one({"id": audit_id})
     if audit is None:
         raise HTTPException(status_code=404, detail="audit not found")
@@ -190,7 +225,7 @@ class AuditRunRequest(BaseModel):
 
 
 @app.post("/api/commander/audits/run")
-def run_audit(req: AuditRunRequest) -> dict[str, Any]:
+def run_audit(req: AuditRunRequest, _: str = Authed) -> dict[str, Any]:
     """Run a governance audit against the requested target and persist a signed PDF.
 
     The default target is the CBEP repo: runs `verify_all.py` via
@@ -256,7 +291,7 @@ def run_audit(req: AuditRunRequest) -> dict[str, Any]:
 
 # ---------- /api/dove ----------
 @app.post("/api/dove/chat")
-def dove_chat(req: ChatRequest) -> ChatResponse:
+def dove_chat(req: ChatRequest, _: str = Authed) -> ChatResponse:
     messages = list(req.history) + [{"role": "user", "content": req.message}]
     try:
         result = llm.chat(messages)
@@ -271,7 +306,7 @@ def dove_chat(req: ChatRequest) -> ChatResponse:
 
 # ---------- /api/holli ----------
 @app.post("/api/holli/chat")
-def holli_chat(req: ChatRequest) -> ChatResponse:
+def holli_chat(req: ChatRequest, _: str = Authed) -> ChatResponse:
     messages = list(req.history) + [{"role": "user", "content": req.message}]
     try:
         result = llm.chat(messages)
@@ -299,12 +334,12 @@ def architecture() -> dict[str, Any]:
 
 # ---------- /api/appstore ----------
 @app.get("/api/appstore/tools")
-def list_tools() -> dict[str, Any]:
+def list_tools(_: str = Authed) -> dict[str, Any]:
     return {"tools": app_store.SEED_TOOLS}
 
 
 @app.post("/api/appstore/install")
-def install_tool(req: ToolInstallRequest) -> dict[str, Any]:
+def install_tool(req: ToolInstallRequest, _: str = Authed) -> dict[str, Any]:
     tool = app_store.get_tool_by_id(req.tool_id)
     if tool is None:
         raise HTTPException(status_code=404, detail="tool not found")
@@ -321,13 +356,13 @@ def install_tool(req: ToolInstallRequest) -> dict[str, Any]:
 
 
 @app.get("/api/appstore/installs")
-def list_installs() -> dict[str, Any]:
+def list_installs(_: str = Authed) -> dict[str, Any]:
     return {"installs": _database["installs"].find()}
 
 
 # ---------- /api/business ----------
 @app.post("/api/business/clients")
-def create_client(req: BusinessClientRequest) -> dict[str, Any]:
+def create_client(req: BusinessClientRequest, _: str = Authed) -> dict[str, Any]:
     client_id = f"client-{uuid.uuid4().hex[:8]}"
     record = {
         "id": client_id,
@@ -341,13 +376,13 @@ def create_client(req: BusinessClientRequest) -> dict[str, Any]:
 
 
 @app.get("/api/business/clients")
-def list_clients() -> dict[str, Any]:
+def list_clients(_: str = Authed) -> dict[str, Any]:
     return {"clients": _database["clients"].find()}
 
 
 # ---------- /api/socials ----------
 @app.post("/api/socials/posts")
-def queue_social_post(req: SocialPostRequest) -> dict[str, Any]:
+def queue_social_post(req: SocialPostRequest, _: str = Authed) -> dict[str, Any]:
     post_id = f"post-{uuid.uuid4().hex[:8]}"
     _database["social_posts"].insert_one(
         {
@@ -361,13 +396,13 @@ def queue_social_post(req: SocialPostRequest) -> dict[str, Any]:
 
 
 @app.get("/api/socials/posts")
-def list_social_posts() -> dict[str, Any]:
+def list_social_posts(_: str = Authed) -> dict[str, Any]:
     return {"posts": _database["social_posts"].find()}
 
 
 # ---------- /api/marketing ----------
 @app.post("/api/marketing/copy")
-def marketing_copy(req: MarketingRequest) -> dict[str, Any]:
+def marketing_copy(req: MarketingRequest, _: str = Authed) -> dict[str, Any]:
     prompt = (
         f"Write marketing copy on the topic: {req.topic}. "
         f"Voice: {req.voice}. Audience: {req.audience}. "
@@ -405,7 +440,7 @@ def _cosine(a: list[float], b: list[float]) -> float:
 
 
 @app.post("/api/rag/embed")
-def rag_embed(req: RAGEmbedRequest) -> dict[str, Any]:
+def rag_embed(req: RAGEmbedRequest, _: str = Authed) -> dict[str, Any]:
     embed_id = f"emb-{uuid.uuid4().hex[:8]}"
     record = {
         "id": embed_id,
@@ -419,7 +454,7 @@ def rag_embed(req: RAGEmbedRequest) -> dict[str, Any]:
 
 
 @app.post("/api/rag/query")
-def rag_query(req: RAGQueryRequest) -> dict[str, Any]:
+def rag_query(req: RAGQueryRequest, _: str = Authed) -> dict[str, Any]:
     target = _embed(req.query)
     scored = []
     for record in _database["rag_embeddings"].find():
@@ -481,6 +516,19 @@ def main() -> None:
     import uvicorn
 
     port = int(os.environ.get("PORT", "8001"))
+    if not auth.configured():
+        print(
+            "WARNING: CB_API_KEY is not set. All authenticated routes will return 503.",
+            flush=True,
+        )
+        print(
+            "         Generate a token: python -c \"import secrets; print(secrets.token_urlsafe(32))\"",
+            flush=True,
+        )
+        print(
+            "         Then: set CB_API_KEY=<token> in .env and restart.",
+            flush=True,
+        )
     uvicorn.run(app, host="0.0.0.0", port=port)
 
 

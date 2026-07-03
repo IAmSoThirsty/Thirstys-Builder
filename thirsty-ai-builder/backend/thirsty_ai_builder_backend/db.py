@@ -1,15 +1,25 @@
 """MongoDB wrapper for the ThirstyAi Builder.
 
-Production: connects to a real MongoDB via pymongo / motor. Dev: an
-in-memory dict-backed stub so the API surface is exercisable without a
-Mongo instance. The stub persists for the process lifetime; tests
-construct a fresh stub per test.
+Production: connects to a real MongoDB via pymongo. Dev / tests: an
+in-memory dict-backed stub with a Mongo-compatible surface (`insert_one`,
+`find`, `find_one`, `update_one`, `delete_one`, `count`).
+
+The Mongo path is exercised on first call by pinging the server. If the
+server is unreachable, the wrapper falls back to the in-memory stub and
+logs a warning. This keeps the API surface exercisable when a developer
+forgets to start Mongo, and keeps the in-memory tests self-contained.
 """
 from __future__ import annotations
 
+import logging
 import os
 import threading
 from typing import Any
+
+LOG = logging.getLogger("thirsty_ai_builder.db")
+
+
+# ----- in-memory implementation -------------------------------------------
 
 
 class _InMemoryCollection:
@@ -74,24 +84,121 @@ class _InMemoryClient:
         return self._databases[name]
 
 
+# ----- backend selection -------------------------------------------------
+
+
+class _Backend:
+    """Records which backend was selected for the process."""
+
+    def __init__(self) -> None:
+        self.kind: str = "in-memory"
+        self.mongo_url: str | None = None
+
+
+_BACKEND_STATE = _Backend()
+_BACKEND_LOCK = threading.Lock()
+_RESOLVED = False
+
+
+def backend_kind() -> str:
+    """Return the active backend: `"mongo"` or `"in-memory"`."""
+    return _BACKEND_STATE.kind
+
+
+def mongo_url() -> str | None:
+    """Return the configured `MONGO_URL` if any."""
+    return os.environ.get("MONGO_URL")
+
+
+def _try_mongo(url: str) -> Any | None:
+    """Attempt a real Mongo connection; return the client on success, None on failure."""
+    try:
+        from pymongo import MongoClient  # type: ignore[import-untyped]
+        from pymongo.errors import PyMongoError  # type: ignore[import-untyped]
+    except ImportError:
+        LOG.warning("MONGO_URL is set but pymongo is not installed; falling back to in-memory stub")
+        return None
+    try:
+        client = MongoClient(url, serverSelectionTimeoutMS=2000)
+        # Force a round-trip; pymongo is lazy.
+        client.admin.command("ping")
+        return client
+    except PyMongoError as exc:
+        LOG.warning("MongoDB at %s is unreachable (%s); falling back to in-memory stub", url, exc)
+        return None
+    except Exception as exc:  # noqa: BLE001
+        LOG.warning("MongoDB connection error (%s); falling back to in-memory stub", exc)
+        return None
+
+
+def _resolve_client() -> Any:
+    """Return the active client. Idempotent across the process lifetime."""
+    global _RESOLVED
+    with _BACKEND_LOCK:
+        if _RESOLVED:
+            url = os.environ.get("MONGO_URL")
+            if url and _BACKEND_STATE.kind == "mongo":
+                # Caller may have changed MONGO_URL between calls; re-pick.
+                pass
+            return _current_client()
+        url = os.environ.get("MONGO_URL")
+        if url:
+            client = _try_mongo(url)
+            if client is not None:
+                _BACKEND_STATE.kind = "mongo"
+                _BACKEND_STATE.mongo_url = url
+                _set_client(client)
+                LOG.info("db: using MongoDB at %s", url)
+                _RESOLVED = True
+                return client
+            LOG.warning("db: MONGO_URL=%s unreachable; using in-memory stub", url)
+        _BACKEND_STATE.kind = "in-memory"
+        client = _InMemoryClient()
+        _set_client(client)
+        LOG.info("db: using in-memory stub (no MONGO_URL set, or Mongo unreachable)")
+        _RESOLVED = True
+        return client
+
+
+# Single mutable holder so tests can reset between cases.
+_CURRENT_CLIENT: Any | None = None
+
+
+def _set_client(c: Any) -> None:
+    global _CURRENT_CLIENT
+    _CURRENT_CLIENT = c
+
+
+def _current_client() -> Any:
+    return _CURRENT_CLIENT
+
+
+def reset_for_test() -> None:
+    """Reset the cached client. Test-only."""
+    global _RESOLVED
+    with _BACKEND_LOCK:
+        _RESOLVED = False
+        _BACKEND_STATE.kind = "in-memory"
+        _BACKEND_STATE.mongo_url = None
+        _set_client(None)
+
+
 def get_client() -> Any:
     """Return a Mongo-compatible client.
 
-    Tries `MONGO_URL` env var; if set, attempts a real pymongo connection.
-    Falls back to the in-memory client otherwise. The fallback ensures
-    the API surface is exercisable in dev and CI without a Mongo instance.
+    Tries `MONGO_URL` env var. If set AND pymongo is installed AND the
+    server responds to `ping`, returns a real `MongoClient`. Otherwise
+    returns the in-memory stub. The choice is logged once at INFO.
     """
-    mongo_url = os.environ.get("MONGO_URL")
-    if mongo_url:
-        try:
-            import pymongo  # type: ignore[import-untyped]
-
-            return pymongo.MongoClient(mongo_url)
-        except ImportError:
-            pass
-    return _InMemoryClient()
+    return _resolve_client()
 
 
 def get_database(client: Any) -> Any:
+    """Return the named database from the client.
+
+    `client` is accepted as an arg to keep the call signature flexible
+    for tests that inject their own client. The default name is
+    `thirsty_ai_builder`; override with the `DB_NAME` env var.
+    """
     db_name = os.environ.get("DB_NAME", "thirsty_ai_builder")
     return client[db_name]

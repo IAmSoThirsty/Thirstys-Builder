@@ -19,6 +19,10 @@ sys.path.insert(0, str(BACKEND_ROOT))
 os.environ.pop("EMERGENT_LLM_KEY", None)
 os.environ.pop("ANTHROPIC_API_KEY", None)
 
+# Ensure a CB_API_KEY is set so the auth middleware allows our requests.
+# Tests that exercise the "no token" path construct their own client.
+os.environ.setdefault("CB_API_KEY", "test-backend-token-do-not-ship")
+
 from thirsty_ai_builder_backend import app_store, db, letterhead, llm, ownership  # noqa: E402
 from thirsty_ai_builder_backend import ownership as ownership_module  # noqa: E402
 
@@ -183,7 +187,13 @@ class FastAPISurface(unittest.TestCase):
         sys.path.insert(0, str(BACKEND_ROOT))
         from server import app
 
-        cls.client = TestClient(app)
+        # Send a Bearer token on every request so the protected routes
+        # exercise their happy path. Tests that need the no-token case
+        # construct their own client without headers.
+        cls.client = TestClient(
+            app,
+            headers={"Authorization": f"Bearer {os.environ['CB_API_KEY']}"},
+        )
 
     def test_root_returns_product(self):
         r = self.client.get("/")
