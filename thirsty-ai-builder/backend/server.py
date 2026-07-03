@@ -1,4 +1,4 @@
-"""FastAPI server for the ThirstyAi Builder.
+"""FastAPI server for the ThirstyAI Builder.
 
 Single-file backend (per the owner hand-off). Every page in the
 frontend has a corresponding route prefix here:
@@ -44,6 +44,7 @@ from thirsty_ai_builder_backend import (  # noqa: E402
     letterhead,
     llm,
     ownership,
+    tools as tools_mod,
 )
 
 
@@ -588,6 +589,13 @@ def about() -> dict[str, Any]:
         "support_email": ownership.OWNER_EMAIL,
         "license": "Proprietary. See LICENSE in the repo root.",
     }
+
+
+# ---------- /api/tools/* (CLI integration) ----------
+# These routes power the ThirstyAI Builder CLI (thirsty). The router
+# itself is defined in thirsty_ai_builder_backend/tools.py. The
+# default is OFF: THIRSTY_AI_TOOLS_ENABLED=1 is required.
+app.include_router(tools_mod.router)
 
 
 # ---------- root ----------

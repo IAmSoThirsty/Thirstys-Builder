@@ -64,6 +64,41 @@ SEED_TOOLS: list[dict[str, Any]] = [
         "category": "operations",
         "version": "1.0.0",
     },
+    {
+        "id": "code-stats",
+        "name": "Code Stats",
+        "description": "Lines of code, file count, and language breakdown "
+        "(by file extension) for a pasted path. Read-only, no shell exec.",
+        "category": "developer",
+        "version": "0.1.0",
+    },
+    {
+        "id": "dependency-audit",
+        "name": "Dependency Audit",
+        "description": "Runs pip-audit and npm audit against the user's "
+        "manifests and posts a summary. Read-only; no patches applied.",
+        "category": "security",
+        "version": "0.1.0",
+    },
+    {
+        "id": "license-fit-checker",
+        "name": "License Fit Checker",
+        "description": "Reads a LICENSE file at a user-supplied path, "
+        "classifies it (Apache-2.0, MIT, BSD, Proprietary, Other), and "
+        "returns a one-line 'can you ship a fork' answer.",
+        "category": "legal",
+        "version": "0.1.0",
+    },
+    {
+        "id": "session-distill",
+        "name": "Session Distill",
+        "description": "Reads the last N Thirsty CLI sessions, extracts "
+        "repeated tool sequences, and writes them as draft skills. "
+        "User reviews and approves each draft before it loads. The "
+        "self-improvement loop for the Thirsty CLI.",
+        "category": "developer",
+        "version": "0.1.0",
+    },
 ]
 
 
