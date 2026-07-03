@@ -47,6 +47,9 @@ Infrastructure certification.
 
 - `python scripts/verify_all.py`: passed.
 - `python -m unittest discover -s tests`: passed, 16 tests.
+- `python -m unittest discover -s thirsty-ai-builder/backend/tests -p test_backend.py`:
+  passed, 28 tests covering ownership, LLM dispatch, DB stub, letterhead,
+  app store, and the full ThirstyAi Builder FastAPI surface.
 - `python scripts/validate_repository.py`: passed.
 - `python scripts/validate_api_contracts.py`: passed.
 - `python scripts/install_formal_tools.py --write-hashes`: passed, formal tool

@@ -29,6 +29,7 @@ COMMANDS = [
     [sys.executable, "scripts/verify_audit_chain.py"],
     [sys.executable, "benchmarks/benchmark_kernel.py", "--iterations", "1000"],
     [sys.executable, "benchmarks/benchmark_suite.py", "--iterations", "1000"],
+    [sys.executable, "-m", "unittest", "discover", "-s", "thirsty-ai-builder/backend/tests", "-p", "test_backend.py"],
 ]
 
 

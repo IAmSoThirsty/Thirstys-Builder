@@ -1,5 +1,5 @@
 {
-  "file_count": 106,
+  "file_count": 278,
   "files": [
     {
       "path": ".gitignore",
@@ -38,13 +38,13 @@
     },
     {
       "path": "commander/audit-log.md",
-      "sha256": "3becc19e7835d733e54db7d73b90585ec9603c59aeb56795ca3565b36d9f826e",
-      "size_bytes": 18397
+      "sha256": "3c11bf6969324c9e3bc956774d6d31897b761748cec05ad0c77f20478b55d5ef",
+      "size_bytes": 21748
     },
     {
       "path": "commander/final-certification-report.md",
-      "sha256": "94705a3ba4561476fa4bfc0c60bbd821094bff26e1def1b475fc4e9571221fc1",
-      "size_bytes": 6206
+      "sha256": "b33c1670785bb2c5241d3b11da1d8d8ab0c5bd43eb9d5a3808a481b5d746b290",
+      "size_bytes": 6429
     },
     {
       "path": "deploy/Dockerfile",
@@ -148,18 +148,18 @@
     },
     {
       "path": "release/provenance.json",
-      "sha256": "700af2bc3de8a38c36c3a453a40678518d8428fcbb54d6abf150a2f855ea651a",
+      "sha256": "a1bf1de82fbfc37e70171eda7ec6d77c7e097719f91ade70ba92a5a3692df098",
       "size_bytes": 384
     },
     {
       "path": "release/provenance.signature.json",
-      "sha256": "e317f8e44ae089854daaee4d631638e02c0ab38846ddc31e7bec981cd7295848",
+      "sha256": "c541b0f4e5cc509c59135d02ffb1cf34e70daa483f3f7e354ec4da9a13910613",
       "size_bytes": 276
     },
     {
       "path": "release/sbom.json",
-      "sha256": "fa7cbe7bd00cef6ab72f11a901a52a7891ee7dbeeecc23d09923739020e16c2d",
-      "size_bytes": 21331
+      "sha256": "fa6b85aa4d32d7520577c9fa32ebf9f794c4237a8736bce16f8f75ec7d105eaf",
+      "size_bytes": 66404
     },
     {
       "path": "scripts/build_release_package.py",
@@ -238,8 +238,8 @@
     },
     {
       "path": "scripts/verify_all.py",
-      "sha256": "90d550e763b2cf2fa3a9004e0e16d0691d053bca867c392b6784d78b7dadbd15",
-      "size_bytes": 1884
+      "sha256": "d75632109f9738ebb77c293c1bc90e4de49453beec90303010ceee1c7f48d190",
+      "size_bytes": 2003
     },
     {
       "path": "scripts/verify_audit_chain.py",
@@ -527,6 +527,866 @@
       "size_bytes": 2344
     },
     {
+      "path": "thirsty-ai-builder/DEPLOY.md",
+      "sha256": "b488d2f90a3dc6f3669f336915cf1e2c3d05957c6f42d6ebf669b107322d0e95",
+      "size_bytes": 2359
+    },
+    {
+      "path": "thirsty-ai-builder/LICENSE",
+      "sha256": "6df7cf171ed764e5de3482bb6d0e560e4d880fe2d9290db08ceca9d446f3d57a",
+      "size_bytes": 1877
+    },
+    {
+      "path": "thirsty-ai-builder/OWNERSHIP.md",
+      "sha256": "0ed6b1fc6ce839f2144747f054a28f391c4d2d14e84f14d94034386f1e159e58",
+      "size_bytes": 1896
+    },
+    {
+      "path": "thirsty-ai-builder/OWNER_HANDOFF.md",
+      "sha256": "84be2ec3bb8dcec38cf0cd701ae3f85dd777fe3e420fe7d739763a5fd242d4a7",
+      "size_bytes": 4679
+    },
+    {
+      "path": "thirsty-ai-builder/README.md",
+      "sha256": "db960312c58ed3bc92e363f8a330e92d0163d450dcc944d8c10e9f43f38dee01",
+      "size_bytes": 3193
+    },
+    {
+      "path": "thirsty-ai-builder/backend/.env.example",
+      "sha256": "1854d40f5d8317f1f21fa4b62dac2105249d1b5ca645f153ca5e2291cea5320f",
+      "size_bytes": 164
+    },
+    {
+      "path": "thirsty-ai-builder/backend/Dockerfile",
+      "sha256": "cda90e5782f443fe65b519fb41e05df26c9066e1a8aa011ffddad2c6e9ade317",
+      "size_bytes": 252
+    },
+    {
+      "path": "thirsty-ai-builder/backend/requirements.txt",
+      "sha256": "805603519adb514e8bb954a69bb7b91fb58777e27d6b279126f3c784b4565a8e",
+      "size_bytes": 116
+    },
+    {
+      "path": "thirsty-ai-builder/backend/server.py",
+      "sha256": "9748e4ec2bf62155f56c0ec271bb3eac6525c951d0ebaa86d65fa1df552618a7",
+      "size_bytes": 14638
+    },
+    {
+      "path": "thirsty-ai-builder/backend/tests/__init__.py",
+      "sha256": "63afb1f162f848d1cc956479e6b81c01aa1ec4bceefd36e580dd2b820a204cd6",
+      "size_bytes": 181
+    },
+    {
+      "path": "thirsty-ai-builder/backend/tests/test_backend.py",
+      "sha256": "36c6652ea807e319151f1b75a1617b08464e7993e7d1f86e731d09e83f170daa",
+      "size_bytes": 11245
+    },
+    {
+      "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/__init__.py",
+      "sha256": "bc69b15eb80d0e1acddfb5c8700631593e71f740a95023282876cac29015c5e5",
+      "size_bytes": 63
+    },
+    {
+      "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/app_store.py",
+      "sha256": "16df3ab5f0a6830311f88599ac2fc4c9dbc3e3e454a33ea14e3dd94f4684bf80",
+      "size_bytes": 2457
+    },
+    {
+      "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/db.py",
+      "sha256": "7b71180142de26021579a872ae0bd0e357e533987ada4e3bb6d814e13bc0d013",
+      "size_bytes": 3123
+    },
+    {
+      "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/letterhead.py",
+      "sha256": "f9906fa12035654d4f5e49c192a80d93a28ebe29a9f2f348e93f0861d20217d7",
+      "size_bytes": 4219
+    },
+    {
+      "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/llm.py",
+      "sha256": "6885a0512d843a701a54824bb22257b9203ca093407b202b4096cfc5f61b165c",
+      "size_bytes": 2700
+    },
+    {
+      "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/ownership.py",
+      "sha256": "6e5003a8c5bb5245d616ad0896007f075781cba38cd98306772d5188b76df077",
+      "size_bytes": 1367
+    },
+    {
+      "path": "thirsty-ai-builder/design_guidelines.json",
+      "sha256": "50ebf828d7f534c5b4b07de3ffc6e5cc234d086febd78093aba70299f1fc797b",
+      "size_bytes": 2228
+    },
+    {
+      "path": "thirsty-ai-builder/docker-compose.yml",
+      "sha256": "0253c492f243ce1ba5f18c198d2479567cea32220b8163cd2424130d4fec3722",
+      "size_bytes": 733
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/.env.example",
+      "sha256": "4964c3df3a64c1f4870ba5a3f27edafe50d0321fa1dad20da1b450bcbbdbdbdf",
+      "size_bytes": 85
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/Dockerfile",
+      "sha256": "f8f462ccaa7b7570e6082be1911164c5b986c42fb4f0041870f371ae6b37747d",
+      "size_bytes": 212
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/package.json",
+      "sha256": "7018b162d5cb69cbf17755662132b3174bdc06ef3bf3d52910517818893e1a26",
+      "size_bytes": 563
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/public/index.html",
+      "sha256": "b2930d1e009b0c844f3040693d1fec6ddadd7fba747bc3f2eb212ae8f849303b",
+      "size_bytes": 246
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/App.jsx",
+      "sha256": "582306bcc35419fd0814371510628c0effb66a3bbca9482302f18728a1b32fdf",
+      "size_bytes": 2928
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/api.js",
+      "sha256": "ff294d5dc7c4d9960a9b969aefcb0d83f5a36df29e23ef755dd56f25d7e450a1",
+      "size_bytes": 2039
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/components/Footer.jsx",
+      "sha256": "929038608dba3de5938d4d6b06d2cfb2f4121531f4242add2145fc2f6bdef292",
+      "size_bytes": 610
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/components/ThirstyLogo.jsx",
+      "sha256": "2e3b57b031b116cadf2cf2300cdd94729745c1bbf9dcb09abf9178c4b37a1d71",
+      "size_bytes": 1017
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/index.css",
+      "sha256": "fe82908ea798598740747aa26cf21ddd12babe295f8733e888ad8d8931de0828",
+      "size_bytes": 1323
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/index.js",
+      "sha256": "c1540fc24833104bde4d5159e674d2c0ede70eff0d1244688e48669d3a9c4f00",
+      "size_bytes": 347
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/About.jsx",
+      "sha256": "17a44118c868e2c9a62e4eefadb663477af562df834d4dc8ef7add3953e23b0f",
+      "size_bytes": 2031
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/AppStore.jsx",
+      "sha256": "6c4309c2704f167b49b3bb56bb924a51c0cc0436f5873eccc6920b950dfc1fe9",
+      "size_bytes": 1977
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/Architecture.jsx",
+      "sha256": "953698e2711cac4fbbbd2454022ef417a7004dda3617cc6c97468adfe9a9215b",
+      "size_bytes": 863
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/BusinessManager.jsx",
+      "sha256": "b728b635fdd66bc4f33fbe53517a18fc46ac36e04472f397c2af14cc25232a81",
+      "size_bytes": 2044
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/Commander.jsx",
+      "sha256": "4cc5135a319dde70451e0fdac6dd0d00222ef4a87df2372208b18bb92419c0bd",
+      "size_bytes": 2191
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/Dove.jsx",
+      "sha256": "0c5f77106f5e0582dc64ac1912b0c8081f973bba7d911c15f6d260482b23a98b",
+      "size_bytes": 2666
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/Holli.jsx",
+      "sha256": "7ffe8e6c72374146a30e8ddd531bbdcb733ab520360c0477531238d95d62781e",
+      "size_bytes": 2660
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/Home.jsx",
+      "sha256": "30c89a021936762f4913f99998181a99cb1e50a29724a4e260aad01a33aa1968",
+      "size_bytes": 1726
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/Marketing.jsx",
+      "sha256": "28ae04cd8e3b15e877ef1bde7f29f760c9273e496864ac4fb9fa07c607f21af0",
+      "size_bytes": 1930
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/Rag.jsx",
+      "sha256": "35313f59ff4c09ad7e84183d554debb37bccc293fd27b7e1c1e57072e71e0d83",
+      "size_bytes": 2681
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/src/pages/Socials.jsx",
+      "sha256": "40451455b26d426541c0247d1524e6d2eb265a0793edc51299c1b11c1754874a",
+      "size_bytes": 2149
+    },
+    {
+      "path": "thirsty-ai-builder/frontend/tailwind.config.js",
+      "sha256": "af3b6eac07938db574da519ed2db9b78e9a67ed0357b56fb7844ea254862fc67",
+      "size_bytes": 737
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/.github/workflows/commander-audit.yml",
+      "sha256": "8e0cb40b580f210dd267c1a45bc1bab277cdcbdfbbadcf603223911e192d6dd3",
+      "size_bytes": 901
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/Cargo.lock",
+      "sha256": "19002c953cc71a82dabdbdff8d3010411ae7553f25009fa1c8b4684ba1bee64b",
+      "size_bytes": 10370
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/Cargo.toml",
+      "sha256": "58e410bd3f47c315fda5f1f1b1db297d3746794b22d4f7a607966a5a9a5fcc67",
+      "size_bytes": 460
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/src/main.rs",
+      "sha256": "4831eef011ece7e44f48a0117cca8465cc0e5894414844ba9c02c770d7bd09e2",
+      "size_bytes": 3497
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/.rustc_info.json",
+      "sha256": "cd46c44e16a1f1e8c89de2159667d6cf976fd6d07b58ee6475b303709487c25a",
+      "size_bytes": 1109
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/CACHEDIR.TAG",
+      "sha256": "6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2",
+      "size_bytes": 177
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.cargo-build-lock",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.cargo-lock",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/base64-8e3d103993551ef3/dep-lib-base64",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/base64-8e3d103993551ef3/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/base64-8e3d103993551ef3/lib-base64",
+      "sha256": "4cebbac0e428fd8a8d6d14622f7324a34fdae9809f9ff7f63b07bb6f6ef6be76",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/base64-8e3d103993551ef3/lib-base64.json",
+      "sha256": "3a92756b7cc8400c2f73818d3f9c5974e9b42c5b914ca79b070712b58b329cea",
+      "size_bytes": 411
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/form_urlencoded-4ac6a6ed39c689ca/dep-lib-form_urlencoded",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/form_urlencoded-4ac6a6ed39c689ca/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/form_urlencoded-4ac6a6ed39c689ca/lib-form_urlencoded",
+      "sha256": "2fff6eabd41618a40d5b05e6314ffd1c4e328cf444eb5345c39ed4819f728b1e",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/form_urlencoded-4ac6a6ed39c689ca/lib-form_urlencoded.json",
+      "sha256": "09e908ab263ab52ea71b5431d1749f6153da26a0eecfe010e3ac697b983f29bb",
+      "size_bytes": 481
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/icu_normalizer_data-96a52fd262d0f4c6/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/icu_normalizer_data-96a52fd262d0f4c6/output-build-script-build-script-build",
+      "sha256": "b8c385946886743a6774775a633396ad56ee27c93a7adb3f406e585cd2b7b704",
+      "size_bytes": 4847
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/icu_properties_data-cd63a06a3e531c28/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/icu_properties_data-cd63a06a3e531c28/output-build-script-build-script-build",
+      "sha256": "ab556eef10ace6762b0aae4917044b6182a95f2e5fde4978003b54c826fbc1f3",
+      "size_bytes": 4849
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/itoa-14018c84296d4b84/dep-lib-itoa",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/itoa-14018c84296d4b84/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/itoa-14018c84296d4b84/lib-itoa",
+      "sha256": "07ddb4cdd65cf03281d699c15c315d30445151133d865755368d40f0c76fb090",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/itoa-14018c84296d4b84/lib-itoa.json",
+      "sha256": "274e63ef2b9cb2fa5b56adaef528a1982277ab5926f6e3549223c7185118ed48",
+      "size_bytes": 357
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/litemap-91ce8cac9b107a62/dep-lib-litemap",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/litemap-91ce8cac9b107a62/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/litemap-91ce8cac9b107a62/lib-litemap",
+      "sha256": "1638fcf50172b727a7753cd8cfadbafee41ad80a267249a75f3465a4b6c14b30",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/litemap-91ce8cac9b107a62/lib-litemap.json",
+      "sha256": "fea659805eaf36e858477960428ec0db4143dc74c60c8c03ab3b58b0ad2e0264",
+      "size_bytes": 420
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/log-7e393b22e0b32aa0/dep-lib-log",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/log-7e393b22e0b32aa0/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/log-7e393b22e0b32aa0/lib-log",
+      "sha256": "365a9d8ee376b3e29d4d19d9856e44383b9a3fb1057d3342098edc959d21bef5",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/log-7e393b22e0b32aa0/lib-log.json",
+      "sha256": "8c73dc2f9ea69a38bf2252484635f76c2899f8a29c72b90043867af060f549a2",
+      "size_bytes": 837
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/memchr-bdd8ec30ee7089eb/dep-lib-memchr",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/memchr-bdd8ec30ee7089eb/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/memchr-bdd8ec30ee7089eb/lib-memchr",
+      "sha256": "16548c2708af0e9acbb25ef517152f6f7c759eeae61c30dc8defe6022c7cd2dd",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/memchr-bdd8ec30ee7089eb/lib-memchr.json",
+      "sha256": "4752e16f06d83f08d9a0c41e159f97ede0faa0e4fe2c4bb8867a3fad051f2bb1",
+      "size_bytes": 466
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/once_cell-6270f440ee974197/dep-lib-once_cell",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/once_cell-6270f440ee974197/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/once_cell-6270f440ee974197/lib-once_cell",
+      "sha256": "57cff23de304d5d5e258ab1ced36e84939e05dad1ee4778982ca6bce453a77a5",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/once_cell-6270f440ee974197/lib-once_cell.json",
+      "sha256": "8915ff5d00a2bc88e76ad5f265167312459b4763e73810f13cab10f1deb1004e",
+      "size_bytes": 531
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/percent-encoding-ead14489692a3330/dep-lib-percent_encoding",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/percent-encoding-ead14489692a3330/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/percent-encoding-ead14489692a3330/lib-percent_encoding",
+      "sha256": "355f3ed0f02f949c38f7c85e676848b0ac0f0d648f0338406308291dcc6be397",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/percent-encoding-ead14489692a3330/lib-percent_encoding.json",
+      "sha256": "fa09b86a81060867dfe9e20f44440806738b48c0ce63a80c502c8e039fe4dce5",
+      "size_bytes": 416
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/proc-macro2-f29c3a04cd092e27/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/proc-macro2-f29c3a04cd092e27/output-build-script-build-script-build",
+      "sha256": "a32e5cd7b72b1a907c54f8192928c6409098f2a0bea633a03024525ad80f8937",
+      "size_bytes": 4801
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/quote-a01905ec43427c6e/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/quote-a01905ec43427c6e/output-build-script-build-script-build",
+      "sha256": "9e7dcaad993a2edce61cd0879466159c598d5b1376b8814041364cfa62b7a48d",
+      "size_bytes": 4765
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/serde-447d73f5c6251dfa/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/serde-447d73f5c6251dfa/output-build-script-build-script-build",
+      "sha256": "b98d634d2a93533415baf07c134e850acf5627274d06fa06a5dd0bc83d8ec307",
+      "size_bytes": 4765
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/serde_core-36a396ef18921b5a/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/serde_core-36a396ef18921b5a/output-build-script-build-script-build",
+      "sha256": "669f58d9dc2f487647f14ef95a8f4deb53a3a8e741da4a8234ade25b0fb1aaaa",
+      "size_bytes": 4795
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/serde_json-f28a343f0395361a/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/serde_json-f28a343f0395361a/output-build-script-build-script-build",
+      "sha256": "c5355ceffc6e10d72c07d2089266c0d6c70d8b34c4d8a2e0cb015d02224f5700",
+      "size_bytes": 4795
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/smallvec-fb8db2fcced5d7dd/dep-lib-smallvec",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/smallvec-fb8db2fcced5d7dd/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/smallvec-fb8db2fcced5d7dd/lib-smallvec",
+      "sha256": "7736d62ffb39213ca967f8e00125ab5b79ba4b5f8f7a88715d10658fe43343c6",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/smallvec-fb8db2fcced5d7dd/lib-smallvec.json",
+      "sha256": "3cffe58a6522128457320efdc469fb5c52852da5d24cffcc3577eeda831b36ee",
+      "size_bytes": 611
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/stable_deref_trait-3f46ad6dcd13377b/dep-lib-stable_deref_trait",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/stable_deref_trait-3f46ad6dcd13377b/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/stable_deref_trait-3f46ad6dcd13377b/lib-stable_deref_trait",
+      "sha256": "af3df9f058bde1b9ce28dce406c7fed4ef25ce7f12e4a1588e784d3845a760a3",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/stable_deref_trait-3f46ad6dcd13377b/lib-stable_deref_trait.json",
+      "sha256": "bd0d34699f060e185a05d4352fa617356b3228d3a8a07eb5ec25e359154d1db3",
+      "size_bytes": 403
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/unicode-ident-c2fe9f6b8ade098b/dep-lib-unicode_ident",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/unicode-ident-c2fe9f6b8ade098b/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/unicode-ident-c2fe9f6b8ade098b/lib-unicode_ident",
+      "sha256": "3e47f8c4e65339e3d4da9ab8a564692ab9b1b1881fdec04300ebb200f7b45139",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/unicode-ident-c2fe9f6b8ade098b/lib-unicode_ident.json",
+      "sha256": "3ffa522e981a82d5e906845b9df9c3c47c4722828461a7859a113a21ba68ea2b",
+      "size_bytes": 363
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/utf8_iter-1b80a6801e47035d/dep-lib-utf8_iter",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/utf8_iter-1b80a6801e47035d/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/utf8_iter-1b80a6801e47035d/lib-utf8_iter",
+      "sha256": "cb3a38925cc26966ffb01635c82ab2379649c93a5d4ea9e6fdbd8a4844979447",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/utf8_iter-1b80a6801e47035d/lib-utf8_iter.json",
+      "sha256": "40048d73dbe6affd2043936fdc254ff69be1dd639d1452be183d63d1fe37c199",
+      "size_bytes": 353
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/writeable-b6b647f06e58c236/dep-lib-writeable",
+      "sha256": "93a4afc37518a1bf7830744017176e1d1946e5df993e47159069839f61fe49ab",
+      "size_bytes": 14
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/writeable-b6b647f06e58c236/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/writeable-b6b647f06e58c236/lib-writeable",
+      "sha256": "1eec51219060eea4f484f471cc3cf66f0f73707703fb205da253ffb5b14b53d4",
+      "size_bytes": 16
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/writeable-b6b647f06e58c236/lib-writeable.json",
+      "sha256": "97a484ec5f8e97d894eb0a85810f6fa72d72862f594f23c7222a0c54d3f2ba08",
+      "size_bytes": 388
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/zmij-bbaef9d295c9b9a4/invoked.timestamp",
+      "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+      "size_bytes": 48
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/.fingerprint/zmij-bbaef9d295c9b9a4/output-build-script-build-script-build",
+      "sha256": "3c0aba0d7b57125097e15b843971963f7c90b848961ac21c80426b515bb5dbc4",
+      "size_bytes": 4757
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/icu_normalizer_data-96a52fd262d0f4c6/build_script_build-96a52fd262d0f4c6.aoy16fhppc4uv4zad61do9as7.rcgu.o",
+      "sha256": "f0abedb5ecbb2732a07a9814b4143eb7a950ae639bf7d561b1529b14529c9a0e",
+      "size_bytes": 1346
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/icu_normalizer_data-96a52fd262d0f4c6/build_script_build-96a52fd262d0f4c6.build_script_build.929863d1c4c39f7-cgu.0.rcgu.o",
+      "sha256": "43e9349d1d33a5258bf1484d88303ddf6d7fa136f351f4435bcc7dd34deb2cfd",
+      "size_bytes": 18043
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/icu_normalizer_data-96a52fd262d0f4c6/build_script_build-96a52fd262d0f4c6.d",
+      "sha256": "2ac9092a570b8e8a73a580d15ccc6e0794c2c86cf39ad7c5a254f56cb63dbc29",
+      "size_bytes": 651
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/icu_properties_data-cd63a06a3e531c28/build_script_build-cd63a06a3e531c28.1chge3uaxu5zeqelj6ahn235m.rcgu.o",
+      "sha256": "a49b4a6f32bd890bbbe0ffc3895b4ca92ce1b36892838f5dd7e8ff3c909a0d2e",
+      "size_bytes": 1346
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/icu_properties_data-cd63a06a3e531c28/build_script_build-cd63a06a3e531c28.build_script_build.f3da48006a8137e2-cgu.0.rcgu.o",
+      "sha256": "774fe761571bf62edd602a28874bedc5c92b3337de7171e2b4906aac43883a12",
+      "size_bytes": 18043
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/icu_properties_data-cd63a06a3e531c28/build_script_build-cd63a06a3e531c28.d",
+      "sha256": "6cf0913cb5f06692fd57ad955cf0ce272311831493f5df4ac0c87e68dffb42b5",
+      "size_bytes": 651
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/proc-macro2-f29c3a04cd092e27/build_script_build-f29c3a04cd092e27.8e9fgrf5jpo24g6n3awzqdfv1.rcgu.o",
+      "sha256": "6f0ea516d6f871c12573b8cb8f99ade933e7cb6abd0330b40a4c4b23b0d7de9e",
+      "size_bytes": 1346
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/proc-macro2-f29c3a04cd092e27/build_script_build-f29c3a04cd092e27.build_script_build.543a025c88964f80-cgu.0.rcgu.o",
+      "sha256": "525fe3936f7da6238d0dccc1ad26e772df8ef3df40eb76bc7c76a499514bf70a",
+      "size_bytes": 91906
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/proc-macro2-f29c3a04cd092e27/build_script_build-f29c3a04cd092e27.build_script_build.543a025c88964f80-cgu.1.rcgu.o",
+      "sha256": "c5c699c0e88f7c75210f6e79baa91a30473a9d888c8d263b220fe7dabc9d87ff",
+      "size_bytes": 106157
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/proc-macro2-f29c3a04cd092e27/build_script_build-f29c3a04cd092e27.d",
+      "sha256": "c0a1fc61c7e508d3d21c999e871b16d50e10b1b41907a39675277bc6392e47dd",
+      "size_bytes": 617
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/quote-a01905ec43427c6e/build_script_build-a01905ec43427c6e.7bfbrizlcbmmvfs9ljtfiivdt.rcgu.o",
+      "sha256": "0d0ad56d468f038a69b6c1c4425e7318df69374eb81de7744b7b6de51204ee07",
+      "size_bytes": 1346
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/quote-a01905ec43427c6e/build_script_build-a01905ec43427c6e.build_script_build.87c007eecc1dfbe7-cgu.0.rcgu.o",
+      "sha256": "7497c34735f8ea9dfd02881aa80e278bd36ce7fb1b1dc2cb8f61c9ae1dce7a54",
+      "size_bytes": 106100
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/quote-a01905ec43427c6e/build_script_build-a01905ec43427c6e.d",
+      "sha256": "9b60f0ec85c20d70c8d049ef46f6d5e2e922ef040a4f4675b4e0edf504f76b85",
+      "size_bytes": 584
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde-447d73f5c6251dfa/build_script_build-447d73f5c6251dfa.8h3h7ohcbhh65mhivot2ob7hq.rcgu.o",
+      "sha256": "155b0ef20dc5525bb1108fb088449c9835eb03ca782658a738d18dc3e9cf71ce",
+      "size_bytes": 1346
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde-447d73f5c6251dfa/build_script_build-447d73f5c6251dfa.build_script_build.ea97f7049ed96038-cgu.0.rcgu.o",
+      "sha256": "2fdf9b3ec33fbfe1b3a81381c8924fde8aaa7fe942b4a555de689fcc461b00ad",
+      "size_bytes": 108837
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde-447d73f5c6251dfa/build_script_build-447d73f5c6251dfa.build_script_build.ea97f7049ed96038-cgu.1.rcgu.o",
+      "sha256": "93115f43b0187f06dd5ad3b2659cd43162b8761e438f2840ddf54641c1f5db77",
+      "size_bytes": 82046
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde-447d73f5c6251dfa/build_script_build-447d73f5c6251dfa.d",
+      "sha256": "03138d94199976268c50610255ca983ac724b18b76328c650db80c315b4a6c2b",
+      "size_bytes": 587
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde_core-36a396ef18921b5a/build_script_build-36a396ef18921b5a.build_script_build.d737da00fa3e8718-cgu.0.rcgu.o",
+      "sha256": "34b81c7a7a3c442a5e3440e54ae9d302552df182d33271fdaedf94be8f52b98b",
+      "size_bytes": 106508
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde_core-36a396ef18921b5a/build_script_build-36a396ef18921b5a.build_script_build.d737da00fa3e8718-cgu.1.rcgu.o",
+      "sha256": "38a0b50c0119ca7c15359870fd04bb3a6dc5bc0e0e033978e6fe7476ec966765",
+      "size_bytes": 88868
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde_core-36a396ef18921b5a/build_script_build-36a396ef18921b5a.d",
+      "sha256": "1fc87c4ea98dfe936a7f489a105453226af17033bd04884b8c0874b8b9577fed",
+      "size_bytes": 612
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde_core-36a396ef18921b5a/build_script_build-36a396ef18921b5a.ewv2nbft9isjh2j51r3sczj88.rcgu.o",
+      "sha256": "8d44a7fc1f9137e9e427806a069b6baa9a0fd43f0416fb63c3f11b76bbd0366f",
+      "size_bytes": 1346
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde_json-f28a343f0395361a/build_script_build-f28a343f0395361a.1mjb0ulywzci2ektu0zo1p3bi.rcgu.o",
+      "sha256": "9825278ddae8dcdcf0659cbbafe16e6e871d0c393c5c69ab9213dd2047d9354a",
+      "size_bytes": 1346
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde_json-f28a343f0395361a/build_script_build-f28a343f0395361a.build_script_build.b8c60dafde1db999-cgu.0.rcgu.o",
+      "sha256": "1e804906711697bc8e9bdb23e81417cfe16debf2301b8a06fda23fd5338d380b",
+      "size_bytes": 21412
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/serde_json-f28a343f0395361a/build_script_build-f28a343f0395361a.d",
+      "sha256": "d0fd58efa356cf46d1d78d66ed5742c0dde3cf3bd939e1b73ca08b630ba8d66d",
+      "size_bytes": 612
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/zmij-bbaef9d295c9b9a4/build_script_build-bbaef9d295c9b9a4.build_script_build.573322f49c7864f-cgu.0.rcgu.o",
+      "sha256": "6ca02fe6e4702cef39f1c73737c59f1988243c8128c2f7d8a319cc04217369cd",
+      "size_bytes": 108743
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/zmij-bbaef9d295c9b9a4/build_script_build-bbaef9d295c9b9a4.d",
+      "sha256": "e12d555b7e5a3a35513328fcdc284c703419f42e7b84f4eed0c96dd19739cccd",
+      "size_bytes": 579
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/build/zmij-bbaef9d295c9b9a4/build_script_build-bbaef9d295c9b9a4.e5i7i6ypkcb4qx92s8j08f0nj.rcgu.o",
+      "sha256": "3909fb25dc187c0a593b2a5c8ff91f2bd359e26880b87c1f2c27bfec6b5695af",
+      "size_bytes": 1346
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/base64-8e3d103993551ef3.d",
+      "sha256": "29809e85c4a6e7cec844dd70a1150c2ebdfbb041524392b04f2d6bd2e40b8262",
+      "size_bytes": 5113
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/form_urlencoded-4ac6a6ed39c689ca.d",
+      "sha256": "89f5d7b47115b64b5d234358ea2c57c245c7817ecac9d54dc63b2d357cbf00c7",
+      "size_bytes": 568
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/itoa-14018c84296d4b84.d",
+      "sha256": "7867d5c30654e68015781cfd5a8bf12f08efa1d698cdc915b653557469945998",
+      "size_bytes": 796
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libbase64-8e3d103993551ef3.rmeta",
+      "sha256": "7c514bb85717baee608a1236baebb8ebc0673cbc44487eb6450b71ec5ad623cd",
+      "size_bytes": 220123
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libform_urlencoded-4ac6a6ed39c689ca.rmeta",
+      "sha256": "120212a1b983e8975f54f0a007bb2a0d3ca90e4b27c35e82551d9e4e26e620cf",
+      "size_bytes": 26740
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libitoa-14018c84296d4b84.rmeta",
+      "sha256": "1e369f70880be0297a2de59cc0694b58bc2616a64aa546ddb7bb5efc630f754b",
+      "size_bytes": 49203
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/liblitemap-91ce8cac9b107a62.rmeta",
+      "sha256": "93a590aad34a990e1cba52b4463ea5ee46a3e3516530c7ffd18fb29360183a51",
+      "size_bytes": 190016
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/liblog-7e393b22e0b32aa0.rmeta",
+      "sha256": "6e5b58328f6f7e0db782f4cfe4a81623563338ad9b3ef952c6917ba2d05186cc",
+      "size_bytes": 162553
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libmemchr-bdd8ec30ee7089eb.rmeta",
+      "sha256": "28d5fac249f4f379d7cc4b9b3c740159450417e6454f4298b0fcc21539b38d01",
+      "size_bytes": 974257
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libonce_cell-6270f440ee974197.rmeta",
+      "sha256": "58ec72e57850adb3b10fc90f9f50fc3e255a097e554d003027070639b0b51293",
+      "size_bytes": 138043
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libpercent_encoding-ead14489692a3330.rmeta",
+      "sha256": "7debca6f5062a8c50ed1b3dc22b69ae06e19e0ff5bb7109badd63a674847dec3",
+      "size_bytes": 44639
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libsmallvec-fb8db2fcced5d7dd.rmeta",
+      "sha256": "12bffd8aaf7e1415b13f97035cf4dd33ee3a215f1ed3a1367be478e503330f15",
+      "size_bytes": 107321
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libstable_deref_trait-3f46ad6dcd13377b.rmeta",
+      "sha256": "4823ade9535fcdf012d9c72a82b64edac12504b05246f8b845c58b16737e5e11",
+      "size_bytes": 10266
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libunicode_ident-c2fe9f6b8ade098b.rlib",
+      "sha256": "8d3073c0298b2ab5179ad3b2495f7635f6d5d16767d0ff77f89bd3e2f7d1e6ac",
+      "size_bytes": 53184
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libunicode_ident-c2fe9f6b8ade098b.rmeta",
+      "sha256": "bdd2846089283bb0ff51fcaf87632bdd1cd7bd89fdf1ba3c7eca5dee7fa8b9ba",
+      "size_bytes": 32896
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libutf8_iter-1b80a6801e47035d.rmeta",
+      "sha256": "f1fc4fc5dbeaf118437ab90e6fee52fc10ffdd79897f392f749139c4319f20aa",
+      "size_bytes": 26446
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/libwriteable-b6b647f06e58c236.rmeta",
+      "sha256": "ee7ea3ff49ae1a21645775a31746fd29fa4c92c62c6f1abcb36e38f0b9dcdddf",
+      "size_bytes": 140543
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/litemap-91ce8cac9b107a62.d",
+      "sha256": "fc8c6d5402c1a96fb589bd28c0bd5a27d1c2171008678aef97f1419ddaf9414e",
+      "size_bytes": 1398
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/log-7e393b22e0b32aa0.d",
+      "sha256": "ae3699183b04b879e166599138009648d758374cfb0063d0f8c4e00b10524d85",
+      "size_bytes": 1342
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/memchr-bdd8ec30ee7089eb.d",
+      "sha256": "f2e5e2e62c946141afbeb6f9fcde90cff1f85c8c5bb4328784151b2730ce85c7",
+      "size_bytes": 8514
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/once_cell-6270f440ee974197.d",
+      "sha256": "053bd11d7a869d26bece4828b86f979660fda4158047666e823f3d6c4d6df34a",
+      "size_bytes": 1116
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/percent_encoding-ead14489692a3330.d",
+      "sha256": "64dc096ba8f29bf947ffad3b21868a74c599e96102c7b5882c644c082e1fa109",
+      "size_bytes": 889
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/smallvec-fb8db2fcced5d7dd.d",
+      "sha256": "4112a2bc4e5f0d3316c14031bb498f3442b75a188586d5f6531605a4e67a0980",
+      "size_bytes": 536
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/stable_deref_trait-3f46ad6dcd13377b.d",
+      "sha256": "cc48b152c5c09e26c12ae58c5595672f7f4471b1174fd3ce8c3068b0b6f75c66",
+      "size_bytes": 583
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/unicode_ident-c2fe9f6b8ade098b.d",
+      "sha256": "6aafe3241d183b1d0886376273267afc22352ae6e92b89916af23333cbff268b",
+      "size_bytes": 1196
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/utf8_iter-1b80a6801e47035d.d",
+      "sha256": "3a86fa8f97a66d5fe74ac2998202580d506badd466dda834d8b1dd98b2af121c",
+      "size_bytes": 1113
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/target/debug/deps/writeable-b6b647f06e58c236.d",
+      "sha256": "37ae695f14b5b79484afe26ae2dd58e595c61532a93cdecd2596d7e4afd4f6f9",
+      "size_bytes": 2293
+    },
+    {
+      "path": "thirsty-ai-builder/rust-auditor/tests/cli_smoke.rs",
+      "sha256": "ab6fcd504880fc8d963c060c8f46ee3f2b806ffdea9901b2f7a665e6b09740e2",
+      "size_bytes": 622
+    },
+    {
       "path": "tools/formal-tools.lock.json",
       "sha256": "eedf3f02c3ec5d7a77d49599997c02884093c96ff61e2a403cd26a579067023a",
       "size_bytes": 669
@@ -534,8 +1394,8 @@
   ],
   "package": {
     "path": "release/constitutional-builder-0.1.0.zip",
-    "sha256": "49d1019579fcedc6467b5eae8574b7c9e19a6fa84a9a586b1eccd32dd623510e",
-    "size_bytes": 108102
+    "sha256": "3e08a003b41a7460c654bc0c6a140bdb70a94ba0f7c3487ba430d46361b35483",
+    "size_bytes": 1269224
   },
   "package_name": "constitutional-builder-0.1.0.zip",
   "schema": "constitutional-builder-package-manifest-v1"

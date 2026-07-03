@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+      DB_NAME: thirsty_ai_builder
+      CORS_ORIGINS: "*"
+      # Provide ONE of:
+      # EMERGENT_LLM_KEY: sk-emergent-...
+      # ANTHROPIC_API_KEY: sk-ant-...
+      PORT: "8001"
+    ports:
+      - "8001:8001"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      REACT_APP_BACKEND_URL: http://localhost:8001
+    ports:
+      - "3000:3000"
+
+volumes:
+  mongo_data:

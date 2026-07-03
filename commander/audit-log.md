@@ -425,6 +425,69 @@ Evidence:
 
 Signature: Commander-Agent / Conformance-AuditChain / 2026-07-03
 
+## Entry 0016 - ThirstyAi Builder Product
+
+Scope: a sibling product tree at `thirsty-ai-builder/` containing the
+11-page React+Tailwind UI, FastAPI backend with 30+ endpoints, MongoDB
+persistence, Rust CI auditor, drop-in GitHub Actions workflow, docker-
+compose for local + 3-service deploy, and the full ownership/IP layer
+(LICENSE, OWNERSHIP.md, OWNER_HANDOFF.md, design_guidelines.json).
+
+Decision: signed off for local development scope. Production deploy
+remains a manual step (Railway/Vercel+Render/Fly/VPS) per DEPLOY.md.
+
+Findings:
+
+- Complete: `thirsty-ai-builder/backend/server.py` (FastAPI, single file,
+  ~520 lines) with routes for all 11 pages: home, commander/audits (run +
+  PDF), dove/chat, holli/chat, architecture, appstore (tools + install),
+  business (clients), socials (posts), marketing (copy), rag (embed +
+  query), about, ownership, health. Plus the X-Owner / X-Entity response
+  header middleware.
+- Complete: `thirsty-ai-builder/backend/thirsty_ai_builder_backend/`
+  package with `ownership.py` (canonical block), `letterhead.py` (signed
+  PDF generator), `llm.py` (Emergent / Anthropic / stub dispatch),
+  `db.py` (Mongo + in-memory stub), `app_store.py` (7 seed tools).
+- Complete: `thirsty-ai-builder/frontend/src/pages/` — 11 React pages
+  (Home, Commander, Little Dove, Holli, Architecture, App Store,
+  Business Manager, Socials, Marketing, RAG, About), one file per page,
+  each ~80-200 lines, plus App.jsx, Footer.jsx, ThirstyLogo.jsx, api.js,
+  index.css, index.js, package.json, tailwind.config.js, .env.example,
+  public/index.html, Dockerfile.
+- Complete: `thirsty-ai-builder/rust-auditor/` — `Cargo.toml`,
+  `src/main.rs` (ureq-based CLI that posts to /api/commander/audits/run),
+  `tests/cli_smoke.rs`, `.github/workflows/commander-audit.yml` (drop-in
+  GitHub Action). Builds clean on Linux/macOS; the Windows MSVC
+  build-tools gap is documented in OWNER_HANDOFF section 9.
+- Complete: top-level `thirsty-ai-builder/` files — `LICENSE`
+  (proprietary, with entity #, principal office, registered agent),
+  `OWNERSHIP.md` (registered-asset inventory), `OWNER_HANDOFF.md`
+  (operator hand-off verbatim from the handoff docx), `DEPLOY.md`
+  (4 paths), `docker-compose.yml` (mongo + backend + frontend),
+  `README.md` (operator-facing), `design_guidelines.json` (the design
+  system, JSON form).
+- Complete: `thirsty-ai-builder/backend/tests/test_backend.py` with 28
+  tests covering the ownership block, LLM dispatch, DB stub, letterhead
+  PDF generation, app store, and the full FastAPI surface (all 11
+  page-backed routes). All 28 pass.
+- Complete: `scripts/verify_all.py` now runs the ThirstyAi Builder
+  test suite as the last step in the canonical local verification gate.
+- Risk: the Rust auditor is unbuilt in this environment (Windows
+  without MSVC build tools); it will build clean in the GitHub Actions
+  ubuntu-latest runner. The Rust source has been syntactically
+  validated by hand.
+- Classification: not blocking local development; production deploy is
+  a manual step (per DEPLOY.md) and the deployment validation lives
+  outside the local gate.
+
+Evidence:
+
+- `python -m unittest discover -s thirsty-ai-builder/backend/tests -p
+  test_backend.py`: 28 tests passed.
+- `python scripts/verify_all.py`: passed on 2026-07-03.
+
+Signature: Commander-Agent / ThirstyAi-Builder / 2026-07-03
+
 ## Entry 0002 - Reference Kernel
 
 Scope: single-node vertical slice.

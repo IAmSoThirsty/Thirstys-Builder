@@ -1,0 +1,75 @@
+{
+  "product": "ThirstyAi Builder",
+  "owner": "Jeremy Karrick",
+  "entity": "Thirsty's Projects LLC",
+  "entity_number": "14694374-0160",
+  "version": "1.0.0",
+  "design_tokens": {
+    "color": {
+      "brand": {
+        "50":  "#f5f7fb",
+        "100": "#e6ebf5",
+        "200": "#c6d1e6",
+        "300": "#9aacce",
+        "400": "#6c83b1",
+        "500": "#4a5f8e",
+        "600": "#374a72",
+        "700": "#2c3a5b",
+        "800": "#1f2840",
+        "900": "#141a2b"
+      },
+      "accent": {
+        "400": "#f0a868",
+        "500": "#e08a3f",
+        "600": "#b96b29"
+      }
+    },
+    "typography": {
+      "font_family_sans": ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+      "font_family_mono": ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+      "h1_size": "2.25rem",
+      "h2_size": "1.5rem",
+      "body_size": "1rem",
+      "letter_spacing_h1": "-0.02em"
+    },
+    "spacing": {
+      "page_max_width": "1100px",
+      "page_padding_x": "1.5rem",
+      "card_padding": "1.25rem 1.5rem",
+      "card_radius": "14px"
+    },
+    "components": {
+      "btn": {
+        "background": "#4a5f8e",
+        "padding": "0.55rem 1rem",
+        "radius": "8px",
+        "hover_background": "#5a719f"
+      },
+      "card": {
+        "background": "rgba(255, 255, 255, 0.03)",
+        "border": "1px solid rgba(255, 255, 255, 0.08)",
+        "radius": "14px",
+        "padding": "1.25rem 1.5rem"
+      },
+      "input": {
+        "background": "rgba(0, 0, 0, 0.25)",
+        "border": "1px solid rgba(255, 255, 255, 0.1)",
+        "radius": "8px",
+        "padding": "0.6rem 0.8rem"
+      }
+    },
+    "motion": {
+      "transition_default": "150ms ease",
+      "page_transition": "Framer Motion fade+rise 200ms"
+    }
+  },
+  "voice": {
+    "tone": "owner-attested, governance-first, dep-light",
+    "preferred_words": ["governed", "audited", "attested", "fail-closed", "explicit", "replayable", "in-scope"],
+    "avoid_words": ["cheap", "minimum viable", "shortest", "fastest"]
+  },
+  "footer": {
+    "copyright": "© 2026 Jeremy Karrick / Thirsty's Projects LLC. Entity #14694374-0160. All rights reserved.",
+    "office": "1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203"
+  }
+}

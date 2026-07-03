@@ -1,0 +1,34 @@
+name: commander-audit
+description: Gates every PR against the ThirstyAi Builder Commander backend.
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build commander-auditor
+        run: |
+          cd rust-auditor
+          cargo build --release
+      - name: Run audit
+        env:
+          CB_API: ${{ secrets.CB_API }}
+          CB_API_KEY: ${{ secrets.CB_API_KEY }}
+        run: |
+          ./rust-auditor/target/release/commander-auditor \
+            --api "$CB_API" \
+            --target "${{ github.repository }}" \
+            --title "PR #${{ github.event.pull_request.number }}"
+      - name: Upload signed PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: commander-audit
+          path: |
+            audit-*.pdf
