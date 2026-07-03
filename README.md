@@ -6,19 +6,21 @@
 Identity → Policy → Capability → Planner → Execution → Audit → Replay.
 One vertical slice, one Commander audit, one signed release.
 
-[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
-[![Version: 0.1.0](https://img.shields.io/badge/version-0.1.0-green.svg)](pyproject.toml)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
-[![Kernel: fail--closed](https://img.shields.io/badge/kernel-fail--closed-brightgreen.svg)](source/constitutional_builder/policy.py)
-[![Audit: Ed25519](https://img.shields.io/badge/audit-Ed25519-brightgreen.svg)](scripts/sign_release_package.py)
-[![SBOM: CycloneDX](https://img.shields.io/badge/sbom-CycloneDX-blue.svg)](release/sbom.json)
-[![Spec: 18 volumes](https://img.shields.io/badge/spec-18%20volumes-purple.svg)](spec/)
-[![Certified: local](https://img.shields.io/badge/certified-local%20reference-green.svg)](commander/final-certification-report.md)
-[![Status: reference foundation](https://img.shields.io/badge/status-reference%20foundation-lightgrey.svg)](commander/final-certification-report.md)
-
-[What it is](#what-it-is) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
+[What it is](#what-it-is) · [Why care](#why-care) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
 
 </div>
+
+| Attribute | Value | Source |
+|---|---|---|
+| **License** | Proprietary, source-available under written agreement | [`thirsty-ai-builder/LICENSE`](thirsty-ai-builder/LICENSE) |
+| **Version** | 0.1.0 | [`pyproject.toml`](pyproject.toml) |
+| **Python** | 3.11+ | [`pyproject.toml`](pyproject.toml) |
+| **Kernel** | fail-closed (deny by default) | [`source/constitutional_builder/policy.py`](source/constitutional_builder/policy.py) |
+| **Audit log** | Ed25519-signed, hash-linked | [`scripts/sign_release_package.py`](scripts/sign_release_package.py) |
+| **SBOM** | CycloneDX | [`release/sbom.json`](release/sbom.json) |
+| **Spec** | 18 volumes | [`spec/`](spec/) |
+| **Certification** | Local reference foundation, self-hosted production gates | [`commander/final-certification-report.md`](commander/final-certification-report.md) |
+| **Status** | Reference foundation (multi-host / cloud / edge / air-gapped tracked separately) | [`commander/final-certification-report.md`](commander/final-certification-report.md) |
 
 ---
 
@@ -51,6 +53,28 @@ reference into clustered, cloud, edge, and high-assurance variants:
 The repository is the engineering baseline. Every shipped commit is
 audited by the Commander and recorded in
 [`commander/audit-log.md`](commander/audit-log.md).
+
+---
+
+## Why care
+
+If you build software that **takes consequential actions on behalf of
+someone**, four properties matter: who is allowed to ask, what they are
+allowed to ask for, whether the same ask produces the same result every
+time, and whether you can prove after the fact what actually happened.
+
+Most stacks get the first two by convention and the last two by
+auditing whatever the cloud vendor happened to log. Constitutional
+Builder makes all four **executable**: identity and capability are
+typed objects, the policy bundle is the kernel (not a config file), the
+planner is deterministic, and the audit log is hash-chained and
+Ed25519-signed.
+
+That's the bet. If you ship a system where "did this actually happen,
+and was it authorized" needs to be a yes with a receipt — not a vibe —
+this is the reference kernel you extend.
+
+For the longer argument, see [Why it exists](#why-it-exists) below.
 
 ---
 
@@ -402,7 +426,7 @@ four production paths (Railway, Vercel + Render, Fly, VPS).
 
 ## Security
 
-- **Reporting:** `karrick1995@gmail.com` with subject prefix
+- **Reporting:** `founderoftp@thirstysprojects.com` with subject prefix
   `[security]`. 72-hour acknowledgement, 90-day disclosure window. See
   [`SECURITY.md`](SECURITY.md).
 - **Threat model:** assets, adversaries, trust boundaries, and the
@@ -439,9 +463,8 @@ four production paths (Railway, Vercel + Render, Fly, VPS).
 
 ## Maintainers
 
-- **Jeremy Karrick** — karrick1995@gmail.com
+- **Jeremy Karrick** — founderoftp@thirstysprojects.com
 - **Thirsty's Projects LLC** — Entity #14694374-0160
-  - Principal office: 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203
   - Registered agent: Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205
 
 The product surface (ThirstyAi Builder) is registered to the same
@@ -452,11 +475,24 @@ for the full filing details and IP inventory.
 
 ## License
 
-**Proprietary.** All rights reserved. No public LICENSE file at the
-repository root — see [`thirsty-ai-builder/LICENSE`](thirsty-ai-builder/LICENSE)
-for the product license and the IP ownership statement. The kernel and
-spec are made available to independent engineering teams under written
-agreement with the owner.
+**Source-available, not open source.** The kernel, the spec, and the
+reference build in this repository are made available to independent
+engineering teams under written agreement with the owner. There is no
+public open-source license at the repository root.
+
+- **Kernel + spec (this repository):** source-available; rights granted
+  only by written agreement with the owner. Contact
+  `founderoftp@thirstysprojects.com` to discuss evaluation, extension,
+  or redistribution.
+- **Deployable product (`thirsty-ai-builder/`):** proprietary license,
+  all rights reserved. See
+  [`thirsty-ai-builder/LICENSE`](thirsty-ai-builder/LICENSE) for the
+  full grant-of-license text, the ownership-attribution clause, and the
+  no-warranty terms.
+
+If you forked or copied this work, the ownership block in
+`OWNERSHIP.md` and the entity attribution on every page footer and
+every signed PDF travel with it. That is intentional.
 
 ---
 

@@ -4,19 +4,21 @@
 
 **A private, on-premises AI workspace. One command, one local model, one signed PDF per audit.**
 
-[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
-[![Status: 1.0.0](https://img.shields.io/badge/status-1.0.0-green.svg)](CHANGELOG.md)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](backend/requirements.txt)
-[![Node 18+](https://img.shields.io/badge/node-18+-blue.svg)](frontend/package.json)
-[![Ollama local](https://img.shields.io/badge/llm-Ollama-purple.svg)](https://ollama.com)
-[![MongoDB 6+](https://img.shields.io/badge/mongo-6.0+-green.svg)](docker-compose.yml)
-[![Code style: standard](https://img.shields.io/badge/code%20style-standard-black.svg)](backend/)
-[![Signed: Ed25519](https://img.shields.io/badge/release-Ed25519-brightgreen.svg)](release/signing-public-key.pem)
-[![Security: karrick1995@gmail.com](https://img.shields.io/badge/security-karrick1995%40gmail.com-blue.svg)](SECURITY.md)
-
-[What it is](#what-it-is) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Docs](#docs) · [License](#license)
+[What it is](#what-it-is) · [Why care](#why-care) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Docs](#docs) · [License](#license)
 
 </div>
+
+| Attribute | Value | Source |
+|---|---|---|
+| **License** | Proprietary, all rights reserved | [`LICENSE`](LICENSE) |
+| **Status** | 1.0.0 | [`CHANGELOG.md`](CHANGELOG.md) |
+| **Python** | 3.11+ | [`backend/requirements.txt`](backend/requirements.txt) |
+| **Node** | 18+ | [`frontend/package.json`](frontend/package.json) |
+| **LLM** | Ollama, local (no API key, no cloud) | [`HOSTED_OLLAMA.md`](HOSTED_OLLAMA.md) |
+| **Database** | MongoDB 6.0+ | [`docker-compose.yml`](docker-compose.yml) |
+| **Code style** | Standard (PEP 8 + Tailwind tokens) | [`backend/`](backend/) |
+| **Release signing** | Ed25519 | [`release/signing-public-key.pem`](release/signing-public-key.pem) |
+| **Security contact** | `founderoftp@thirstysprojects.com` | [`SECURITY.md`](SECURITY.md) |
 
 ---
 
@@ -37,6 +39,25 @@ If the local model isn't running, the chat pages say so in plain English
 and the rest of the app keeps working. No silent stubs, no fake answers.
 
 **Owner:** Jeremy Karrick / Thirsty's Projects LLC · Entity #14694374-0160
+
+---
+
+## Why care
+
+If you want a private AI workspace that **you** own — runs on your
+hardware, signs its own audits, and is honest about what's on and what's
+off — this is the build. No API keys to leak, no monthly bill, no
+dependency on a third-party model API. If the local model isn't
+running, the app says so. If the policy says no, the kernel says no.
+The audit PDF you hand a client is signed and traceable to a named,
+registered entity.
+
+For most people, the practical question is just: "Can I run this on my
+laptop today?" Yes — five minutes, one command, one model pull. See
+[Quickstart](#quickstart) below.
+
+For the longer argument about why an on-prem, owner-attested build
+exists in the first place, see [Why it exists](#why-it-exists).
 
 ---
 
@@ -296,7 +317,7 @@ contract. The hardening checklist in
 
 ## Security
 
-- **Reporting:** `karrick1995@gmail.com` with subject prefix `[security]`.
+- **Reporting:** `founderoftp@thirstysprojects.com` with subject prefix `[security]`.
   72-hour acknowledgement, 90-day disclosure window. See
   [`SECURITY.md`](SECURITY.md).
 - **Threat model:** assets, adversaries, four trust boundaries, and the
@@ -332,9 +353,8 @@ contract. The hardening checklist in
 
 ## Maintainers
 
-- **Jeremy Karrick** — karrick1995@gmail.com
+- **Jeremy Karrick** — founderoftp@thirstysprojects.com
 - **Thirsty's Projects LLC** — Entity #14694374-0160
-  - Principal office: 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203
   - Registered agent: Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205
 
 See [`OWNERSHIP.md`](OWNERSHIP.md) for the full filing details and the
@@ -344,11 +364,17 @@ IP inventory.
 
 ## License
 
-**Proprietary.** All rights reserved. See [`LICENSE`](LICENSE).
+**Proprietary, all rights reserved.** The deployable product in this
+folder is licensed under the terms in [`LICENSE`](LICENSE). The kernel
+and spec at the repository root are source-available under written
+agreement with the owner (see the top-level `README.md` for the split
+between kernel/spec and deployable product).
 
 No third party may sublicense, resell, fork for redistribution, or
 remove the attribution. Independent developers may be engaged under
-written agreement with the owner.
+written agreement with the owner. Contact
+`founderoftp@thirstysprojects.com` to discuss evaluation, extension,
+or redistribution.
 
 ---
 
