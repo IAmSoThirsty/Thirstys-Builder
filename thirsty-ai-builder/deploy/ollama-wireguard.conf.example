@@ -1,0 +1,69 @@
+# WireGuard peer template for an Ollama host on a private network.
+#
+# This file is a TEMPLATE. Do not deploy it as-is. Replace every
+# <PLACEHOLDER> with a real value, then drop the result into
+# /etc/wireguard/wg-ollama.conf on the host that runs Ollama, and the
+# matching peer section on each ThirstyAi Builder backend host that
+# needs to reach it.
+#
+# Generate keys with:
+#   wg genkey | tee privatekey | wg pubkey > publickey
+#
+# Pick a private subnet that does not collide with anything on either
+# end. The defaults (10.42.0.0/24) work for most home/office setups.
+# Keep the port at 51820 unless you have a reason to move it.
+
+[Interface]
+# On the OLLAMA HOST (runs `ollama serve`).
+# Address = the Ollama host's IP inside the WireGuard tunnel.
+# ListenPort = the UDP port the Ollama host listens on for peers.
+# PrivateKey = the Ollama host's WireGuard private key (chmod 600).
+Address    = 10.42.0.1/24
+ListenPort = 51820
+PrivateKey = <OLLAMA_HOST_PRIVATE_KEY>
+
+# The Ollama host routes ONLY the WireGuard subnet out of the tunnel;
+# nothing else leaks onto the public internet through this interface.
+PostUp   = iptables -A FORWARD -i wg-ollama -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg-ollama -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+
+# --- Peer: ThirstyAi Builder backend (repeat per backend host) -----
+[Peer]
+# PublicKey = the BACKEND host's WireGuard public key.
+# AllowedIPs = the tunnel IP the backend uses; on the Ollama host
+# this MUST be a /32 (one peer, one IP). The Ollama host will route
+# packets to that tunnel IP to the backend.
+# PersistentKeepalive = 25 keeps NAT mappings warm on cloud VMs.
+PublicKey = <BACKEND_HOST_PUBLIC_KEY>
+AllowedIPs = 10.42.0.2/32
+PersistentKeepalive = 25
+
+
+# --- Peer: operator laptop / phone (optional but useful) -----------
+[Peer]
+# PublicKey = your laptop/phone WireGuard public key.
+# AllowedIPs = a /32 for the operator's tunnel IP.
+PublicKey = <OPERATOR_PUBLIC_KEY>
+AllowedIPs = 10.42.0.3/32
+PersistentKeepalive = 25
+
+
+# ------------------------------------------------------------------
+# Matching peer block on each ThirstyAi Builder backend host.
+# The backend host's interface block mirrors this one with its own
+# PrivateKey, and the peer block is the Ollama host above.
+#
+# [Interface]
+# Address    = 10.42.0.2/24
+# PrivateKey = <BACKEND_HOST_PRIVATE_KEY>
+#
+# [Peer]
+# PublicKey  = <OLLAMA_HOST_PUBLIC_KEY>
+# Endpoint   = <OLLAMA_HOST_PUBLIC_IP>:51820
+# AllowedIPs = 10.42.0.1/32
+# PersistentKeepalive = 25
+#
+# Then point the ThirstyAi Builder backend at:
+#   OLLAMA_HOST=http://10.42.0.1:11434
+# ------------------------------------------------------------------

@@ -583,3 +583,48 @@ Evidence:
   passed with replay verification.
 
 Signature: Commander-Agent / Stage-1 / 2026-07-03
+
+## Entry 0018 - Hosted Ollama Runbook and TLS Termination Configs
+
+Scope: deployment-side artifacts covering how an operator runs Ollama
+on a remote host and terminates TLS in front of the ThirstyAi Builder
+backend.
+
+Decision: signed off. Both test suites green; full gate passes end-to-end
+on 2026-07-04; release artifacts refreshed.
+
+Findings:
+
+- Complete: `thirsty-ai-builder/HOSTED_OLLAMA.md` operator runbook (13
+  sections: install, model pull, systemd, GPU sizing, remote access,
+  storage, backup, upgrade, monitoring, security checklist, troubleshooting,
+  pointers).
+- Complete: hardened `deploy/ollama.service` systemd unit (ollama user,
+  ProtectSystem=strict, NoNewPrivileges, RestrictNamespaces,
+  RestrictRealtime, MemoryMax=32G).
+- Complete: `deploy/ollama-tailscale.md` recipe (install, bind to tailnet
+  IP only, ACLs, MagicDNS, smoke test) and `deploy/ollama-wireguard.conf.example`
+  template (Interface + 2 Peers, placeholder documentation, NAT keepalive,
+  matching backend peer block).
+- Complete: `deploy/Caddyfile` + `deploy/nginx.conf` TLS termination
+  configs (forward to loopback, HSTS, security headers, HTTP→HTTPS redirect,
+  TLS 1.2+ restriction, long-lived endpoint timeouts for chat / marketing
+  / rag / commander).
+- Complete: test coverage — `test_tls_config.py` (13 tests) +
+  `test_hosted_ollama.py` (28 tests) wired into `verify_all.py` gate.
+- Risk: hosted Ollama security is the operator's responsibility;
+  runbook calls out the bind-to-0.0.0.0 foot-gun and the no-auth
+  nature of the Ollama API.
+- Classification: production-deposit-quality documentation. Runbook
+  is operator-facing reference; not auto-verified at deploy time.
+
+Evidence:
+
+- `python -m unittest discover -s thirsty-ai-builder/backend/tests -p test_tls_config.py`:
+  13 tests passed.
+- `python -m unittest discover -s thirsty-ai-builder/backend/tests -p test_hosted_ollama.py`:
+  28 tests passed.
+- `python scripts/verify_all.py`: full local verification gate passed;
+  release SBOM, provenance, package, and Ed25519 signature refreshed.
+
+Signature: Commander-Agent / Wave-10 / 2026-07-04

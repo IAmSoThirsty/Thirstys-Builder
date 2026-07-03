@@ -52,6 +52,14 @@ Infrastructure certification.
   a live Ollama server round-trip), Mongo stub, letterhead PDF
   generation, app store, and the full ThirstyAi Builder FastAPI surface
   across all 11 page-backed routes.
+- `python -m unittest discover -s thirsty-ai-builder/backend/tests -p test_tls_config.py`:
+  passed, 13 tests covering the Caddyfile + nginx.conf TLS termination
+  configs (forward to loopback, HSTS, security headers, long-lived
+  endpoint timeouts, HTTP→HTTPS redirect, TLS 1.2+ restriction).
+- `python -m unittest discover -s thirsty-ai-builder/backend/tests -p test_hosted_ollama.py`:
+  passed, 28 tests covering the hosted Ollama runbook artifacts
+  (hardened systemd unit, WireGuard template, Tailscale recipe, runbook
+  self-consistency and cross-references, deploy dir layout).
 - `python scripts/validate_repository.py`: passed.
 - `python scripts/validate_api_contracts.py`: passed.
 - `python scripts/install_formal_tools.py --write-hashes`: passed, formal tool

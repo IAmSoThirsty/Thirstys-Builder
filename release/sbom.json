@@ -1,10 +1,16 @@
 {
-  "component_count": 275,
+  "component_count": 287,
   "components": [
     {
+      "path": ".github/instructions/codacy.instructions.md",
+      "sha256": "d45a3281ea3021d6899b3c29fe2d2e04e73c48fec65acbbe9303baa2e3e1e9fd",
+      "size_bytes": 4239,
+      "type": "metadata"
+    },
+    {
       "path": ".gitignore",
-      "sha256": "ef1f5094700f779cab29857c323d8829cbce7f23af1f6fc7ae1dfe2c7cbef202",
-      "size_bytes": 184,
+      "sha256": "6fd60fced0359272622f2fa3486819c08d21dd52b321b24852efad3283d23c8f",
+      "size_bytes": 254,
       "type": "metadata"
     },
     {
@@ -45,14 +51,14 @@
     },
     {
       "path": "commander/audit-log.md",
-      "sha256": "a0ed7ee080321e57967667567dedca6e0f410db9a3ca7f8d938d277d15d3cd3c",
-      "size_bytes": 24521,
+      "sha256": "37dc97710cdcf713b45063763b6379100752497321b38b76fa899158e970c89f",
+      "size_bytes": 26628,
       "type": "documentation"
     },
     {
       "path": "commander/final-certification-report.md",
-      "sha256": "25783cc358f90eae2b0fc8c16c7850b124977b2c2a3c13859c2f087e47f2c1db",
-      "size_bytes": 6536,
+      "sha256": "855ee38f8ba07e7e3a293f110cfca0f62ac4b1000f3a49834749af2c0286e90d",
+      "size_bytes": 7123,
       "type": "documentation"
     },
     {
@@ -267,8 +273,8 @@
     },
     {
       "path": "scripts/verify_all.py",
-      "sha256": "d75632109f9738ebb77c293c1bc90e4de49453beec90303010ceee1c7f48d190",
-      "size_bytes": 2003,
+      "sha256": "180f17073b707d897f04731930bf07cf2bb97f3113c227f7d20caea37d0e2de0",
+      "size_bytes": 2250,
       "type": "software"
     },
     {
@@ -620,6 +626,12 @@
       "type": "metadata"
     },
     {
+      "path": "thirsty-ai-builder/HOSTED_OLLAMA.md",
+      "sha256": "a471ef6c1aaf4426c5def7e73bafe08d63befebd223a701b58e2abc60db66dd6",
+      "size_bytes": 10403,
+      "type": "metadata"
+    },
+    {
       "path": "thirsty-ai-builder/LICENSE",
       "sha256": "6df7cf171ed764e5de3482bb6d0e560e4d880fe2d9290db08ceca9d446f3d57a",
       "size_bytes": 1877,
@@ -663,8 +675,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/server.py",
-      "sha256": "0263e1ed28fbf7099970d7bbc025dc6e5b40dcbc630f5789578f30281d563d71",
-      "size_bytes": 14847,
+      "sha256": "84938998289418938736cf350b56157ac43143ce0ee71b52c07a3621d5e73569",
+      "size_bytes": 16962,
       "type": "metadata"
     },
     {
@@ -674,9 +686,33 @@
       "type": "metadata"
     },
     {
+      "path": "thirsty-ai-builder/backend/tests/test_auth.py",
+      "sha256": "a44225ab4407bd51672ac8fe3a0f77548e86020385f22625c5057f44aaa66f50",
+      "size_bytes": 8162,
+      "type": "metadata"
+    },
+    {
       "path": "thirsty-ai-builder/backend/tests/test_backend.py",
-      "sha256": "a0932559d6b503481dbbe7d4fade80be2e75abe12b16a7c55583937e5f0db963",
-      "size_bytes": 14662,
+      "sha256": "cc945e9c029c4d4c2759b61e157bc806be05f8968c6454a1f3a7c650494b0b67",
+      "size_bytes": 15172,
+      "type": "metadata"
+    },
+    {
+      "path": "thirsty-ai-builder/backend/tests/test_db.py",
+      "sha256": "c74d5cfae212a16853379bfb4fc809f5106bb5a8bbff3c44366a6fcb73221401",
+      "size_bytes": 5561,
+      "type": "metadata"
+    },
+    {
+      "path": "thirsty-ai-builder/backend/tests/test_hosted_ollama.py",
+      "sha256": "c0066adfbb48da61045367a941605df896225895922e8a77595ff81853857089",
+      "size_bytes": 13008,
+      "type": "metadata"
+    },
+    {
+      "path": "thirsty-ai-builder/backend/tests/test_tls_config.py",
+      "sha256": "39bbff999a6f61dcfeb5cff6b718fc59efcac77d8a2f8fe4cb808f83390f87ca",
+      "size_bytes": 4729,
       "type": "metadata"
     },
     {
@@ -692,9 +728,15 @@
       "type": "metadata"
     },
     {
+      "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/auth.py",
+      "sha256": "2c0e5150ae1991f95b17ec1a85c335694e29c4f55dc84fa25cff6fd86d83f66a",
+      "size_bytes": 3468,
+      "type": "metadata"
+    },
+    {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/db.py",
-      "sha256": "7b71180142de26021579a872ae0bd0e357e533987ada4e3bb6d814e13bc0d013",
-      "size_bytes": 3123,
+      "sha256": "9d4a137c365cb765810eda01be1caa20a683f64d44252f40794c065793aa4ab5",
+      "size_bytes": 6662,
       "type": "metadata"
     },
     {
@@ -713,6 +755,36 @@
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/ownership.py",
       "sha256": "6e5003a8c5bb5245d616ad0896007f075781cba38cd98306772d5188b76df077",
       "size_bytes": 1367,
+      "type": "metadata"
+    },
+    {
+      "path": "thirsty-ai-builder/deploy/Caddyfile",
+      "sha256": "734d9822029f5621ed7411f2d6638dd674086105bfb2b5cb3a69c49c4b82213b",
+      "size_bytes": 3083,
+      "type": "metadata"
+    },
+    {
+      "path": "thirsty-ai-builder/deploy/nginx.conf",
+      "sha256": "85aebedcbc13166f61199fec28e36de9126cf35c9ffd16f7eb6c21ef1609c1b6",
+      "size_bytes": 3161,
+      "type": "metadata"
+    },
+    {
+      "path": "thirsty-ai-builder/deploy/ollama-tailscale.md",
+      "sha256": "87911d3048e7a7e12f54f340e250d79e71d381a53134af12a2b135cfc202cadf",
+      "size_bytes": 3034,
+      "type": "metadata"
+    },
+    {
+      "path": "thirsty-ai-builder/deploy/ollama-wireguard.conf.example",
+      "sha256": "08b57996a3e120ee986852256a852fe101628e3be8f378d5460c62b941f50ef7",
+      "size_bytes": 2718,
+      "type": "metadata"
+    },
+    {
+      "path": "thirsty-ai-builder/deploy/ollama.service",
+      "sha256": "237dba92f5e244b48bc6f987f2062fef215c576e2df2ad2f9cf5a17317727611",
+      "size_bytes": 1941,
       "type": "metadata"
     },
     {

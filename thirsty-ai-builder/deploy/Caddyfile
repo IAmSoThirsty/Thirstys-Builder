@@ -1,0 +1,79 @@
+# Caddy config for the ThirstyAi Builder.
+#
+# This file is the entry-point for an HTTPS reverse proxy in front of
+# the FastAPI backend. Caddy auto-requests and renews Let's Encrypt certs
+# for the configured domain. Place this file at /etc/caddy/Caddyfile
+# (or your platform's equivalent) and reload with `systemctl reload caddy`.
+#
+# The backend listens on 127.0.0.1:8001 over plain HTTP. The proxy
+# terminates TLS on :443 and forwards to the loopback backend. The
+# `X-Forwarded-*` headers preserve the original client IP and proto so
+# server.py's request handlers can log them correctly.
+#
+# Requirements:
+#   1. DNS A/AAAA record for the domain pointing to this host.
+#   2. Ports :80 and :443 reachable from the public internet.
+#   3. CB_API_KEY set in the backend's environment (Caddy does not need
+#      it; the backend enforces the token on protected routes).
+
+# Global options: enable the on-demand TLS API for staging-only or for
+# internal CAs. The default of "off" is correct for production.
+{
+    # admin off
+    auto_https off
+}
+
+# The public hostname(s) for this deployment.
+DOMAIN.example.com,
+www.DOMAIN.example.com {
+    encode zstd gzip
+
+    # Forward all paths to the backend on loopback.
+    reverse_proxy 127.0.0.1:8001 {
+        # Preserve the original client IP in the X-Forwarded-For chain.
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+        # Pass the Host header so /api/ownership and similar name-bound
+        # responses include the right hostname.
+        header_up Host {host}
+        # Fail fast if the backend is down.
+        transport http {
+            dial_timeout 5s
+            response_header_timeout 30s
+        }
+    }
+
+    # Long-lived streams (LLM chat, audit PDF) get a generous timeout.
+    @longlived path /api/dove/chat /api/holli/chat /api/marketing/copy /api/rag/* /api/commander/audits/*
+    reverse_proxy @longlived 127.0.0.1:8001 {
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+        header_up Host {host}
+        transport http {
+            dial_timeout 5s
+            response_header_timeout 300s
+        }
+    }
+
+    # HSTS: force HTTPS for one year, including subdomains.
+    header Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    # Don't allow embedding in iframes.
+    header X-Frame-Options "DENY"
+    header X-Content-Type-Options "nosniff"
+    header Referrer-Policy "no-referrer"
+    # CSP: lock down to self only; the SPA is served from the same origin.
+    header Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'"
+
+    # ACME challenge + cert storage. Caddy handles the rest.
+    tls {
+        protocols tls1.2 tls1.3
+    }
+}
+
+# Optional: redirect the bare apex to www (or vice versa). Comment out if
+# you serve the apex directly.
+# www.DOMAIN.example.com {
+#     redir https://DOMAIN.example.com{uri} permanent
+# }
