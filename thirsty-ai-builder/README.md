@@ -1,240 +1,359 @@
+<div align="center">
+
 # ThirstyAi Builder
 
-**A private, on-premises AI workspace that runs entirely on your machine.**
-No API keys. No cloud account. No monthly bill. One command, one model,
-one signed PDF per audit.
+**A private, on-premises AI workspace. One command, one local model, one signed PDF per audit.**
 
-ThirstyAi Builder is a 11-page React app backed by a single-file FastAPI
-service, MongoDB for persistence, a Rust CI auditor, and a **local
-language model served by Ollama** on your own hardware. It is built and
-signed by **Thirsty's Projects LLC** (Entity #14694374-0160). Every page
-footer, every API response, and every signed audit PDF carries that
-attribution.
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
+[![Status: 1.0.0](https://img.shields.io/badge/status-1.0.0-green.svg)](CHANGELOG.md)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](backend/requirements.txt)
+[![Node 18+](https://img.shields.io/badge/node-18+-blue.svg)](frontend/package.json)
+[![Ollama local](https://img.shields.io/badge/llm-Ollama-purple.svg)](https://ollama.com)
+[![MongoDB 6+](https://img.shields.io/badge/mongo-6.0+-green.svg)](docker-compose.yml)
+[![Code style: standard](https://img.shields.io/badge/code%20style-standard-black.svg)](backend/)
+[![Signed: Ed25519](https://img.shields.io/badge/release-Ed25519-brightgreen.svg)](release/signing-public-key.pem)
+[![Security: karrick1995@gmail.com](https://img.shields.io/badge/security-karrick1995%40gmail.com-blue.svg)](SECURITY.md)
 
-If you want the deep dives — deploy paths, security policy, threat model,
-hosted-Ollama runbook, installation matrix — they live next to this file:
-`DEPLOY.md`, `SECURITY.md`, `THREAT_MODEL.md`, `HOSTED_OLLAMA.md`,
-`docs/INSTALL.md`, `docs/DIAGRAMS.md`. This README is the front door.
+[What it is](#what-it-is) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Docs](#docs) · [License](#license)
+
+</div>
 
 ---
 
-## What it does (in plain English)
+## What it is
 
-- **Talks to you** like a quiet assistant — Little Dove and Holli, both
-  running on the local model.
-- **Helps you run a business** — clients, invoices, deliverables, social
-  posts, marketing copy, all in one app.
-- **Answers questions from your own documents** (RAG). You point it at a
-  file, it reads it, and when you ask a question it answers from your
-  file, not the open internet.
-- **Audits your code or any project** and produces a **signed PDF report**
-  with your name, your LLC, and a tamper-evident Ed25519 signature.
-- **Hosts an App Store** of small tools that you can extend or remove.
+ThirstyAi Builder is a **self-hosted AI workspace** — 11-page React UI,
+single-file FastAPI backend, MongoDB persistence, a Rust CI auditor, and
+a **local language model served by Ollama** on your own hardware. No API
+keys, no cloud account, no monthly bill.
+
+It ships with seven tools out of the box: a quiet conversational
+assistant, an operations assistant, a RAG pipeline over your own
+documents, an audit engine that produces **tamper-evident signed PDFs**,
+a marketing copy generator, a cross-channel social poster, and a
+business manager (clients, invoices, deliverables).
 
 If the local model isn't running, the chat pages say so in plain English
 and the rest of the app keeps working. No silent stubs, no fake answers.
 
+**Owner:** Jeremy Karrick / Thirsty's Projects LLC · Entity #14694374-0160
+
 ---
 
-## What's in it
+## Why it exists
 
-### The 11 pages
+Most "AI builder" products route every prompt through a third-party
+cloud. The owner-attested model — where the artifact, the audit log, the
+client deliverables, and the AI output are all signed and traceable to a
+named, registered entity — is harder to build than the cloud version
+because you have to do fail-closed auth, fail-closed persistence, and
+release signing yourself.
 
-| # | Page | What it does |
-|---|------|--------------|
-| 1 | **Home** | Landing + live system status (LLM provider, version, Mongo health) |
-| 2 | **Commander** | Run audits, list past audits, download signed PDFs |
-| 3 | **Little Dove** | Quiet conversational assistant on the local model |
-| 4 | **Holli** | Operations assistant, audit-logged |
-| 5 | **Architecture** | System topology, live |
-| 6 | **App Store** | Installable tools, one row per tool |
-| 7 | **Business Manager** | Clients, invoices, deliverables (CRUD) |
-| 8 | **Socials** | Multi-channel post queue (Twitter, LinkedIn, Mastodon, Bluesky) |
-| 9 | **Marketing** | Copy generator with brand-voice presets |
-| 10 | **RAG** | Embed + query with deterministic cosine retrieval |
-| 11 | **About** | Ownership block + IP inventory |
+This is that harder version. It runs on your hardware, signs every
+audit as a PDF with your letterhead and an Ed25519 signature, and fails
+closed at startup if the configuration is incomplete. It is a single
+tenant, designed for one operator per deployment.
 
-### The 7 App Store tools
+---
 
-| Tool | What it is |
-|---|---|
-| **Commander Audit** | Runs the verify_all gate and produces a signed PDF report |
-| **Little Dove** | Quiet conversational assistant on the local Ollama model |
-| **Holli** | Operations assistant, audit-logged, fails loud if Ollama is down |
-| **RAG Embedder** | Retrieval-augmented generation; in-process vector store on Mongo |
-| **Marketing Copy Generator** | LLM-backed copy with brand-voice presets |
-| **Social Poster** | Cross-post to connected channels; secrets via env, never in Mongo |
-| **Business Manager** | Clients, invoices, deliverables — Mongo-backed CRUD |
-
-### The system
+## Architecture
 
 ```
-┌──────────────┐  HTTPS  ┌──────────────┐  same-origin  ┌────────────────┐
-│   Browser    │ ──────▶ │ Reverse proxy│ ────────────▶ │  Frontend SPA  │
-│  (React UI)  │         │  (TLS term)  │               │   (11 pages)   │
-└──────────────┘         └──────────────┘               └───────┬────────┘
-                                                                │ /api/*
-                                                                ▼
-                                                   ┌────────────────────────┐
-                                                   │   Backend (FastAPI)    │
-                                                   │   one file: server.py  │
-                                                   └───┬──────────────┬─────┘
-                                                       │              │
-                                              compose net│              │Tailscale/WireGuard/SSH
-                                                       ▼              ▼
-                                            ┌──────────────┐   ┌──────────────┐
-                                            │   MongoDB    │   │   Ollama     │
-                                            │  (in ctr)    │   │  (loopback)  │
-                                            └──────────────┘   └──────────────┘
+                         ┌─────────────────────┐
+                         │   Browser (React)   │
+                         │  11 pages, 1 SPA    │
+                         └──────────┬──────────┘
+                                    │ HTTPS
+                                    ▼
+                         ┌─────────────────────┐
+                         │  Reverse proxy      │
+                         │  Caddy or nginx     │
+                         │  TLS + HSTS         │
+                         └──────────┬──────────┘
+                                    │ /api/*
+                                    ▼
+                         ┌─────────────────────┐
+                         │  Backend (FastAPI)  │
+                         │  one file:          │
+                         │  server.py          │
+                         └─────┬──────────┬────┘
+                               │          │
+                  compose net  │          │  Tailscale / WireGuard / SSH
+                               ▼          ▼
+                    ┌──────────────┐  ┌──────────────┐
+                    │   MongoDB    │  │   Ollama     │
+                    │  loopback    │  │  loopback    │
+                    │  no auth     │  │  no auth     │
+                    └──────────────┘  └──────────────┘
 ```
 
-Full diagrams (request flow, RAG pipeline, audit pipeline, deploy paths,
-trust boundaries) are in `docs/DIAGRAMS.md`.
+The four trust boundaries, the request flow, the RAG and audit
+pipelines, and the deploy paths are drawn out in detail in
+[`docs/DIAGRAMS.md`](docs/DIAGRAMS.md).
 
 ---
 
-## Features
+## Quickstart
 
-**For everyone**
-
-- Private by default — runs on your hardware, nothing leaves unless you put it there
-- Honest failures — no API key? No model running? The app says so plainly
-- Client-ready deliverables — every audit exports as a signed PDF with your letterhead
-- Whitelabel-ready — swap one SVG and the palette, ship a client edition
-- Single-tenant — designed for one operator per deployment
-
-**For engineers**
-
-- One-file backend (`backend/server.py`) — every route in one place
-- One-file-per-page frontend (`frontend/src/pages/*.jsx`)
-- Fail-closed auth — `CB_API_KEY` (32-byte random bearer) + `THIRSTY_AI_REQUIRE_AUTH=1`
-- Fail-closed persistence — `THIRSTY_AI_REQUIRE_MONGO=1` refuses to boot without Mongo
-- Deterministic RAG — 32-dim hash-based vectors, no external embedding service
-- Rate-limited (60 req/min/key) and size-capped (1 MiB bodies)
-- Ed25519 release signing via PyCA, private key never enters the repo
-- Reproducible release artifact — CycloneDX SBOM, manifest, signature under `release/`
-- Container-hardened — non-root, `no-new-privileges`, `read_only: true`, capabilities dropped
-- GitHub Action drop-in — `rust-auditor/.github/workflows/commander-audit.yml`
-
----
-
-## Install
-
-**Before you start, all paths need one thing: Ollama running on the same
-host, with one model pulled.** That takes about 5 minutes.
+**Prereq:** [Ollama](https://ollama.com) running on the same host, with
+one model pulled. ~5 minutes.
 
 ```bash
-# Windows / macOS:  https://ollama.com/download
-# Linux:
-curl -fsSL https://ollama.com/install.sh | sh
-
-# Pull the default model (~5 GB)
-ollama pull qwen2.5-coder:7b
+# Linux
+curl -fsSL https://ollama.com/install.sh | sh && ollama pull qwen2.5-coder:7b
+# macOS / Windows: install from ollama.com/download, then
+#   ollama pull qwen2.5-coder:7b
 ```
 
-### Path A — Local dev (Python venv + npm, ~10 min)
+**Run the stack with one command (~5 min):**
 
 ```bash
-git clone <this-repo> thirsty-ai-builder
-cd thirsty-ai-builder
+git clone https://github.com/IAmSoThirsty/Thirstys-Builder.git
+cd Thirstys-Builder/thirsty-ai-builder
+cp backend/.env.example backend/.env
+# Set CB_API_KEY to a fresh 32-byte random string:
+#   python -c "import secrets; print(secrets.token_urlsafe(32))"
+docker compose up --build
+# Backend on :8001 · Frontend on :3000 · Mongo on :27017
+```
 
-# Backend
+Open <http://localhost:3000>. The footer on every page shows your
+entity number. Open **Little Dove** to chat with your local model.
+
+> The full install matrix (Windows / macOS / Linux × dev / Docker /
+> production), first-run checks, and uninstall are in
+> [`docs/INSTALL.md`](docs/INSTALL.md).
+
+---
+
+## Tech stack
+
+| Layer | Choice | Version | Why |
+|---|---|---|---|
+| Frontend | React | 18.2 | Single SPA, one file per page |
+| UI primitives | Tailwind CSS | 3.4 | Tokens-driven, no custom design system drift |
+| Motion | Framer Motion | 11.0 | Page transitions, no jank |
+| Backend | FastAPI | 0.110+ | One file, every route, async, type-checked |
+| ASGI server | Uvicorn | 0.27+ | Standard, fast, hot-reload |
+| Validation | Pydantic | 2.5+ | Request/response models, `max_length` everywhere |
+| Database | MongoDB | 6.0+ | Document-shaped CRUD, vector storage for RAG |
+| LLM | Ollama | latest | Local, no auth, GGUF models on your hardware |
+| Default model | qwen2.5-coder:7b | 7B / 5 GB | Default chat + code model; swappable |
+| CI auditor | Rust | 1.75+ | Single binary, gates CI against the Commander |
+| Release signing | Ed25519 (PyCA) | — | Per-machine keypair, public key in `release/` |
+| Container runtime | Docker + Compose | 24+ | Same artifact in dev and prod |
+
+The full dependency manifest is in [`backend/requirements.txt`](backend/requirements.txt)
+and [`frontend/package.json`](frontend/package.json). The CycloneDX
+SBOM is in [`release/sbom.json`](release/sbom.json).
+
+---
+
+## Development
+
+### Repository layout
+
+```
+thirsty-ai-builder/
+├── backend/                       FastAPI (Python) — every API endpoint
+│   └── thirsty_ai_builder_backend/
+│       ├── server.py              the main app, every route, one file
+│       ├── app_store.py           SEED_TOOLS — add a row, ship a tool
+│       ├── ownership.py           canonical entity block
+│       ├── letterhead.py          audit PDF letterhead + SHA-256
+│       └── preflight.py           production preflight (run before expose)
+├── frontend/                      React + Tailwind + Framer Motion
+│   └── src/
+│       ├── App.jsx                router
+│       ├── pages/                 one file per page (Home, Commander, …)
+│       ├── components/            ThirstyLogo, AuthTokenControl, …
+│       └── index.css              palette + tokens
+├── rust-auditor/                  Rust CLI that gates CI
+│   └── .github/workflows/
+│       └── commander-audit.yml    drop-in GitHub Action
+├── docs/
+│   ├── DIAGRAMS.md                system, request, pipeline diagrams
+│   └── INSTALL.md                 full install matrix
+├── deploy/                        Caddyfile, nginx.conf, ollama.service
+├── release/                       SBOM, package manifest, Ed25519 sig
+├── docker-compose.yml             one command → whole stack
+├── DEPLOY.md                      4 production deploy paths
+├── SECURITY.md                    policy + hardening checklist
+├── THREAT_MODEL.md                trust boundaries + top 10 threats
+├── HOSTED_OLLAMA.md               Ollama-on-a-different-host runbook
+├── OWNER_HANDOFF.md               single-sheet operator hand-off
+├── OWNERSHIP.md                   registration + IP inventory
+├── CHANGELOG.md                   release notes
+├── LICENSE                        proprietary
+└── design_guidelines.json         design system
+```
+
+### Local dev (hot reload)
+
+Two terminals.
+
+```bash
+# Terminal 1 — backend on :8001
 cd backend
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# Set CB_API_KEY to a fresh 32-byte random string
-python server.py                                    # serves on :8001
+python server.py
 
-# Frontend (separate terminal)
-cd ../frontend
+# Terminal 2 — frontend on :3000
+cd frontend
 npm install
 cp .env.example .env
-npm start                                           # serves on :3000
+npm start
 ```
 
-Open http://localhost:3000. The footer shows your entity number.
+### Tests
 
-### Path B — Docker Compose (~5 min)
+The verify_all gate runs the full local test + validation suite. It is
+the same script the Commander audit harness runs in CI.
 
 ```bash
-git clone <this-repo> thirsty-ai-builder
-cd thirsty-ai-builder
-cp backend/.env.example backend/.env
-# Set CB_API_KEY
-docker compose up --build
-# Backend on :8001, Frontend on :3000, Mongo on :27017
+cd ../thirsty-ai-builder     # this directory
+python -m unittest discover -s ../thirsty-ai-builder/backend/tests
+# or the full gate:
+cd .. && python scripts/verify_all.py
 ```
 
-`host.docker.internal` lets the backend container reach the Ollama server
-on your host.
-
-### Path C — Production deploy
-
-See `DEPLOY.md` for the four paths: **Railway** (~$5/mo, ~4 min),
-**Vercel + Render** (free tier), **Fly.io** (`fly launch && fly deploy`),
-or a self-managed **VPS** (Ubuntu 22.04+ with Docker + Ollama on the
-host). All four converge on the same backend image and the same env-var
-contract. After every deploy, run the preflight before exposing:
+### Production preflight (before exposing)
 
 ```bash
 docker compose exec backend python -m thirsty_ai_builder_backend.preflight
 # expected: PASS: thirsty-ai-builder production preflight
 ```
 
-The full install matrix — Windows, macOS, Linux, every track, first-run
-checks, uninstall — is in `docs/INSTALL.md`.
+The preflight refuses to pass if `CB_API_KEY` is missing, short, or
+placeholder-looking, if Mongo is unreachable, or if required env vars
+are absent.
+
+### Coding conventions
+
+- Backend: PEP 8, type hints on every public function, Pydantic models
+  for every request/response, `max_length` on every free-text field.
+- Frontend: one component per file, Tailwind tokens (no inline hex),
+  no `useEffect` for derived state.
+- Commits: [Conventional Commits](https://www.conventionalcommits.org/)
+  (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`).
+- Every PR that touches behavior must include a test. The verify_all
+  gate is the contract; the audit workflow in
+  `rust-auditor/.github/workflows/commander-audit.yml` runs it on every PR.
+
+### Swapping the model
+
+```bash
+ollama pull mistral   # or llama3.2, codestral, phi3, …
+# in backend/.env:
+OLLAMA_MODEL=mistral
+# restart the backend
+```
+
+The Builder uses that model for all chat endpoints (Little Dove, Holli,
+Marketing, RAG answer). RAG embeddings stay deterministic in-process.
+
+### Adding an App Store tool
+
+Append a row to `SEED_TOOLS` in
+`backend/thirsty_ai_builder_backend/app_store.py`. The UI picks the new
+row up on the next request — no rebuild required.
 
 ---
 
-## Configuration
+## Deploy
 
-Every knob the Builder reads from the environment. Set them in
-`backend/.env` for local dev, or in your platform's secret store for
-production.
+Four paths, all documented in [`DEPLOY.md`](DEPLOY.md):
 
-| Variable | Default | Required for prod? | Purpose |
+| Path | Cost | Time | Best for |
 |---|---|---|---|
-| `CB_API_KEY` | *(none)* | **Yes** | 32-byte URL-safe bearer token for protected endpoints |
-| `THIRSTY_AI_REQUIRE_AUTH` | `0` | **Yes (set to `1`)** | Fail-closed at startup if `CB_API_KEY` is missing |
-| `MONGO_URL` | in-memory stub | **Yes** | MongoDB connection string |
-| `THIRSTY_AI_REQUIRE_MONGO` | `0` | **Yes (set to `1`)** | Fail-closed at startup if Mongo is unreachable |
-| `OLLAMA_HOST` | `http://127.0.0.1:11434` | No | Where the backend looks for the local model |
-| `OLLAMA_MODEL` | `qwen2.5-coder:7b` | No | Which model to use for chat / RAG / Marketing |
-| `CORS_ORIGINS` | `http://localhost:3000` | Yes | Comma-separated allowed origins; never use `*` with credentials |
-| `THIRSTY_AI_TRUST_PROXY` | `0` | Only behind a trusted proxy | Trust `X-Forwarded-For` from a known reverse proxy |
-| `THIRSTY_AI_MAX_REQUEST_BYTES` | `1048576` (1 MiB) | No | Body size cap |
-| `THIRSTY_AI_REQUIRE_OLLAMA` | `0` | No (opt-in) | Fail-closed at startup if Ollama is unreachable |
+| **Railway** | ~$5/mo | ~4 min | Fastest public deploy |
+| **Vercel + Render** | Free tier | ~10 min | Free hosting, Atlas free Mongo |
+| **Fly.io** | $0–$5 | ~5 min | `fly launch && fly deploy` |
+| **VPS** (Ubuntu 22.04+) | $5–$40/mo | ~30 min | Full control, Ollama on the host |
 
-If Ollama is down, the chat endpoints return **HTTP 503** with an
-actionable message. The rest of the product keeps working.
+All four converge on the same backend image and the same env-var
+contract. The hardening checklist in
+[`SECURITY.md`](SECURITY.md) applies to all four.
 
 ---
 
-## Ownership
+## Roadmap
 
-This product is registered to **Thirsty's Projects LLC**
-(Entity #14694374-0160).
-
-- Principal office: 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203
-- Registered agent: Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205
-- Contact: karrick1995@gmail.com
-
-All rights reserved. See `LICENSE` and `OWNERSHIP.md`. The `/api/ownership`
-endpoint and the `/about` page return the canonical ownership block; the
-UI footer renders the copyright line on every page; every signed PDF
-embeds the entity number with a SHA-256 attestation.
+- [x] 1.0 — Self-hosted production deployment gates (commit `fecfdf6`)
+- [x] 1.0 — Hosted Ollama runbook + TLS termination configs (commit `b610313`)
+- [x] 1.0 — Auth middleware + Mongo selection + readiness probe (commit `0065de4`)
+- [x] 1.0 — CycloneDX SBOM + reproducible release artifact (Ed25519)
+- [ ] 1.1 — Multi-user (still single-tenant per deployment, but multiple
+      operators per installation with per-op audit trails)
+- [ ] 1.2 — Clustered reference deployment (CBEP volume 8)
+- [ ] 2.0 — Air-gapped production deployment with offline Ollama bundle
+- [ ] 2.0 — External CI execution (the Rust auditor runs on its own runner pool)
+- [ ] 2.0 — KMS / HSM-backed release signing (replaces the per-machine keypair)
 
 ---
 
-## More docs
+## Security
 
-- `DEPLOY.md` — the four production deploy paths in full
-- `SECURITY.md` — reporting channel, hardening checklist, disclosure policy
-- `THREAT_MODEL.md` — trust boundaries, top ten threats, mitigations
-- `HOSTED_OLLAMA.md` — operator runbook for hosting Ollama off-box
-- `docs/INSTALL.md` — full install matrix (Windows / macOS / Linux × dev / Docker / production)
-- `docs/DIAGRAMS.md` — system, request, pipeline, deploy, and trust-boundary diagrams
-- `OWNER_HANDOFF.md` — single-sheet operator hand-off
-- `OWNERSHIP.md` — registration + IP inventory
-- `CHANGELOG.md` — release notes
+- **Reporting:** `karrick1995@gmail.com` with subject prefix `[security]`.
+  72-hour acknowledgement, 90-day disclosure window. See
+  [`SECURITY.md`](SECURITY.md).
+- **Threat model:** assets, adversaries, four trust boundaries, and the
+  top ten threats with mitigations in
+  [`THREAT_MODEL.md`](THREAT_MODEL.md).
+- **Cryptography:** Ed25519 release signing via PyCA. Opaque 32-byte
+  random auth tokens (not JWTs) with `hmac.compare_digest`. TLS
+  terminated at the reverse proxy. Private signing keys never enter the
+  repo.
+- **Hardening checklist** for self-hosted deployments:
+  [`SECURITY.md`](SECURITY.md) §"Hardening checklist for self-hosted
+  deployments".
+
+---
+
+## Docs
+
+| Document | Read it when you want to … |
+|---|---|
+| [`docs/DIAGRAMS.md`](docs/DIAGRAMS.md) | see the system, request, pipeline, deploy, and trust-boundary diagrams |
+| [`docs/INSTALL.md`](docs/INSTALL.md) | install on Windows / macOS / Linux, in dev / Docker / production |
+| [`DEPLOY.md`](DEPLOY.md) | ship to Railway, Vercel+Render, Fly, or a VPS |
+| [`SECURITY.md`](SECURITY.md) | report a vulnerability or harden a self-hosted deployment |
+| [`THREAT_MODEL.md`](THREAT_MODEL.md) | understand the trust boundaries and the top ten threats |
+| [`HOSTED_OLLAMA.md`](HOSTED_OLLAMA.md) | run Ollama on a separate host (Tailscale / WireGuard / SSH) |
+| [`OWNER_HANDOFF.md`](OWNER_HANDOFF.md) | get the single-sheet operator hand-off |
+| [`OWNERSHIP.md`](OWNERSHIP.md) | see the registration + IP inventory |
+| [`CHANGELOG.md`](CHANGELOG.md) | see what changed in each release |
+| [`design_guidelines.json`](design_guidelines.json) | see the design system (colors, type, spacing, voice) |
+| [`release/`](release/) | see the SBOM, package manifest, and Ed25519 signature for the current release |
+
+---
+
+## Maintainers
+
+- **Jeremy Karrick** — karrick1995@gmail.com
+- **Thirsty's Projects LLC** — Entity #14694374-0160
+  - Principal office: 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203
+  - Registered agent: Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205
+
+See [`OWNERSHIP.md`](OWNERSHIP.md) for the full filing details and the
+IP inventory.
+
+---
+
+## License
+
+**Proprietary.** All rights reserved. See [`LICENSE`](LICENSE).
+
+No third party may sublicense, resell, fork for redistribution, or
+remove the attribution. Independent developers may be engaged under
+written agreement with the owner.
+
+---
+
+<div align="center">
+
+© 2026 Jeremy Karrick / Thirsty's Projects LLC · Entity #14694374-0160 · All rights reserved
+
+</div>
