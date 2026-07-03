@@ -46,13 +46,16 @@ Infrastructure certification.
 ## Validation Results
 
 - `python scripts/verify_all.py`: passed.
-- `python -m unittest discover -s tests`: passed, 13 tests.
+- `python -m unittest discover -s tests`: passed, 14 tests.
 - `python scripts/validate_repository.py`: passed.
 - `python scripts/validate_api_contracts.py`: passed.
 - `python scripts/install_formal_tools.py --write-hashes`: passed, formal tool
   JARs downloaded and hash-locked.
 - `python scripts/validate_formal_models.py`: passed TLA+ SANY parser and Alloy
   commands inspection.
+- `python scripts/property_fuzz_kernel_authorization.py`: passed, 2000
+  property-based iterations with parameter-independence, no-execute-on-deny,
+  allow-iff-triple-match, and audit-completeness invariants.
 - `python benchmarks/benchmark_kernel.py --iterations 1000`: passed, 1000
   governed requests, replay verified.
 - `python scripts/model_check_authorization.py`: passed, 16 bounded states.

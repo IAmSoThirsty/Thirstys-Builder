@@ -1,5 +1,5 @@
 {
-  "component_count": 96,
+  "component_count": 98,
   "components": [
     {
       "path": ".gitignore",
@@ -39,14 +39,14 @@
     },
     {
       "path": "commander/audit-log.md",
-      "sha256": "3ce8b78c9734abb5bd416e8c2f80ffc32001b9af8def228ea4304f8b90bf53b6",
-      "size_bytes": 12171,
+      "sha256": "b8e38cfbd0f5f345089c1a9048670c8cfd824b3164d6d370bb5cbef7032d12b5",
+      "size_bytes": 13945,
       "type": "documentation"
     },
     {
       "path": "commander/final-certification-report.md",
-      "sha256": "1d4c3f954b4e8b48a59565a73d58046f89c4587c45642e82ac44dfe88a99f4df",
-      "size_bytes": 5564,
+      "sha256": "81ab7f06751b19ce84034766c9129b5b47f62848249db009816766eee7a092e9",
+      "size_bytes": 5773,
       "type": "documentation"
     },
     {
@@ -194,6 +194,12 @@
       "type": "software"
     },
     {
+      "path": "scripts/property_fuzz_kernel_authorization.py",
+      "sha256": "03761fd6aec7bb04fb56647186f15f2f6799f4833d50f92b42b2ec48cf27a64f",
+      "size_bytes": 9939,
+      "type": "software"
+    },
+    {
       "path": "scripts/run_chaos_checks.py",
       "sha256": "f498ff7d4207c5e19932781001e9a79b158fb7f0cbcd9fc5667b52f63880be07",
       "size_bytes": 3874,
@@ -249,8 +255,8 @@
     },
     {
       "path": "scripts/verify_all.py",
-      "sha256": "5fcb2f8da488908780c66b5a16480f53ea59c53a247144a2fc878ff664c33e91",
-      "size_bytes": 1679,
+      "sha256": "1fcd56310d0a78eeef401f31982316e35868c50c9e2b51f32a3e2a4fb4cae95b",
+      "size_bytes": 1750,
       "type": "software"
     },
     {
@@ -563,6 +569,12 @@
       "path": "tests/test_policy_fail_closed.py",
       "sha256": "95af18f2864f2313c37e8114567134a53dba8ee92b765c844f2ca67c8e4d3df2",
       "size_bytes": 2911,
+      "type": "software"
+    },
+    {
+      "path": "tests/test_property_fuzz_kernel_authorization.py",
+      "sha256": "d32fa77f32e96303491c7162a302dcde6dc2eb9445890c6d988612ba8157177f",
+      "size_bytes": 6839,
       "type": "software"
     },
     {

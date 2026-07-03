@@ -277,6 +277,47 @@ Evidence:
 
 Signature: Commander-Agent / Native-gRPC / 2026-07-03
 
+## Entry 0012 - Property-Based Authorization Fuzz
+
+Scope: property-based fuzz harness for the kernel authorization surface,
+unittest-gated reduced run, release-evidence refresh, and full-gate
+integration.
+
+Decision: signed off for local property-fuzz scope.
+
+Findings:
+
+- Complete: `scripts/property_fuzz_kernel_authorization.py` generates 2000
+  random requests across 4 subjects, 6 operations, 5 resources, and asserts
+  four invariants per iteration:
+  parameter-independence, no-execute-on-deny, allow-iff-triple-match, and
+  per-iteration audit-completeness with end-of-run replay integrity.
+- Complete: `tests/test_property_fuzz_kernel_authorization.py` exercises the
+  same invariants in 500 iterations under the unittest gate.
+- Complete: `scripts/verify_all.py` runs both the hand-crafted and
+  property-based fuzzes.
+- Complete: release evidence (SBOM, provenance, provenance signature),
+  deterministic package, and Ed25519 package signature were regenerated and
+  pass `--check`.
+- Result: 2000 iterations, allowed=34, denied=1966, failed=0, audit
+  events=2000, replay valid.
+- Risk: the oracle encodes the same policy+capability algebra as the
+  reference kernel, so a future refactor that changes that algebra would
+  require updating both. This is acceptable; a divergent oracle would be
+  caught by the next stage's property tests.
+- Classification: not blocking; deeper coverage (stateful parameter
+  sequences, more subjects, larger resource namespaces) is high-assurance
+  follow-up.
+
+Evidence:
+
+- `python scripts/property_fuzz_kernel_authorization.py`: passed, 2000
+  iterations.
+- `python -m unittest discover -s tests`: 14 tests passed.
+- `python scripts/verify_all.py`: passed on 2026-07-03.
+
+Signature: Commander-Agent / Property-Fuzz / 2026-07-03
+
 ## Entry 0002 - Reference Kernel
 
 Scope: single-node vertical slice.

@@ -1,5 +1,5 @@
 {
-  "file_count": 99,
+  "file_count": 101,
   "files": [
     {
       "path": ".gitignore",
@@ -33,13 +33,13 @@
     },
     {
       "path": "commander/audit-log.md",
-      "sha256": "3ce8b78c9734abb5bd416e8c2f80ffc32001b9af8def228ea4304f8b90bf53b6",
-      "size_bytes": 12171
+      "sha256": "b8e38cfbd0f5f345089c1a9048670c8cfd824b3164d6d370bb5cbef7032d12b5",
+      "size_bytes": 13945
     },
     {
       "path": "commander/final-certification-report.md",
-      "sha256": "1d4c3f954b4e8b48a59565a73d58046f89c4587c45642e82ac44dfe88a99f4df",
-      "size_bytes": 5564
+      "sha256": "81ab7f06751b19ce84034766c9129b5b47f62848249db009816766eee7a092e9",
+      "size_bytes": 5773
     },
     {
       "path": "deploy/Dockerfile",
@@ -138,18 +138,18 @@
     },
     {
       "path": "release/provenance.json",
-      "sha256": "9ee9401613462cff34dd6e64dcbf042202fa863b215dac4b2293da9d2d6f57b8",
+      "sha256": "5199bf5fb033f1d722de44fdfafd3642fa928a3e30c2fec4ff4ef30bcdf0ca2a",
       "size_bytes": 383
     },
     {
       "path": "release/provenance.signature.json",
-      "sha256": "88ebf7f91c899f6d277d69be09d0eaf255e10ac212014a6338dd0daa4ca78178",
+      "sha256": "1b1fa6fb0ab97d4309c6182fe77a650e4fc901159e75dba90a8656953ffa100b",
       "size_bytes": 276
     },
     {
       "path": "release/sbom.json",
-      "sha256": "573a1738b4065d2a49f04e3afb0beed75e5265715e42d4d8f7fdb99e690e8657",
-      "size_bytes": 19868
+      "sha256": "87f729c5f8fb12fdf6e1d158c431e9057f90ffe1727ed4486992c8ca6cc8e778",
+      "size_bytes": 20305
     },
     {
       "path": "scripts/build_release_package.py",
@@ -175,6 +175,11 @@
       "path": "scripts/model_check_authorization.py",
       "sha256": "fdaf3ff124036b31e43bbf58dd65099b9c7bb5061a765c8611ac22bf53bfe182",
       "size_bytes": 1447
+    },
+    {
+      "path": "scripts/property_fuzz_kernel_authorization.py",
+      "sha256": "03761fd6aec7bb04fb56647186f15f2f6799f4833d50f92b42b2ec48cf27a64f",
+      "size_bytes": 9939
     },
     {
       "path": "scripts/run_chaos_checks.py",
@@ -223,8 +228,8 @@
     },
     {
       "path": "scripts/verify_all.py",
-      "sha256": "5fcb2f8da488908780c66b5a16480f53ea59c53a247144a2fc878ff664c33e91",
-      "size_bytes": 1679
+      "sha256": "1fcd56310d0a78eeef401f31982316e35868c50c9e2b51f32a3e2a4fb4cae95b",
+      "size_bytes": 1750
     },
     {
       "path": "sdk/README.md",
@@ -487,6 +492,11 @@
       "size_bytes": 2911
     },
     {
+      "path": "tests/test_property_fuzz_kernel_authorization.py",
+      "sha256": "d32fa77f32e96303491c7162a302dcde6dc2eb9445890c6d988612ba8157177f",
+      "size_bytes": 6839
+    },
+    {
       "path": "tests/test_vertical_slice.py",
       "sha256": "18ec5a603b02d9b3ace2bd9a860f32bacebf0831ac2affac8597b5aa4aa7af0e",
       "size_bytes": 2344
@@ -499,8 +509,8 @@
   ],
   "package": {
     "path": "release/constitutional-builder-0.1.0.zip",
-    "sha256": "da89b3e0a8424e05f2058e379cc31c5634b193f16ce61c9d9a1bb579b3b6ecfd",
-    "size_bytes": 91722
+    "sha256": "84ac131b48826bf3f1bb0f56559d785a2e25eff298ebc0e169ad40c71061c2d4",
+    "size_bytes": 98172
   },
   "package_name": "constitutional-builder-0.1.0.zip",
   "schema": "constitutional-builder-package-manifest-v1"

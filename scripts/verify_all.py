@@ -17,6 +17,7 @@ COMMANDS = [
     [sys.executable, "scripts/install_formal_tools.py"],
     [sys.executable, "scripts/validate_formal_models.py"],
     [sys.executable, "scripts/fuzz_kernel_authorization.py"],
+    [sys.executable, "scripts/property_fuzz_kernel_authorization.py"],
     [sys.executable, "scripts/run_conformance.py"],
     [sys.executable, "scripts/run_grpc_conformance.py"],
     [sys.executable, "scripts/run_cluster_conformance.py"],
