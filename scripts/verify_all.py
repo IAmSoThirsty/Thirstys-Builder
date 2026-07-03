@@ -26,7 +26,9 @@ COMMANDS = [
     [sys.executable, "scripts/build_release_package.py", "--check"],
     [sys.executable, "scripts/sign_release_package.py", "--check"],
     [sys.executable, "scripts/validate_deployment.py"],
+    [sys.executable, "scripts/verify_audit_chain.py"],
     [sys.executable, "benchmarks/benchmark_kernel.py", "--iterations", "1000"],
+    [sys.executable, "benchmarks/benchmark_suite.py", "--iterations", "1000"],
 ]
 
 

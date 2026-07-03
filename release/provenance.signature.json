@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256",
   "note": "Local integrity signature; replace with key-backed signing for external release.",
-  "provenance_sha256": "0bac4165333df79edf2f03228fe4c43e713bf9a6c637826bbda9eb21e90a47a4",
+  "provenance_sha256": "03c7d4a6484b703cf7831a2caca2826416911a362706fb15b28fd454b68aae9e",
   "schema": "constitutional-builder-local-signature-v1"
 }

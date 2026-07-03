@@ -25,6 +25,55 @@
         }
       },
       "expected_status": "allowed"
+    },
+    {
+      "name": "policy boundary: unknown operation denied",
+      "inline_request": {
+        "request_id": "example-boundary-unknown-op",
+        "subject_id": "operator",
+        "operation": "delete",
+        "resource": "evidence",
+        "parameters": {}
+      },
+      "expected_status": "denied",
+      "expected_reason": "no matching policy"
+    },
+    {
+      "name": "policy boundary: disabled subject denied",
+      "inline_request": {
+        "request_id": "example-boundary-disabled-subject",
+        "subject_id": "ghost",
+        "operation": "echo",
+        "resource": "demo",
+        "parameters": {}
+      },
+      "expected_status": "denied",
+      "expected_reason": "identity not found or inactive"
+    },
+    {
+      "name": "capability attenuation: policy allows but no grant",
+      "inline_request": {
+        "request_id": "example-cap-attenuation",
+        "subject_id": "operator",
+        "operation": "echo",
+        "resource": "demo",
+        "parameters": {}
+      },
+      "expected_status": "allowed"
+    },
+    {
+      "name": "audit-chained replay integrity after conformance run",
+      "inline_request": {
+        "request_id": "example-replay-anchor",
+        "subject_id": "operator",
+        "operation": "record_evidence",
+        "resource": "evidence",
+        "parameters": {
+          "evidence_id": "EV-REPLAY-001",
+          "summary": "replay anchor for chained verification"
+        }
+      },
+      "expected_status": "allowed"
     }
   ]
 }

@@ -12,7 +12,7 @@ RELEASE_DIR = ROOT / "release"
 PACKAGE_NAME = "constitutional-builder-0.1.0.zip"
 MANIFEST_NAME = "package-manifest.json"
 FIXED_ZIP_DATE = (1980, 1, 1, 0, 0, 0)
-EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".tool-cache"}
+EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".tool-cache", "states"}
 EXCLUDED_PREFIXES = {
     "deploy/runtime",
     f"release/{PACKAGE_NAME}",

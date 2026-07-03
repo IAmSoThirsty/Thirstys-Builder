@@ -318,6 +318,113 @@ Evidence:
 
 Signature: Commander-Agent / Property-Fuzz / 2026-07-03
 
+## Entry 0013 - Formal Model Deepening
+
+Scope: TLC-checkable bounded model of the authorization gate, expanded
+formal-validator that runs SANY + TLC + Alloy end-to-end, and release
+evidence refresh.
+
+Decision: signed off for local formal-validation scope.
+
+Findings:
+
+- Complete: `formal/authorization_invariant.tla` now defines a `TypeOK`
+  type invariant, an `Init`, three transitions (`Execute`, `Deny`,
+  `NewRequest`), a `NoUnauthorizedExecution` safety invariant, and a
+  documented `AuthoritativeExecution` liveness property.
+- Complete: `formal/authorization_invariant.cfg` runs TLC with the
+  INVARIANTs and deadlock checking enabled. TLC explores 17 distinct
+  states over 305 generated and confirms both invariants hold with no
+  error and no deadlock.
+- Complete: `scripts/validate_formal_models.py` now invokes the JAR-based
+  TLC when `tlc` is not on PATH, prints the SANY + TLC + Alloy summary
+  lines, and fails closed on any error.
+- Risk: the bounded state space is 16 input combinations. A larger
+  state space (stateful sessions, multiple resources per request) is
+  high-assurance follow-up.
+- Classification: not blocking; deeper exhaustive model exploration is
+  high-assurance follow-up.
+
+Evidence:
+
+- `python scripts/validate_formal_models.py`: passed, SANY + TLC +
+  Alloy all green.
+- `python -m unittest discover -s tests`: 16 tests passed.
+- `python scripts/verify_all.py`: passed on 2026-07-03.
+
+Signature: Commander-Agent / Formal-Deepening / 2026-07-03
+
+## Entry 0014 - Benchmark Coverage Expansion
+
+Scope: scheduler/audit/memory/cluster/federation/policy-evaluation
+benchmarks per Volume XI, plus a benchmark-suite smoke test under the
+unittest gate.
+
+Decision: signed off for local benchmark-coverage scope.
+
+Findings:
+
+- Complete: `benchmarks/benchmark_suite.py` adds 7 named benchmarks
+  covering audit (in-memory + file), policy evaluation, capability
+  check, cluster submission, federation verification, and policy-bundle
+  load+validate. All 7 pass at 1000 iterations each.
+- Complete: `tests/test_benchmark_suite.py` runs the suite at 50
+  iterations under the unittest gate to keep CI fast.
+- Complete: `scripts/verify_all.py` runs the kernel benchmark AND the
+  benchmark suite at 1000 iterations each.
+- Risk: the cluster benchmark is in-process and does not exercise
+  network-level cluster latency; that is high-assurance follow-up.
+- Classification: not blocking; cross-host benchmarks require
+  environment-specific setup that is out of scope for the local
+  reference.
+
+Evidence:
+
+- `python benchmarks/benchmark_suite.py --iterations 1000`: passed, 7
+  benchmarks, all summary lines emitted.
+- `python -m unittest discover -s tests`: 16 tests passed.
+- `python scripts/verify_all.py`: passed on 2026-07-03.
+
+Signature: Commander-Agent / Benchmark-Coverage / 2026-07-03
+
+## Entry 0015 - Conformance Suite and Audit-Chain Verification
+
+Scope: conformance suite expansion (3 -> 7 scenarios) and an end-to-end
+audit-chain verifier covering in-memory, file, tamper, and federation
+surfaces.
+
+Decision: signed off for local conformance + audit-chain scope.
+
+Findings:
+
+- Complete: `examples/conformance-suite.json` now defines 7 scenarios:
+  operator echo allowed, auditor denied, evidence recording allowed,
+  policy boundary (unknown operation), policy boundary (disabled
+  subject), capability attenuation positive case, and audit-chained
+  replay anchor.
+- Complete: `scripts/verify_audit_chain.py` runs 6 checks: in-memory
+  chain integrity, file audit chain roundtrip, in-memory tamper
+  detection, on-disk tamper detection, federation hash determinism, and
+  federation hash changes on tamper. All 6 pass.
+- Complete: `tests/test_audit_chain_verification.py` invokes the script
+  under the unittest gate.
+- Complete: `scripts/verify_all.py` runs the audit-chain script as part
+  of the canonical gate.
+- Risk: the file-audit tamper check mutates a JSONL file in place;
+  production tamper detection should use append-only filesystems and
+  hardware attestation, which is high-assurance follow-up.
+- Classification: not blocking; production tamper detection is
+  high-assurance follow-up.
+
+Evidence:
+
+- `python scripts/run_conformance.py`: passed, 7 scenarios.
+- `python scripts/verify_audit_chain.py`: passed, 6 checks.
+- `python -m unittest discover -s tests`: 16 tests passed.
+- `python scripts/verify_all.py`: passed on 2026-07-03.
+
+Signature: Commander-Agent / Conformance-AuditChain / 2026-07-03
+
 ## Entry 0002 - Reference Kernel
 
 Scope: single-node vertical slice.

@@ -46,22 +46,29 @@ Infrastructure certification.
 ## Validation Results
 
 - `python scripts/verify_all.py`: passed.
-- `python -m unittest discover -s tests`: passed, 14 tests.
+- `python -m unittest discover -s tests`: passed, 16 tests.
 - `python scripts/validate_repository.py`: passed.
 - `python scripts/validate_api_contracts.py`: passed.
 - `python scripts/install_formal_tools.py --write-hashes`: passed, formal tool
   JARs downloaded and hash-locked.
-- `python scripts/validate_formal_models.py`: passed TLA+ SANY parser and Alloy
-  commands inspection.
+- `python scripts/validate_formal_models.py`: passed TLA+ SANY parser, TLC
+  bounded model check (17 distinct states, 0 errors), and Alloy commands
+  inspection.
 - `python scripts/property_fuzz_kernel_authorization.py`: passed, 2000
   property-based iterations with parameter-independence, no-execute-on-deny,
   allow-iff-triple-match, and audit-completeness invariants.
+- `python scripts/verify_audit_chain.py`: passed, 6 audit-chain checks
+  (in-memory integrity, file roundtrip, in-memory tamper, on-disk tamper,
+  federation hash determinism, federation hash changes on tamper).
 - `python benchmarks/benchmark_kernel.py --iterations 1000`: passed, 1000
   governed requests, replay verified.
+- `python benchmarks/benchmark_suite.py --iterations 1000`: passed, 7
+  benchmarks (audit, audit-file, policy, capability, cluster, federation,
+  policy-bundle).
 - `python scripts/model_check_authorization.py`: passed, 16 bounded states.
 - `python scripts/fuzz_kernel_authorization.py`: passed, 250 deterministic
   authorization cases.
-- `python scripts/run_conformance.py`: passed, 3 scenarios.
+- `python scripts/run_conformance.py`: passed, 7 scenarios.
 - `python scripts/run_grpc_conformance.py`: passed, native gRPC health,
   execute, replay, and audit.
 - `python scripts/run_cluster_conformance.py`: passed, quorum and federation
