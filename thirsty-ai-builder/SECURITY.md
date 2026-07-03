@@ -11,7 +11,7 @@ The ThirstyAi Builder tracks `main`. Security fixes are backported to the most r
 
 ## Reporting a vulnerability
 
-**Email:** karrick1995@gmail.com
+**Email:** founderoftp@thirstysprojects.com
 **Subject prefix:** `[security]`
 
 Please include:

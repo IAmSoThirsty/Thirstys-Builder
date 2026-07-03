@@ -1,7 +1,7 @@
 # ThirstyAi Builder — Owner Hand-Off
 
-**For:** Jeremy Karrick · karrick1995@gmail.com
-**Entity:** Thirsty's Projects LLC · #14694374-0160 · Salt Lake City, UT
+**For:** Jeremy Karrick · founderoftp@thirstysprojects.com
+**Entity:** Thirsty's Projects LLC · #14694374-0160
 
 This is the single sheet you need. Everything else in the repo is reference.
 
@@ -18,7 +18,7 @@ You are the sole and exclusive owner of everything in this repository. It is reg
 | `README.md` | Copyright line on the last page |
 | `GET /api/ownership` | Ownership JSON block returned by every deployment |
 | `/about` page | Public ownership panel in the UI |
-| Footer, every page | © line with entity # + Salt Lake City address |
+| Footer, every page | © line with entity # |
 | Every signed PDF | Letterhead + entity # + SHA-256 attestation + your signature block |
 
 If anyone ever forks or copies this, the ownership block goes with it. That is intentional.
@@ -129,9 +129,8 @@ pipeline works without an embedding service.
 
 ## 9. Contact & support
 
-- **Product email**: karrick1995@gmail.com
+- **Product email**: founderoftp@thirstysprojects.com
 - **Company**: Thirsty's Projects LLC
-- **Principal office**: 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203
 - **Registered agent**: Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205
 
 ## 10. Rust auditor build note

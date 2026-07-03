@@ -3,9 +3,8 @@
 **Owner:** Jeremy Karrick
 **Entity:** Thirsty's Projects LLC
 **Entity Number:** 14694374-0160
-**Principal Office:** 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203
 **Registered Agent:** Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205
-**Contact:** karrick1995@gmail.com
+**Contact:** founderoftp@thirstysprojects.com
 
 ## Registered Assets
 
@@ -37,4 +36,4 @@ explicitly forbids redistribution without written permission.
 
 Send all disputes, takedown requests, and legal correspondence to the
 registered agent at the address above, with a copy to
-`karrick1995@gmail.com`.
+`founderoftp@thirstysprojects.com`.

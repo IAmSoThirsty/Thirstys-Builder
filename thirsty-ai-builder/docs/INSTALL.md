@@ -360,7 +360,6 @@ Open http://localhost:3000 (or the production URL) in a browser. The
 **footer on every page** should show:
 
 > © 2026 Jeremy Karrick / Thirsty's Projects LLC. Entity #14694374-0160. All rights reserved.
-> 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203.
 
 If the footer is missing, the build is wrong. If the entity number
 doesn't match, somebody edited `OWNERSHIP.md` — put it back.

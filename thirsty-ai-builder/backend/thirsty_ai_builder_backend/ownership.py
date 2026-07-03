@@ -7,10 +7,10 @@ anyone forks or copies this code, the ownership block travels with it.
 from __future__ import annotations
 
 OWNER_NAME = "Jeremy Karrick"
-OWNER_EMAIL = "karrick1995@gmail.com"
+OWNER_EMAIL = "founderoftp@thirstysprojects.com"
 ENTITY_NAME = "Thirsty's Projects LLC"
 ENTITY_NUMBER = "14694374-0160"
-PRINCIPAL_OFFICE = "1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203"
+PRINCIPAL_OFFICE = ""
 REGISTERED_AGENT = "Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205"
 COPYRIGHT_LINE = (
     f"\u00a9 2026 {OWNER_NAME} / {ENTITY_NAME}. "

@@ -7,7 +7,7 @@ This repository contains two products with separate security policies:
 
 ## Reporting a vulnerability
 
-**Email:** karrick1995@gmail.com
+**Email:** founderoftp@thirstysprojects.com
 **Subject prefix:** `[security]`
 
 Both products share the same disclosure channel. Mention which product the report is about in the subject line (e.g. `[security][thirsty-ai]`).

@@ -1,11 +1,11 @@
 """PDF letterhead generator for signed audit reports.
 
 Produces a single-page PDF with the Thirsty's Projects LLC letterhead,
-the entity number, the Salt Lake City address, and an SHA-256
-attestation of the audit body. Renders with reportlab when available;
-falls back to a minimal hand-rolled PDF when reportlab is not installed
-(keeps the dev environment dep-light and matches the CBEP plan's
-"dependency light" discipline).
+the entity number, and an SHA-256 attestation of the audit body.
+Renders with reportlab when available; falls back to a minimal
+hand-rolled PDF when reportlab is not installed (keeps the dev
+environment dep-light and matches the CBEP plan's "dependency light"
+discipline).
 """
 from __future__ import annotations
 

@@ -97,4 +97,4 @@ curl https://<your-frontend-domain>/api/health
 ```
 
 Visit the URL in your browser. The footer should display the entity
-number and the Salt Lake City address on every page.
+number on every page.
