@@ -38,7 +38,10 @@ class OwnershipBlock(unittest.TestCase):
             self.assertIn(key, block, f"missing {key}")
         self.assertEqual(block["entity_number"], "14694374-0160")
         self.assertIn("Thirsty's Projects LLC", block["entity_name"])
-        self.assertIn("Salt Lake City", block["principal_office"])
+        # principal_office key is preserved for API-contract stability,
+        # but the home address is intentionally not exposed in the
+        # ownership block. See ownership.py PRINCIPAL_OFFICE.
+        self.assertEqual(block["principal_office"], "")
 
     def test_copyright_line(self):
         line = ownership.COPYRIGHT_LINE
@@ -220,7 +223,10 @@ class FastAPISurface(unittest.TestCase):
         self.assertEqual(r.status_code, 200)
         body = r.json()
         self.assertEqual(body["entity_number"], "14694374-0160")
-        self.assertIn("Salt Lake City", body["principal_office"])
+        # principal_office key is preserved for API-contract stability,
+        # but the home address is intentionally not exposed in the
+        # /api/about response. See ownership.py PRINCIPAL_OFFICE.
+        self.assertEqual(body["principal_office"], "")
 
     def test_ownership_block(self):
         r = self.client.get("/api/ownership")

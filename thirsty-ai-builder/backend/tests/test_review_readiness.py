@@ -454,7 +454,7 @@ class ThreatModelAndSecurity(unittest.TestCase):
 
     def test_security_md_has_disclosure_email(self):
         text = (THIRSTY_AI / "SECURITY.md").read_text(encoding="utf-8")
-        self.assertIn("karrick1995@gmail.com", text)
+        self.assertIn("founderoftp@thirstysprojects.com", text)
         self.assertIn("90-day", text)
 
 

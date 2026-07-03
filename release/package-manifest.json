@@ -1,5 +1,5 @@
 {
-  "file_count": 182,
+  "file_count": 186,
   "files": [
     {
       "path": ".github/instructions/codacy.instructions.md",
@@ -23,13 +23,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "9ef0ec26ba55f47feca90a6067fe72726123f48d3bc62a884ce98a0e70195e7e",
-      "size_bytes": 2777
+      "sha256": "fb9be39c6e57a92832ef63cb500e4a99c56cc422b77bbcc47853fd9b0254ed31",
+      "size_bytes": 24127
     },
     {
       "path": "SECURITY.md",
-      "sha256": "f26e3981ee8e179fd72d4d73c2100b7195c90458840a36fc5f6d7fa560cda591",
-      "size_bytes": 1110
+      "sha256": "8116776719ea169b4d46998716d2fc5e613aa6d32b5f6adb5c877f78662eece1",
+      "size_bytes": 1121
     },
     {
       "path": "benchmarks/benchmark_kernel.py",
@@ -163,18 +163,18 @@
     },
     {
       "path": "release/provenance.json",
-      "sha256": "2c39e911f1c18f5ef8181ac93782690439ea728c8688c3fdbb86c427e1ca297e",
+      "sha256": "3eaa11694b1b9b7941b83070d86b76180d48d1167c4ebe3d2ba3598c3fef6893",
       "size_bytes": 384
     },
     {
       "path": "release/provenance.signature.json",
-      "sha256": "dcf3bc8374b2880dd23a15fc69b5ba1ba8253247e28fc70e588ce7059f23488b",
+      "sha256": "1635ee2cd90ef9fd92666aa5e74ef503ec01fe5f97ceb040a7ece0a43f95c14e",
       "size_bytes": 276
     },
     {
       "path": "release/sbom.json",
-      "sha256": "41b56b3cb79e14d3c910d6e62b56dd3b05e6839c53cf77b97d62993982c79359",
-      "size_bytes": 37902
+      "sha256": "9f70b554e721c2f14925edbdb9511c60de49b427863534e44c304b6b4b9331fc",
+      "size_bytes": 38722
     },
     {
       "path": "scripts/build_release_package.py",
@@ -577,9 +577,14 @@
       "size_bytes": 2344
     },
     {
+      "path": "thirsty-ai-builder/CHANGELOG.md",
+      "sha256": "86eb6ec819c4a49f671809fb5313bf54347942a4b88f58e5a0109e6a81344441",
+      "size_bytes": 3909
+    },
+    {
       "path": "thirsty-ai-builder/DEPLOY.md",
-      "sha256": "f5635f6b1fc6a56992389c128c6f5237a23b9432a088ce268ac5d5df86b5d8bf",
-      "size_bytes": 3468
+      "sha256": "6d4b094fbb1d030cf73bc5ea58089aede30ba8ad3d46b297a55acfbb5f499a43",
+      "size_bytes": 3437
     },
     {
       "path": "thirsty-ai-builder/HOSTED_OLLAMA.md",
@@ -587,29 +592,34 @@
       "size_bytes": 10403
     },
     {
+      "path": "thirsty-ai-builder/INSTALL.md",
+      "sha256": "577efce769d038e9a95024e6176181aafd9dc372094bba40072ad0b634002b67",
+      "size_bytes": 753
+    },
+    {
       "path": "thirsty-ai-builder/LICENSE",
-      "sha256": "6df7cf171ed764e5de3482bb6d0e560e4d880fe2d9290db08ceca9d446f3d57a",
-      "size_bytes": 1877
+      "sha256": "da0776879a098fad545c7ae0688eb980135e49e8f7b3f1b12f1dcb7f59d878a2",
+      "size_bytes": 1814
     },
     {
       "path": "thirsty-ai-builder/OWNERSHIP.md",
-      "sha256": "0ed6b1fc6ce839f2144747f054a28f391c4d2d14e84f14d94034386f1e159e58",
-      "size_bytes": 1896
+      "sha256": "cc42feb86657153f0b08de16767cbf5988c72c7c729b3f129a0b53945acb82d6",
+      "size_bytes": 1829
     },
     {
       "path": "thirsty-ai-builder/OWNER_HANDOFF.md",
-      "sha256": "737bba968752213f16a77a13e5fdd70225eb560adcd02f3545d96f67cb73b7a6",
-      "size_bytes": 5533
+      "sha256": "1a67813d724a4dc5f1b726c833810f0514adf1bc0f1c895894db15ed4192658c",
+      "size_bytes": 5417
     },
     {
       "path": "thirsty-ai-builder/README.md",
-      "sha256": "7459692da7064ddbbe1ce7feb431eb80aa5327fbbe9eb666c6c4b4fb337da50f",
-      "size_bytes": 4734
+      "sha256": "6b466a0098e61b940027b6aaeaeeddb02bbee61eb5cbaee55ba62d2fc16a6686",
+      "size_bytes": 16008
     },
     {
       "path": "thirsty-ai-builder/SECURITY.md",
-      "sha256": "b4c65a10b51a368654b7afc41454ce7e89f05a4b4a687943239bf7166e9fac20",
-      "size_bytes": 4508
+      "sha256": "3e3af2f6a9231c479fa05e83a4d773e75157736b258e60d52c61c97d7239e784",
+      "size_bytes": 4519
     },
     {
       "path": "thirsty-ai-builder/THREAT_MODEL.md",
@@ -648,8 +658,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/tests/test_backend.py",
-      "sha256": "cc945e9c029c4d4c2759b61e157bc806be05f8968c6454a1f3a7c650494b0b67",
-      "size_bytes": 15172
+      "sha256": "722687027ec69d7578e22511f14735e40d4f92b3cb68a264edf447e60f2cd5d7",
+      "size_bytes": 15556
     },
     {
       "path": "thirsty-ai-builder/backend/tests/test_db.py",
@@ -668,8 +678,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/tests/test_review_readiness.py",
-      "sha256": "cbdd8027a640ff26d1ff56724b6818d14be991fb634089ed1ec768b4d32f3ec4",
-      "size_bytes": 20002
+      "sha256": "2e2d2534c4aeb447304f77f808b24ab7a417372b99077df019f43ffdd97d4722",
+      "size_bytes": 20013
     },
     {
       "path": "thirsty-ai-builder/backend/tests/test_tls_config.py",
@@ -703,8 +713,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/letterhead.py",
-      "sha256": "f9906fa12035654d4f5e49c192a80d93a28ebe29a9f2f348e93f0861d20217d7",
-      "size_bytes": 4219
+      "sha256": "c954b15932a1b12dc00e1b74779eae9e08b687d8a21144d3bb7ed29e82bc7c9c",
+      "size_bytes": 4191
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/llm.py",
@@ -713,8 +723,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/ownership.py",
-      "sha256": "6e5003a8c5bb5245d616ad0896007f075781cba38cd98306772d5188b76df077",
-      "size_bytes": 1367
+      "sha256": "b33d0374bc525ce1a546899a66a782e84241ab3ed4398cd20c444a895e3f7cc7",
+      "size_bytes": 1312
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/preflight.py",
@@ -748,13 +758,23 @@
     },
     {
       "path": "thirsty-ai-builder/design_guidelines.json",
-      "sha256": "50ebf828d7f534c5b4b07de3ffc6e5cc234d086febd78093aba70299f1fc797b",
-      "size_bytes": 2228
+      "sha256": "54f86a451a1fee1f3c4cb306f7d3e02c6f3482c7ef15e27d767e55f0b76c5bd6",
+      "size_bytes": 2162
     },
     {
       "path": "thirsty-ai-builder/docker-compose.yml",
       "sha256": "8154e49bbec4a97fcf28f31a6bd3f4d9255e8fec14f128c848773e4375c80182",
       "size_bytes": 3884
+    },
+    {
+      "path": "thirsty-ai-builder/docs/DIAGRAMS.md",
+      "sha256": "9d3ebafc2cc9b353d12f67444bc2643aa0ba9c2cb7682615a411e70d234cdc6c",
+      "size_bytes": 29872
+    },
+    {
+      "path": "thirsty-ai-builder/docs/INSTALL.md",
+      "sha256": "e3a2ac836e418ba4c9ad6dffd669a602ee80cf35143e6ef661955a1a9fa7daac",
+      "size_bytes": 12867
     },
     {
       "path": "thirsty-ai-builder/frontend/.env.example",
@@ -803,8 +823,8 @@
     },
     {
       "path": "thirsty-ai-builder/frontend/src/components/Footer.jsx",
-      "sha256": "929038608dba3de5938d4d6b06d2cfb2f4121531f4242add2145fc2f6bdef292",
-      "size_bytes": 610
+      "sha256": "227b9b674f46661bd56ca7cfccc0b84a37a40b7be98fb17ddf7b04ba9b5fc653",
+      "size_bytes": 487
     },
     {
       "path": "thirsty-ai-builder/frontend/src/components/ThirstyLogo.jsx",
@@ -914,8 +934,8 @@
   ],
   "package": {
     "path": "release/constitutional-builder-0.1.0.zip",
-    "sha256": "a8dbb7986134a2c845b2f00f78c35e632cf25f1cf5fe5a82a858a896c94f9a03",
-    "size_bytes": 382028
+    "sha256": "6c2123c79f88fbb6cbed090e3d16afaabf38532dbfd3d29c8a06fd315870e841",
+    "size_bytes": 404867
   },
   "package_name": "constitutional-builder-0.1.0.zip",
   "schema": "constitutional-builder-package-manifest-v1"
