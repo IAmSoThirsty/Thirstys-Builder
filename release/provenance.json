@@ -4,6 +4,6 @@
   "sbom_component_count": 275,
   "schema": "constitutional-builder-provenance-v1",
   "source_root": "C:\\Users\\Quencher\\Documents\\Thirsty's Builder",
-  "tree_sha256": "840f1dad9d3aa530258d80d8157a7598c007117ed06a9311e4e7088ee69bfa94",
+  "tree_sha256": "cdae0e2364fa7608b0ba5dbe69ab8326194ac7204b14d64acaaee364fc8deb15",
   "verification_command": "python scripts/verify_all.py"
 }

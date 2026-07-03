@@ -14,7 +14,8 @@ from unittest import mock  # noqa: F401  -- used inside individual tests via moc
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BACKEND_ROOT))
 
-# Force stub provider and in-memory DB.
+# Force the in-memory DB. Ollama is allowed to be live (it is, on this
+# box) or not (CI machines); the tests adapt to both.
 os.environ.pop("EMERGENT_LLM_KEY", None)
 os.environ.pop("ANTHROPIC_API_KEY", None)
 
@@ -43,28 +44,88 @@ class OwnershipBlock(unittest.TestCase):
 
 
 class LLMDispatch(unittest.TestCase):
-    def test_stub_when_no_keys(self):
-        os.environ.pop("EMERGENT_LLM_KEY", None)
-        os.environ.pop("ANTHROPIC_API_KEY", None)
-        self.assertEqual(llm.configured_provider(), "stub")
-        result = llm.chat([{"role": "user", "content": "hello"}])
-        self.assertTrue(result["stub"])
-        self.assertIn("hello", result["content"])
+    def test_unavailable_when_ollama_down(self):
+        with mock.patch.dict(os.environ, {"OLLAMA_HOST": "http://127.0.0.1:1"}, clear=True):
+            with mock.patch.object(llm, "list_models", return_value=[]):
+                self.assertEqual(llm.configured_provider(), "unavailable")
+                with self.assertRaises(llm.LLMUnavailable):
+                    llm.chat([{"role": "user", "content": "hi"}])
 
-    def test_emergent_dispatch(self):
-        with mock.patch.dict(os.environ, {"EMERGENT_LLM_KEY": "sk-emergent-test-12345678"}):
-            self.assertEqual(llm.configured_provider(), "emergent")
-            result = llm.chat([{"role": "user", "content": "hi"}])
-            self.assertTrue(result["stub"])  # we still mark stub in the dev path
-            # api_key_prefix is the first 8 chars + "..."; "sk-emerg" + "..."
-            self.assertIn("sk-emerg", result.get("api_key_prefix", ""))
+    def test_ollama_dispatch(self):
+        # Stub the Ollama HTTP layer so the test does not require a
+        # running server.
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with mock.patch.object(llm, "list_models", return_value=["qwen2.5-coder:7b"]):
+                with mock.patch.object(
+                    llm,
+                    "_ollama_chat",
+                    return_value={
+                        "model": "qwen2.5-coder:7b",
+                        "content": "hello from ollama",
+                        "provider": "ollama",
+                        "done": True,
+                    },
+                ) as chat_mock:
+                    result = llm.chat([{"role": "user", "content": "hi"}])
+                    self.assertEqual(result["content"], "hello from ollama")
+                    self.assertEqual(result["provider"], "ollama")
+                    self.assertEqual(result["done"], True)
+                    chat_mock.assert_called_once()
 
-    def test_anthropic_dispatch(self):
-        env = {"ANTHROPIC_API_KEY": "sk-ant-test-12345678"}
-        with mock.patch.dict(os.environ, env, clear=True):
-            self.assertEqual(llm.configured_provider(), "anthropic")
-            result = llm.chat([{"role": "user", "content": "hi"}])
-            self.assertIn("sk-ant-t", result.get("api_key_prefix", ""))
+    def test_ollama_chat_unreachable_raises(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with mock.patch.object(llm, "list_models", return_value=["qwen2.5-coder:7b"]):
+                with mock.patch.object(
+                    llm,
+                    "_ollama_chat",
+                    side_effect=llm.LLMUnavailable("connection refused"),
+                ):
+                    with self.assertRaises(llm.LLMUnavailable):
+                        llm.chat([{"role": "user", "content": "hi"}])
+
+    def test_ollama_normalize_model_picks_first_available(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with mock.patch.object(llm, "list_models", return_value=["qwen2.5-coder:7b"]):
+                # Asking for a different model should still resolve to the
+                # available one.
+                normalized = llm._normalize_model("claude-sonnet-4-20250514", ["qwen2.5-coder:7b"])
+                self.assertEqual(normalized, "qwen2.5-coder:7b")
+
+    def test_ollama_normalize_exact_match(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with mock.patch.object(llm, "list_models", return_value=["qwen2.5-coder:7b", "personal-builder-coder:latest"]):
+                normalized = llm._normalize_model("personal-builder-coder:latest", ["qwen2.5-coder:7b", "personal-builder-coder:latest"])
+                self.assertEqual(normalized, "personal-builder-coder:latest")
+
+
+class OllamaLive(unittest.TestCase):
+    """Live smoke test against the local Ollama server.
+
+    Skipped automatically when Ollama is unreachable so the test suite
+    stays green on machines without a local Ollama install. Set
+    THIRSTY_AI_REQUIRE_OLLAMA=1 to fail the test instead of skipping.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        models = llm.list_models()
+        cls.available = bool(models)
+        if not cls.available and os.environ.get("THIRSTY_AI_REQUIRE_OLLAMA") != "1":
+            raise unittest.SkipTest("Ollama not reachable; set THIRSTY_AI_REQUIRE_OLLAMA=1 to require it")
+
+    def test_provider_is_ollama(self):
+        self.assertEqual(llm.configured_provider(), "ollama")
+
+    def test_chat_round_trip(self):
+        models = llm.list_models()
+        self.assertTrue(models)
+        chosen = models[0]
+        result = llm.chat(
+            [{"role": "user", "content": "Reply with the single word: ollama-ok"}],
+            model=chosen,
+        )
+        self.assertEqual(result.get("provider"), "ollama")
+        self.assertTrue(result["content"], "ollama returned empty content")
 
 
 class DBStub(unittest.TestCase):
@@ -136,7 +197,8 @@ class FastAPISurface(unittest.TestCase):
         self.assertEqual(r.status_code, 200)
         body = r.json()
         self.assertEqual(body["status"], "ok")
-        self.assertEqual(body["llm_provider"], "stub")
+        # provider is "ollama" if Ollama is up, "unavailable" if not.
+        self.assertIn(body["llm_provider"], ("ollama", "unavailable"))
 
     def test_home_returns_11_pages(self):
         r = self.client.get("/api/home")
@@ -173,23 +235,32 @@ class FastAPISurface(unittest.TestCase):
         r = self.client.post("/api/appstore/install", json={"tool_id": "nope"})
         self.assertEqual(r.status_code, 404)
 
-    def test_dove_chat_uses_stub(self):
+    def test_dove_chat(self):
         r = self.client.post("/api/dove/chat", json={"message": "hello"})
+        if r.status_code == 503:
+            self.skipTest("Ollama not reachable")
         self.assertEqual(r.status_code, 200)
         body = r.json()
-        self.assertEqual(body["provider"], "stub")
-        self.assertIn("hello", body["reply"])
+        self.assertEqual(body["provider"], "ollama")
+        self.assertTrue(body["reply"])
+        self.assertNotIn("stub", body)
 
-    def test_holli_chat_uses_stub(self):
+    def test_holli_chat(self):
         r = self.client.post("/api/holli/chat", json={"message": "audit please"})
+        if r.status_code == 503:
+            self.skipTest("Ollama not reachable")
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.json()["provider"], "stub")
+        body = r.json()
+        self.assertEqual(body["provider"], "ollama")
+        self.assertTrue(body["reply"])
 
     def test_marketing_copy(self):
         r = self.client.post(
             "/api/marketing/copy",
             json={"topic": "AI", "voice": "professional", "audience": "general"},
         )
+        if r.status_code == 503:
+            self.skipTest("Ollama not reachable")
         self.assertEqual(r.status_code, 200)
         self.assertIn("AI", r.json()["copy"])
 
@@ -199,10 +270,13 @@ class FastAPISurface(unittest.TestCase):
         )
         self.assertEqual(r.status_code, 200)
         r = self.client.post("/api/rag/query", json={"query": "constitutional", "k": 1})
+        if r.status_code == 503:
+            self.skipTest("Ollama not reachable")
         self.assertEqual(r.status_code, 200)
         body = r.json()
         self.assertGreaterEqual(len(body["matches"]), 1)
         self.assertGreater(body["matches"][0]["score"], 0.5)
+        self.assertEqual(body["provider"], "ollama")
 
     def test_business_client_crud(self):
         r = self.client.post(

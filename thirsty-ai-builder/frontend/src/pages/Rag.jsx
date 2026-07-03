@@ -49,7 +49,7 @@ export default function RAG() {
       {lastResult && (
         <div className="card space-y-3">
           <div className="muted text-xs">
-            {lastResult.matches.length} matches • provider: {lastResult.provider} {lastResult.stub ? "(stub)" : ""}
+            {lastResult.matches.length} matches • provider: {lastResult.provider}
           </div>
           <div className="text-sm whitespace-pre-wrap">{lastResult.answer}</div>
           {lastResult.matches.length > 0 && (

@@ -18,7 +18,7 @@ function ChatPane({ title, persona, send }) {
     try {
       const res = await send(userMsg.content, messages);
       setMessages((m) => [...m, { role: "assistant", content: res.reply }]);
-      setMeta({ model: res.model, provider: res.provider, stub: res.stub });
+      setMeta({ model: res.model, provider: res.provider });
     } finally {
       setBusy(false);
     }
@@ -54,7 +54,6 @@ function ChatPane({ title, persona, send }) {
       {meta && (
         <div className="muted text-xs">
           model: {meta.model} • provider: {meta.provider}
-          {meta.stub ? " (stub)" : ""}
         </div>
       )}
       <form onSubmit={submit} className="flex gap-2">
@@ -79,7 +78,7 @@ export default function Dove() {
       <p className="muted">Quiet conversational assistant.</p>
       <ChatPane
         title="Little Dove"
-        persona="Conversational. Routes to Emergent or Anthropic when configured; stub otherwise."
+        persona="Conversational. Routes to your local Ollama model."
         send={(msg, hist) => api.dove(msg, hist)}
       />
     </div>

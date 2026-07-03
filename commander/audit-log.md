@@ -488,6 +488,62 @@ Evidence:
 
 Signature: Commander-Agent / ThirstyAi-Builder / 2026-07-03
 
+## Entry 0017 - Ollama-Only LLM
+
+Scope: drop the Emergent Universal key and the direct Anthropic key
+paths. The ThirstyAi Builder now talks to a local Ollama server only.
+
+Changes:
+
+- `backend/thirsty_ai_builder_backend/llm.py`: rewritten to dispatch to
+  a local Ollama server. New functions: `list_models()`,
+  `configured_provider()` returns `"ollama"` or `"unavailable"`,
+  `chat(messages, model=None, timeout=120)` returns a dict with
+  `model`, `content`, `provider`, `done`, `done_reason`. Raises
+  `LLMUnavailable` on transport failure; `LLMError` on bad responses.
+  Stdlib-only (urllib + json). No new deps.
+- `backend/server.py`: every LLM call site now catches
+  `llm.LLMUnavailable` and returns 503 with the actionable error
+  message. Architecture page text updated. The Anthropic-specific
+  Holli call was dropped (Holli now defaults to the local Ollama
+  model). `ChatResponse` model no longer has a `stub` field.
+- `backend/tests/test_backend.py`: 32 tests now. Stub tests removed.
+  New tests: `test_unavailable_when_ollama_down`,
+  `test_ollama_dispatch`, `test_ollama_chat_unreachable_raises`,
+  `test_ollama_normalize_*`, plus `OllamaLive` class with two live
+  tests that hit the real local Ollama server. The `OllamaLive`
+  tests skip automatically if Ollama is unreachable, so CI on
+  machines without Ollama stays green.
+- `backend/.env.example`: dropped `EMERGENT_LLM_KEY` /
+  `ANTHROPIC_API_KEY`. Added `OLLAMA_HOST` (default
+  `http://127.0.0.1:11434`) and `OLLAMA_MODEL` (default
+  `qwen2.5-coder:7b`).
+- `docker-compose.yml`: `OLLAMA_HOST=http://host.docker.internal:11434`
+  with `extra_hosts: host.docker.internal:host-gateway` so the
+  backend container can reach the host's Ollama.
+- `README.md`, `OWNER_HANDOFF.md`, `DEPLOY.md`: rewrote operator docs
+  around "local Ollama, no keys". The VPS deploy path now installs
+  Ollama on the host. The Railway section notes that Ollama needs a
+  separate $5/mo VPS reachable over Tailscale / WireGuard.
+- Frontend pages (`Dove.jsx`, `Holli.jsx`, `Marketing.jsx`,
+  `Rag.jsx`): removed all `(stub)` labels and `stub` field
+  references. Dove persona text rewritten to "your local Ollama
+  model."
+
+Validation:
+
+- `python -m unittest discover -s thirsty-ai-builder/backend/tests
+  -p test_backend.py`: 32 tests, 168s wall clock (most of the time
+  is the live Ollama round-trip test), 0 failures.
+- `python scripts/verify_all.py`: passes end-to-end on 2026-07-03,
+  including the live Ollama dispatch in the ThirstyAi Builder suite.
+- The `OllamaLive` class verified that the local Ollama server at
+  `http://127.0.0.1:11434` is reachable, has at least one model
+  installed, and produces a non-empty response when called via
+  `llm.chat()`.
+
+Signature: Commander-Agent / Ollama-Only / 2026-07-03
+
 ## Entry 0002 - Reference Kernel
 
 Scope: single-node vertical slice.

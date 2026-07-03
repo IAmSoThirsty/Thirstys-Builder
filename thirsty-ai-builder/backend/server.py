@@ -79,7 +79,6 @@ class ChatResponse(BaseModel):
     reply: str
     model: str
     provider: str
-    stub: bool = False
 
 
 class ToolInstallRequest(BaseModel):
@@ -259,12 +258,14 @@ def run_audit(req: AuditRunRequest) -> dict[str, Any]:
 @app.post("/api/dove/chat")
 def dove_chat(req: ChatRequest) -> ChatResponse:
     messages = list(req.history) + [{"role": "user", "content": req.message}]
-    result = llm.chat(messages)
+    try:
+        result = llm.chat(messages)
+    except llm.LLMUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
     return ChatResponse(
         reply=result["content"],
         model=result["model"],
         provider=llm.configured_provider(),
-        stub=result.get("stub", False),
     )
 
 
@@ -272,12 +273,14 @@ def dove_chat(req: ChatRequest) -> ChatResponse:
 @app.post("/api/holli/chat")
 def holli_chat(req: ChatRequest) -> ChatResponse:
     messages = list(req.history) + [{"role": "user", "content": req.message}]
-    result = llm.chat(messages, model="claude-sonnet-4-20250514")
+    try:
+        result = llm.chat(messages)
+    except llm.LLMUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
     return ChatResponse(
         reply=result["content"],
         model=result["model"],
         provider=llm.configured_provider(),
-        stub=result.get("stub", False),
     )
 
 
@@ -288,7 +291,7 @@ def architecture() -> dict[str, Any]:
         "frontend": "React 18 + Tailwind + Framer Motion. 11 pages.",
         "backend": "FastAPI on Python 3.11. Single-file server, modular subpackages.",
         "persistence": "MongoDB (Motor async client). In-memory stub for dev.",
-        "llm": "Emergent Universal Key OR Anthropic key (env-driven).",
+        "llm": "Local Ollama server (OLLAMA_HOST). No external keys required.",
         "ci": "Rust CI auditor (cargo build) that gates PRs via the Commander.",
         "ownership": ownership.ownership_block(),
     }
@@ -370,14 +373,16 @@ def marketing_copy(req: MarketingRequest) -> dict[str, Any]:
         f"Voice: {req.voice}. Audience: {req.audience}. "
         "Three short variants, each <= 240 chars."
     )
-    result = llm.chat([{"role": "user", "content": prompt}])
+    try:
+        result = llm.chat([{"role": "user", "content": prompt}])
+    except llm.LLMUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
     return {
         "topic": req.topic,
         "voice": req.voice,
         "audience": req.audience,
         "copy": result["content"],
         "provider": llm.configured_provider(),
-        "stub": result.get("stub", False),
     }
 
 
@@ -430,14 +435,15 @@ def rag_query(req: RAGQueryRequest) -> dict[str, Any]:
             f"Question: {req.query}\n\n"
             "If the context does not contain the answer, say so."
         )
-        result = llm.chat([{"role": "user", "content": prompt}])
+        try:
+            result = llm.chat([{"role": "user", "content": prompt}])
+        except llm.LLMUnavailable as exc:
+            raise HTTPException(status_code=503, detail=str(exc))
         answer = result["content"]
         provider = llm.configured_provider()
-        stub = result.get("stub", False)
     else:
         answer = "No documents have been embedded yet. POST /api/rag/embed first."
         provider = "none"
-        stub = True
     return {
         "query": req.query,
         "matches": [
@@ -446,7 +452,6 @@ def rag_query(req: RAGQueryRequest) -> dict[str, Any]:
         ],
         "answer": answer,
         "provider": provider,
-        "stub": stub,
     }
 
 

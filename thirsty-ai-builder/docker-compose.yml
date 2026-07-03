@@ -18,10 +18,14 @@ services:
       MONGO_URL: mongodb://mongo:27017
       DB_NAME: thirsty_ai_builder
       CORS_ORIGINS: "*"
-      # Provide ONE of:
-      # EMERGENT_LLM_KEY: sk-emergent-...
-      # ANTHROPIC_API_KEY: sk-ant-...
+      # On macOS/Windows Docker Desktop, the host's Ollama server is
+      # reachable at host.docker.internal. On Linux, replace with the
+      # host's IP (e.g. 172.17.0.1) or run Ollama in its own service.
+      OLLAMA_HOST: http://host.docker.internal:11434
+      OLLAMA_MODEL: qwen2.5-coder:7b
       PORT: "8001"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8001:8001"
 

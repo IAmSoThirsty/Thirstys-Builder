@@ -43,7 +43,7 @@ export default function Marketing() {
       {result && (
         <div className="card space-y-2">
           <div className="muted text-xs">
-            provider: {result.provider} {result.stub ? "(stub)" : ""}
+            provider: {result.provider}
           </div>
           <div className="text-sm whitespace-pre-wrap">{result.copy}</div>
         </div>

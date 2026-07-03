@@ -38,13 +38,13 @@
     },
     {
       "path": "commander/audit-log.md",
-      "sha256": "3c11bf6969324c9e3bc956774d6d31897b761748cec05ad0c77f20478b55d5ef",
-      "size_bytes": 21748
+      "sha256": "a0ed7ee080321e57967667567dedca6e0f410db9a3ca7f8d938d277d15d3cd3c",
+      "size_bytes": 24521
     },
     {
       "path": "commander/final-certification-report.md",
-      "sha256": "b33c1670785bb2c5241d3b11da1d8d8ab0c5bd43eb9d5a3808a481b5d746b290",
-      "size_bytes": 6429
+      "sha256": "25783cc358f90eae2b0fc8c16c7850b124977b2c2a3c13859c2f087e47f2c1db",
+      "size_bytes": 6536
     },
     {
       "path": "deploy/Dockerfile",
@@ -148,17 +148,17 @@
     },
     {
       "path": "release/provenance.json",
-      "sha256": "52bff89a914a48120bab2ddf48c401cd6bd310b9d398e7a30f93aa213d16a01a",
+      "sha256": "7d6a58af9d91fbcd259431624a2543f267130f902cddd3f503d1741b4be4bd01",
       "size_bytes": 384
     },
     {
       "path": "release/provenance.signature.json",
-      "sha256": "c50bf66df45b455794cb158dd5b39611f92efda33898b59a0f2c88f28cab0b19",
+      "sha256": "3f09ea47d5798e2dc306e6725eee0c05c629182c87a068dba8710194da06df74",
       "size_bytes": 276
     },
     {
       "path": "release/sbom.json",
-      "sha256": "698eac2f821cbf73a97e2ad6d5e917fca858f63366fd9c8bb4d136f4800bcc0d",
+      "sha256": "706459b39c84d612744bbcd6395b6e22b6196ccf84339ac09b5f81c26ca993f3",
       "size_bytes": 66404
     },
     {
@@ -528,8 +528,8 @@
     },
     {
       "path": "thirsty-ai-builder/DEPLOY.md",
-      "sha256": "b488d2f90a3dc6f3669f336915cf1e2c3d05957c6f42d6ebf669b107322d0e95",
-      "size_bytes": 2359
+      "sha256": "3798e69b0a3a0ee6569aa18054577c0cbbb87c19e86a9817fe27281ec8e61e1d",
+      "size_bytes": 2879
     },
     {
       "path": "thirsty-ai-builder/LICENSE",
@@ -543,18 +543,18 @@
     },
     {
       "path": "thirsty-ai-builder/OWNER_HANDOFF.md",
-      "sha256": "84be2ec3bb8dcec38cf0cd701ae3f85dd777fe3e420fe7d739763a5fd242d4a7",
-      "size_bytes": 4679
+      "sha256": "737bba968752213f16a77a13e5fdd70225eb560adcd02f3545d96f67cb73b7a6",
+      "size_bytes": 5533
     },
     {
       "path": "thirsty-ai-builder/README.md",
-      "sha256": "db960312c58ed3bc92e363f8a330e92d0163d450dcc944d8c10e9f43f38dee01",
-      "size_bytes": 3193
+      "sha256": "7459692da7064ddbbe1ce7feb431eb80aa5327fbbe9eb666c6c4b4fb337da50f",
+      "size_bytes": 4734
     },
     {
       "path": "thirsty-ai-builder/backend/.env.example",
-      "sha256": "1854d40f5d8317f1f21fa4b62dac2105249d1b5ca645f153ca5e2291cea5320f",
-      "size_bytes": 164
+      "sha256": "b7cb677ec35d5b0206808c85cb74ebdb53e0a13e49dc14a6993dfa81fc2a7a6d",
+      "size_bytes": 149
     },
     {
       "path": "thirsty-ai-builder/backend/Dockerfile",
@@ -568,8 +568,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/server.py",
-      "sha256": "9748e4ec2bf62155f56c0ec271bb3eac6525c951d0ebaa86d65fa1df552618a7",
-      "size_bytes": 14638
+      "sha256": "0263e1ed28fbf7099970d7bbc025dc6e5b40dcbc630f5789578f30281d563d71",
+      "size_bytes": 14847
     },
     {
       "path": "thirsty-ai-builder/backend/tests/__init__.py",
@@ -578,8 +578,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/tests/test_backend.py",
-      "sha256": "36c6652ea807e319151f1b75a1617b08464e7993e7d1f86e731d09e83f170daa",
-      "size_bytes": 11245
+      "sha256": "a0932559d6b503481dbbe7d4fade80be2e75abe12b16a7c55583937e5f0db963",
+      "size_bytes": 14662
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/__init__.py",
@@ -603,8 +603,8 @@
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/llm.py",
-      "sha256": "6885a0512d843a701a54824bb22257b9203ca093407b202b4096cfc5f61b165c",
-      "size_bytes": 2700
+      "sha256": "0989637457a798fcdfc20259d51057807917bff62b8c7233d6e0a77af043af27",
+      "size_bytes": 4659
     },
     {
       "path": "thirsty-ai-builder/backend/thirsty_ai_builder_backend/ownership.py",
@@ -618,8 +618,8 @@
     },
     {
       "path": "thirsty-ai-builder/docker-compose.yml",
-      "sha256": "0253c492f243ce1ba5f18c198d2479567cea32220b8163cd2424130d4fec3722",
-      "size_bytes": 733
+      "sha256": "af77cb08bef3ba0e3ac82c7aca53a995fd79c48dec653e565ef7be1788cd5ee5",
+      "size_bytes": 989
     },
     {
       "path": "thirsty-ai-builder/frontend/.env.example",
@@ -698,13 +698,13 @@
     },
     {
       "path": "thirsty-ai-builder/frontend/src/pages/Dove.jsx",
-      "sha256": "0c5f77106f5e0582dc64ac1912b0c8081f973bba7d911c15f6d260482b23a98b",
-      "size_bytes": 2666
+      "sha256": "cf3f977834cecd57d00324e5a987ffe7a7e01b414e0d80c6ccc2d57a84e09d1a",
+      "size_bytes": 2581
     },
     {
       "path": "thirsty-ai-builder/frontend/src/pages/Holli.jsx",
-      "sha256": "7ffe8e6c72374146a30e8ddd531bbdcb733ab520360c0477531238d95d62781e",
-      "size_bytes": 2660
+      "sha256": "891ed731b052506e2a43e85bcd82c047060f5805d5243f082cfbc8603d3e2553",
+      "size_bytes": 2605
     },
     {
       "path": "thirsty-ai-builder/frontend/src/pages/Home.jsx",
@@ -713,13 +713,13 @@
     },
     {
       "path": "thirsty-ai-builder/frontend/src/pages/Marketing.jsx",
-      "sha256": "28ae04cd8e3b15e877ef1bde7f29f760c9273e496864ac4fb9fa07c607f21af0",
-      "size_bytes": 1930
+      "sha256": "215c842732b651cdb902ad5326d9feadb744d5c5c4259a11862e28e671a0343c",
+      "size_bytes": 1900
     },
     {
       "path": "thirsty-ai-builder/frontend/src/pages/Rag.jsx",
-      "sha256": "35313f59ff4c09ad7e84183d554debb37bccc293fd27b7e1c1e57072e71e0d83",
-      "size_bytes": 2681
+      "sha256": "8a59b4ad5e3e7b081b84774e26438907a14d4f67b966d5d842d25e787a1c6eaa",
+      "size_bytes": 2647
     },
     {
       "path": "thirsty-ai-builder/frontend/src/pages/Socials.jsx",
@@ -1394,8 +1394,8 @@
   ],
   "package": {
     "path": "release/constitutional-builder-0.1.0.zip",
-    "sha256": "739ee56414ce72cfa735215f3c49ace6f7b00bbbb79e2e3ab999cb9a36608880",
-    "size_bytes": 1269226
+    "sha256": "a0eff84e8dfb5047552c965a72e4ee666a58bfd919e6e2d09bacc0beae33ea63",
+    "size_bytes": 1273026
   },
   "package_name": "constitutional-builder-0.1.0.zip",
   "schema": "constitutional-builder-package-manifest-v1"

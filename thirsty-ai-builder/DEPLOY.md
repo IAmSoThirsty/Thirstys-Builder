@@ -9,7 +9,8 @@ Four deploy paths. Pick one.
 3. Railway detects the compose file and shows 3 services: `mongo`, `backend`, `frontend`.
 4. On the `backend` service, click **Variables** and add:
    ```
-   EMERGENT_LLM_KEY=sk-emergent-...
+   OLLAMA_HOST=http://host.docker.internal:11434
+   OLLAMA_MODEL=qwen2.5-coder:7b
    MONGO_URL=mongodb://mongo:27017
    DB_NAME=thirsty_ai_builder
    CORS_ORIGINS=*
@@ -19,6 +20,8 @@ Four deploy paths. Pick one.
    REACT_APP_BACKEND_URL=https://<your-backend>.up.railway.app
    ```
 6. Hit **Deploy**. Live in ~4 minutes.
+
+**Ollama on Railway:** Railway doesn't ship Ollama as a managed service. Run Ollama on a $5/month VPS and point `OLLAMA_HOST` at its public URL over Tailscale / WireGuard / SSH tunnel. For a no-tunnel path, the same Ollama instance on a VPS can serve the Railway backend.
 
 ## 2. Vercel + Render (free)
 
@@ -47,10 +50,15 @@ site via `fly static` or to Vercel.
 ```bash
 # On a fresh Ubuntu 22.04+ box
 sudo apt update && sudo apt install -y docker.io docker-compose
+# Install Ollama on the host (not in a container) so all data stays
+# local. See https://ollama.com/download.
+curl -fsSL https://ollama.com/install.sh | sh
+ollama pull qwen2.5-coder:7b
+
 git clone <this-repo> thirsty-ai-builder
 cd thirsty-ai-builder
 cp backend/.env.example backend/.env
-nano backend/.env   # add your LLM key + MONGO_URL
+nano backend/.env   # OLLAMA_HOST stays at http://127.0.0.1:11434
 docker compose up -d
 ```
 

@@ -46,19 +46,30 @@ thirsty-ai-builder/
 
 No `node_modules/`, no compiled artifacts. Fresh install every time.
 
-## 3. What you need before deploying
+## 3. What you need before running
 
-**One** of these LLM keys:
+**A local Ollama server.** That's the only thing.
 
-- **Universal Emergent key** — `EMERGENT_LLM_KEY` (works for OpenAI, Anthropic, Gemini in one key)
-- **Your own Anthropic key** — `ANTHROPIC_API_KEY` from console.anthropic.com
+```bash
+# One time
+ollama pull qwen2.5-coder:7b
 
-That's it. Everything else is code.
+# Ollama runs as a service on Windows/macOS; on Linux:
+ollama serve
+```
+
+The ThirstyAi Builder talks to it at `http://127.0.0.1:11434`. Set
+`OLLAMA_HOST` to override (e.g. for Docker). Set `OLLAMA_MODEL` to
+swap models. If Ollama isn't running, the chat endpoints return a
+clear 503 error.
+
+No API keys, no cloud accounts, no monthly bills.
 
 ## 4. Deploy
 
-See `DEPLOY.md` for the four paths. Short version: Railway is ~$5/mo and
-live in ~4 minutes. Vercel + Render is free.
+See `DEPLOY.md` for the four paths. Short version: Railway is ~$5/mo
+and live in ~4 minutes; the backend, frontend, and Ollama server all
+talk to each other over the docker network.
 
 ## 5. Edit it in Emergent / Cursor / Windsurf
 
@@ -75,14 +86,17 @@ Open the `thirsty-ai-builder/` folder in your editor of choice.
 
 Any full-stack developer who has used **FastAPI + React + MongoDB** can
 maintain this in a single day. The whole backend is one file
-(`server.py`). Each frontend page is one file. No hidden framework magic.
+(`server.py`). Each frontend page is one file. No hidden framework
+magic.
 
 To onboard a dev, share:
 
 - This folder.
 - The `LICENSE` (proprietary — they work for you, not the code).
 - A signed NDA if you want them under one.
-- The env vars (LLM key, Mongo URL).
+
+They will need their own local Ollama install to develop against
+(`ollama pull qwen2.5-coder:7b`).
 
 ## 7. Things you can also do
 
@@ -91,14 +105,36 @@ To onboard a dev, share:
 - **Extend App Store** — add rows to `SEED_TOOLS` in `backend/thirsty_ai_builder_backend/app_store.py`. The UI picks them up automatically.
 - **Whitelabel** — swap `ThirstyLogo.jsx` for a client's mark, change the palette in `frontend/tailwind.config.js`, ship a client-specific edition.
 
-## 8. Contact & support
+## 8. Models you can swap in
+
+Any model Ollama can serve. The defaults work; if you want to use a
+different model, pull it and set `OLLAMA_MODEL`:
+
+```bash
+ollama pull llama3.2
+ollama pull codestral
+ollama pull phi3
+ollama pull mistral
+```
+
+In `backend/.env`:
+```
+OLLAMA_MODEL=mistral
+```
+
+The builder uses that model for all chat endpoints (Dove, Holli,
+Marketing, RAG answer). The Builder still does the embedding lookup
+in-process (deterministic 32-dim hash-based vectors) so the RAG
+pipeline works without an embedding service.
+
+## 9. Contact & support
 
 - **Product email**: karrick1995@gmail.com
 - **Company**: Thirsty's Projects LLC
 - **Principal office**: 1450 South West Temple Street, A402, Salt Lake City, UT 84115-5203
 - **Registered agent**: Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205
 
-## 9. Rust auditor build note
+## 10. Rust auditor build note
 
 The Rust auditor (`rust-auditor/`) builds cleanly on Linux and macOS
 out of the box. On Windows, install the Visual Studio C++ build tools
