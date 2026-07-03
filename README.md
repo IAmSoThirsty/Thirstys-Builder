@@ -25,7 +25,7 @@ One vertical slice, one Commander audit, one signed release.
 | Attribute | Value | Source |
 |---|---|---|
 | **License** | Proprietary, source-available under written agreement | [`thirsty-ai-builder/LICENSE`](thirsty-ai-builder/LICENSE) |
-| **Version** | 0.1.0 | [`pyproject.toml`](pyproject.toml) |
+| **Version** | v0.2.0 | [`pyproject.toml`](pyproject.toml) |
 | **Python** | 3.11+ | [`pyproject.toml`](pyproject.toml) |
 | **Kernel** | fail-closed (deny by default) | [`source/constitutional_builder/policy.py`](source/constitutional_builder/policy.py) |
 | **Audit log** | Ed25519-signed, hash-linked | [`scripts/sign_release_package.py`](scripts/sign_release_package.py) |
@@ -68,7 +68,7 @@ audited by the Commander and recorded in
 
 ---
 
-## Why It Matters
+## Why care
 
 If you build software that **takes consequential actions on behalf of
 someone**, four properties matter: who is allowed to ask, what they are
