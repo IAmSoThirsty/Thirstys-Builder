@@ -68,3 +68,17 @@ auth/Mongo startup checks, SBOM/provenance, package manifest, and release
 signature. Multi-host consensus, cloud/edge/air-gapped production deployments,
 external CI execution, independent security review, and production key custody
 remain separately tracked production-expansion work.
+
+## ThirstyAi Builder (the product)
+
+The deployable product surface lives in `thirsty-ai-builder/`. It is the
+11-page React + FastAPI + Mongo + Ollama product that the CBEP gates and
+audits. To run it, read:
+
+- `thirsty-ai-builder/README.md` — the 30-second pitch, lists, features,
+  and FAQ.
+- `thirsty-ai-builder/docs/DIAGRAMS.md` — system, request, pipeline,
+  deploy, and trust-boundary diagrams.
+- `thirsty-ai-builder/docs/INSTALL.md` — the full install matrix
+  (Windows / macOS / Linux × local dev / Docker / production).
+- `thirsty-ai-builder/DEPLOY.md` — the four production deploy paths.
