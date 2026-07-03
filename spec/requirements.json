@@ -1,0 +1,138 @@
+{
+  "program": "CBEP",
+  "version": "1.0",
+  "requirements": [
+    {
+      "id": "CBEP-001",
+      "statement": "Governance is a first-class execution primitive.",
+      "implementation": ["source/constitutional_builder/kernel.py", "source/constitutional_builder/policy.py"],
+      "tests": ["tests/test_vertical_slice.py", "tests/test_policy_fail_closed.py", "scripts/fuzz_kernel_authorization.py", "scripts/validate_formal_models.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["audit_event_count", "decision_latency_ms", "policy_denial_count"],
+      "formal": ["formal/proof-obligations.md#po-001-fail-closed-policy", "formal/kernel_authorization_model.json", "formal/policy_authorization.als"],
+      "docs": ["spec/volume-00-vision.md", "docs/architecture.md"],
+      "security": ["security/threat-model.md#authorization-and-policy-bypass"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-002",
+      "statement": "Every consequential action requires explicit identity, policy, and capability authorization.",
+      "implementation": ["source/constitutional_builder/identity.py", "source/constitutional_builder/capability.py", "source/constitutional_builder/kernel.py"],
+      "tests": ["tests/test_vertical_slice.py", "tests/test_policy_fail_closed.py", "scripts/fuzz_kernel_authorization.py", "scripts/validate_formal_models.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["authorization_denial_count", "capability_denial_count"],
+      "formal": ["formal/proof-obligations.md#po-002-explicit-authorization", "formal/kernel_authorization_model.json", "formal/authorization_invariant.tla"],
+      "docs": ["spec/volume-02-builder-kernel.md", "spec/volume-05-policy-language.md"],
+      "security": ["security/threat-model.md#confused-deputy"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-003",
+      "statement": "Every decision must be audit-visible, hash-linked, and replayable.",
+      "implementation": ["source/constitutional_builder/audit.py", "source/constitutional_builder/replay.py"],
+      "tests": ["tests/test_audit_replay.py", "scripts/run_chaos_checks.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["audit_hash_chain_valid", "replay_match_count"],
+      "formal": ["formal/proof-obligations.md#po-003-audit-chain-integrity", "formal/authorization_invariant.tla"],
+      "docs": ["spec/volume-06-runtime-architecture.md", "docs/architecture.md"],
+      "security": ["security/threat-model.md#audit-tampering"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-004",
+      "statement": "The repository must contain a complete versioned specification surface for Volumes 0 through XVII.",
+      "implementation": ["spec/volume-00-vision.md", "spec/volume-17-research-track.md"],
+      "tests": ["scripts/validate_repository.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["requirements_with_full_traceability"],
+      "formal": ["formal/proof-obligations.md"],
+      "docs": ["spec/README.md"],
+      "security": ["security/threat-model.md"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-005",
+      "statement": "The Builder must expose an operable API and SDK surface that preserves kernel authorization semantics.",
+      "implementation": ["source/constitutional_builder/api.py", "source/constitutional_builder/grpc_server.py", "source/constitutional_builder/v1/builder_pb2.py", "source/constitutional_builder/v1/builder_pb2_grpc.py", "sdk/python/constitutional_builder_sdk/client.py", "sdk/typescript/client.ts", "sdk/powershell/BuilderClient.psm1", "proto/constitutional_builder/v1/builder.proto"],
+      "tests": ["tests/test_config_api_sdk.py", "tests/test_api_stream_query.py", "scripts/run_conformance.py", "scripts/run_grpc_conformance.py", "scripts/validate_api_contracts.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["api_decision_status", "grpc_decision_status", "audit_event_count", "replay_valid", "stream_event_count"],
+      "formal": ["formal/proof-obligations.md#po-002-explicit-authorization"],
+      "docs": ["spec/volume-09-apis-sdks-interfaces.md", "docs/api/openapi.json", "sdk/typescript/README.md", "sdk/powershell/README.md"],
+      "security": ["security/threat-model.md#authorization-and-policy-bypass"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-006",
+      "statement": "The Builder must provide local deployment and conformance artifacts for independent validation.",
+      "implementation": ["deploy/Dockerfile", "deploy/docker-compose.yml", "deploy/kubernetes.yaml", "examples/conformance-suite.json"],
+      "tests": ["scripts/validate_repository.py", "scripts/run_conformance.py", "scripts/validate_deployment.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["conformance_scenarios_passed", "deployment_artifacts_present"],
+      "formal": ["formal/proof-obligations.md#po-003-audit-chain-integrity"],
+      "docs": ["spec/volume-13-repository-structure.md", "spec/volume-14-operations-sre.md"],
+      "security": ["security/threat-model.md#supply-chain"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-009",
+      "statement": "The Builder must produce reproducible local release evidence including SBOM, provenance, and integrity signature.",
+      "implementation": ["scripts/generate_release_evidence.py", "scripts/build_release_package.py", "scripts/sign_release_package.py", "release/sbom.json", "release/provenance.json", "release/provenance.signature.json", "release/package-manifest.json", "release/constitutional-builder-0.1.0.zip", "release/package-signature.json", "release/signing-public-key.pem"],
+      "tests": ["scripts/generate_release_evidence.py", "scripts/build_release_package.py", "scripts/sign_release_package.py", "scripts/verify_all.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["sbom_component_count", "tree_sha256", "provenance_sha256", "package_sha256", "ed25519_signature_verified"],
+      "formal": ["formal/proof-obligations.md#po-003-audit-chain-integrity"],
+      "docs": ["spec/volume-10-verification-formal-methods.md", "spec/volume-12-certification-framework.md"],
+      "security": ["security/threat-model.md#supply-chain"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-007",
+      "statement": "The Builder must include a deterministic clustered reference path with quorum decisions and federation audit verification.",
+      "implementation": ["source/constitutional_builder/cluster.py", "scripts/run_cluster_conformance.py"],
+      "tests": ["tests/test_cluster_federation.py", "scripts/run_cluster_conformance.py", "scripts/run_chaos_checks.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["cluster_approvals", "cluster_denials", "federation_hash"],
+      "formal": ["formal/proof-obligations.md#po-003-audit-chain-integrity"],
+      "docs": ["spec/volume-08-distributed-builder-federation.md", "docs/architecture.md"],
+      "security": ["security/threat-model.md#audit-tampering"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-008",
+      "statement": "The Builder must validate versioned policy bundles and reject malformed or ambiguous policy sets.",
+      "implementation": ["source/constitutional_builder/policy_bundle.py", "examples/policy-bundle.json"],
+      "tests": ["tests/test_policy_bundle.py", "scripts/fuzz_kernel_authorization.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["policy_bundle_valid", "duplicate_policy_rejection"],
+      "formal": ["formal/proof-obligations.md#po-001-fail-closed-policy"],
+      "docs": ["spec/volume-05-policy-language.md"],
+      "security": ["security/threat-model.md#authorization-and-policy-bypass"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-010",
+      "statement": "The Builder must expose query, streaming audit, and native gRPC surfaces without bypassing kernel authorization or replay semantics.",
+      "implementation": ["source/constitutional_builder/api.py", "source/constitutional_builder/grpc_server.py", "sdk/python/constitutional_builder_sdk/client.py", "sdk/typescript/client.ts", "sdk/powershell/BuilderClient.psm1", "proto/constitutional_builder/v1/builder.proto"],
+      "tests": ["tests/test_api_stream_query.py", "tests/test_config_api_sdk.py", "scripts/run_grpc_conformance.py", "scripts/validate_api_contracts.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["audit_stream_events", "query_replay_valid", "grpc_replay_valid"],
+      "formal": ["formal/proof-obligations.md#po-003-audit-chain-integrity"],
+      "docs": ["docs/api/openapi.json", "spec/volume-09-apis-sdks-interfaces.md"],
+      "security": ["security/threat-model.md#audit-tampering"],
+      "operations": ["docs/operations/runbook.md"]
+    },
+    {
+      "id": "CBEP-011",
+      "statement": "The Builder must include deterministic fuzz and chaos checks for authorization, audit tampering, handler failure, and quorum loss.",
+      "implementation": ["scripts/fuzz_kernel_authorization.py", "scripts/run_chaos_checks.py"],
+      "tests": ["scripts/fuzz_kernel_authorization.py", "scripts/run_chaos_checks.py", "scripts/validate_formal_models.py"],
+      "benchmarks": ["benchmarks/benchmark_kernel.py"],
+      "metrics": ["fuzz_allowed_count", "fuzz_denied_count", "chaos_checks_passed"],
+      "formal": ["formal/authorization_invariant.tla", "formal/policy_authorization.als", "formal/proof-obligations.md"],
+      "docs": ["spec/volume-10-verification-formal-methods.md"],
+      "security": ["security/threat-model.md"],
+      "operations": ["docs/operations/runbook.md"]
+    }
+  ]
+}

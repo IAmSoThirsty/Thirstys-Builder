@@ -1,0 +1,30 @@
+{
+  "config": "../deploy/example-config.json",
+  "scenarios": [
+    {
+      "name": "operator echo allowed",
+      "request": "requests/allowed-echo.json",
+      "expected_status": "allowed"
+    },
+    {
+      "name": "auditor execution denied",
+      "request": "requests/denied-auditor.json",
+      "expected_status": "denied",
+      "expected_reason": "auditor has read-only role"
+    },
+    {
+      "name": "operator evidence recording allowed",
+      "inline_request": {
+        "request_id": "example-record-evidence",
+        "subject_id": "operator",
+        "operation": "record_evidence",
+        "resource": "evidence",
+        "parameters": {
+          "evidence_id": "EV-001",
+          "summary": "local conformance evidence"
+        }
+      },
+      "expected_status": "allowed"
+    }
+  ]
+}

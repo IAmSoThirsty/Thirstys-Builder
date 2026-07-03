@@ -1,0 +1,91 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Constitutional Builder API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Return kernel health and audit validity",
+        "responses": {
+          "200": {
+            "description": "Health status"
+          }
+        }
+      }
+    },
+    "/v1/execute": {
+      "post": {
+        "summary": "Submit a governed action request",
+        "responses": {
+          "200": {
+            "description": "Allowed execution decision"
+          },
+          "403": {
+            "description": "Denied or failed execution decision"
+          }
+        }
+      }
+    },
+    "/v1/replay": {
+      "get": {
+        "summary": "Verify the audit chain",
+        "responses": {
+          "200": {
+            "description": "Replay verified"
+          },
+          "409": {
+            "description": "Replay mismatch"
+          }
+        }
+      }
+    },
+    "/v1/audit": {
+      "get": {
+        "summary": "Return audit events",
+        "responses": {
+          "200": {
+            "description": "Audit event list"
+          }
+        }
+      }
+    },
+    "/v1/audit/stream": {
+      "get": {
+        "summary": "Return audit events as a server-sent event stream",
+        "responses": {
+          "200": {
+            "description": "Audit event stream"
+          }
+        }
+      }
+    },
+    "/v1/query": {
+      "post": {
+        "summary": "Submit a constrained GraphQL-style query",
+        "responses": {
+          "200": {
+            "description": "Query result"
+          },
+          "400": {
+            "description": "Unsupported query"
+          }
+        }
+      }
+    },
+    "/v1/grpc": {
+      "post": {
+        "summary": "Submit a JSON compatibility request matching the native gRPC service contract",
+        "responses": {
+          "200": {
+            "description": "Compatibility response"
+          },
+          "400": {
+            "description": "Unsupported method or malformed payload"
+          }
+        }
+      }
+    }
+  }
+}

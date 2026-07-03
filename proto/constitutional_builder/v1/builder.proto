@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package constitutional_builder.v1;
+
+service BuilderService {
+  rpc Health(HealthRequest) returns (HealthResponse);
+  rpc Execute(ExecuteRequest) returns (DecisionResponse);
+  rpc Replay(ReplayRequest) returns (ReplayResponse);
+  rpc Audit(AuditRequest) returns (AuditResponse);
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+  bool audit_valid = 2;
+  uint64 audit_event_count = 3;
+}
+
+message ExecuteRequest {
+  string request_id = 1;
+  string subject_id = 2;
+  string operation = 3;
+  string resource = 4;
+  map<string, string> parameters = 5;
+}
+
+message DecisionResponse {
+  string request_id = 1;
+  string status = 2;
+  string reason = 3;
+  string audit_event_id = 4;
+}
+
+message ReplayRequest {}
+
+message ReplayResponse {
+  bool valid = 1;
+  uint64 event_count = 2;
+  string reason = 3;
+}
+
+message AuditRequest {}
+
+message AuditEvent {
+  string event_id = 1;
+  string request_id = 2;
+  string subject_id = 3;
+  string operation = 4;
+  string resource = 5;
+  string status = 6;
+  string reason = 7;
+  string previous_hash = 8;
+  string event_hash = 9;
+}
+
+message AuditResponse {
+  repeated AuditEvent events = 1;
+  uint64 event_count = 2;
+}

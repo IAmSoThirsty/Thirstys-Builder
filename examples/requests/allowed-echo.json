@@ -1,0 +1,9 @@
+{
+  "request_id": "example-allowed-echo",
+  "subject_id": "operator",
+  "operation": "echo",
+  "resource": "demo",
+  "parameters": {
+    "message": "hello from governed execution"
+  }
+}

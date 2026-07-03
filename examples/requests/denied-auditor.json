@@ -1,0 +1,9 @@
+{
+  "request_id": "example-denied-auditor",
+  "subject_id": "auditor",
+  "operation": "echo",
+  "resource": "demo",
+  "parameters": {
+    "message": "this must not execute"
+  }
+}

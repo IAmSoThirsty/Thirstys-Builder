@@ -1,0 +1,9 @@
+{
+  "algorithm": "Ed25519",
+  "key_scope": "local-test-key",
+  "note": "Local test key is deterministic and not a production secret.",
+  "package": "release/constitutional-builder-0.1.0.zip",
+  "package_sha256": "da89b3e0a8424e05f2058e379cc31c5634b193f16ce61c9d9a1bb579b3b6ecfd",
+  "schema": "constitutional-builder-ed25519-package-signature-v1",
+  "signature_base64": "8Kp6NeAGdlRK5rLW5sgVib4oD85rG6mSuv3IzL7yafBhIDht4zwM/e+q5l31DyQ3OJZMFhSFbBBSEipBd7p/Ag=="
+}

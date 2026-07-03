@@ -1,0 +1,57 @@
+{
+  "audit_log_path": "runtime/audit.jsonl",
+  "subjects": [
+    {
+      "subject_id": "operator",
+      "display_name": "Demo Operator",
+      "roles": ["operator"],
+      "active": true
+    },
+    {
+      "subject_id": "auditor",
+      "display_name": "Read Only Auditor",
+      "roles": ["auditor"],
+      "active": true
+    }
+  ],
+  "policies": [
+    {
+      "policy_id": "policy-allow-operator-echo",
+      "effect": "allow",
+      "subject_id": "operator",
+      "operation": "echo",
+      "resource": "demo",
+      "reason": "operator may run demo echo"
+    },
+    {
+      "policy_id": "policy-allow-evidence",
+      "effect": "allow",
+      "subject_id": "operator",
+      "operation": "record_evidence",
+      "resource": "evidence",
+      "reason": "operator may record certification evidence"
+    },
+    {
+      "policy_id": "policy-deny-auditor-execution",
+      "effect": "deny",
+      "subject_id": "auditor",
+      "operation": "*",
+      "resource": "*",
+      "reason": "auditor has read-only role"
+    }
+  ],
+  "capabilities": [
+    {
+      "grant_id": "grant-operator-echo",
+      "subject_id": "operator",
+      "operation": "echo",
+      "resource": "demo"
+    },
+    {
+      "grant_id": "grant-operator-evidence",
+      "subject_id": "operator",
+      "operation": "record_evidence",
+      "resource": "evidence"
+    }
+  ]
+}

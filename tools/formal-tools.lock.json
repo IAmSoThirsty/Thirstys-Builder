@@ -1,0 +1,18 @@
+{
+  "tools": [
+    {
+      "name": "tla2tools",
+      "path": ".tool-cache/tla2tools.jar",
+      "sha256": "936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88",
+      "url": "https://github.com/tlaplus/tlaplus/releases/latest/download/tla2tools.jar",
+      "version": "latest-release"
+    },
+    {
+      "name": "alloy",
+      "path": ".tool-cache/org.alloytools.alloy.dist-6.2.0.jar",
+      "sha256": "6037cbeee0e8423c1c468447ed10f5fcf2f2743a2ffc39cb1c81f2905c0fdb9d",
+      "url": "https://repo1.maven.org/maven2/org/alloytools/org.alloytools.alloy.dist/6.2.0/org.alloytools.alloy.dist-6.2.0.jar",
+      "version": "6.2.0"
+    }
+  ]
+}

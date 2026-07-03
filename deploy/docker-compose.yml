@@ -1,0 +1,9 @@
+services:
+  constitutional-builder:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./runtime:/app/deploy/runtime

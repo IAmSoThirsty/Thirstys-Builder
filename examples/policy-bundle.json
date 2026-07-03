@@ -1,0 +1,22 @@
+{
+  "bundle_id": "example-policy-bundle",
+  "version": "1.0",
+  "rules": [
+    {
+      "policy_id": "policy-allow-operator-echo",
+      "effect": "allow",
+      "subject_id": "operator",
+      "operation": "echo",
+      "resource": "demo",
+      "reason": "operator may run demo echo"
+    },
+    {
+      "policy_id": "policy-deny-auditor-execution",
+      "effect": "deny",
+      "subject_id": "auditor",
+      "operation": "*",
+      "resource": "*",
+      "reason": "auditor has read-only role"
+    }
+  ]
+}

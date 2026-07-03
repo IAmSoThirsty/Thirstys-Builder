@@ -1,0 +1,11 @@
+{
+  "model": "single-node authorization gate",
+  "states": ["received", "identity_checked", "policy_checked", "capability_checked", "planned", "executed", "audited", "denied"],
+  "invariant": "executed is reachable only after active identity, allow policy, and capability grant",
+  "bounded_inputs": {
+    "identity_active": [true, false],
+    "policy_allows": [true, false],
+    "capability_allows": [true, false],
+    "handler_registered": [true, false]
+  }
+}
