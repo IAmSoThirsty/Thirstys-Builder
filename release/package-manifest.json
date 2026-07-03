@@ -1,10 +1,10 @@
 {
-  "file_count": 279,
+  "file_count": 278,
   "files": [
     {
       "path": ".gitignore",
-      "sha256": "eafd659bff563ee5db5b3fdab961367a87e0bf7c199544a633c1d837af93cf6a",
-      "size_bytes": 171
+      "sha256": "ef1f5094700f779cab29857c323d8829cbce7f23af1f6fc7ae1dfe2c7cbef202",
+      "size_bytes": 184
     },
     {
       "path": "AGENTS.md",
@@ -15,11 +15,6 @@
       "path": "README.md",
       "sha256": "3623dad3ea7c1459a0c5708fa7bc03a9f536663dfa1307828ce68db51387a0f1",
       "size_bytes": 2409
-    },
-    {
-      "path": "audit-smoke.pdf",
-      "sha256": "db06fdfb191626677e2362f9a5abf84b37890dd56d739933aa009b5b37ae510c",
-      "size_bytes": 1899
     },
     {
       "path": "benchmarks/benchmark_kernel.py",
@@ -153,18 +148,18 @@
     },
     {
       "path": "release/provenance.json",
-      "sha256": "39ce5c06e99f5207b5a60ac97b8a3a350c8ce783431c46eafff3429ee5ab094a",
+      "sha256": "6c2ec21c910eead8f154961e8de58ff0a101b9e57426984cb407488845250a8e",
       "size_bytes": 384
     },
     {
       "path": "release/provenance.signature.json",
-      "sha256": "3026db776d995d0fbd7a09ddc161e35f87b3f167f7f2240fa984e76b7838a532",
+      "sha256": "870f8f1e1188de35eb5b130ed8b699edff6413e25c91a3cbfcd1988b35323c49",
       "size_bytes": 276
     },
     {
       "path": "release/sbom.json",
-      "sha256": "1a9384424f47d4bae3da33057ea35df428060bd481f6a7b26437a971b6786019",
-      "size_bytes": 66591
+      "sha256": "e92b73d689d2878ba58a0bf05b6e53ef95741e2485130b0b88b0c504dfc7ab27",
+      "size_bytes": 66404
     },
     {
       "path": "scripts/build_release_package.py",
@@ -1399,8 +1394,8 @@
   ],
   "package": {
     "path": "release/constitutional-builder-0.1.0.zip",
-    "sha256": "cfd45e2a4b6b4ef6602bf27519cdd97b4503f6b72b774647040f9517f7c101fa",
-    "size_bytes": 1274004
+    "sha256": "f6d71d9073232e7278bcf166216f0fb14c9ce2ad7ed2e65009f4678863c367a3",
+    "size_bytes": 1273036
   },
   "package_name": "constitutional-builder-0.1.0.zip",
   "schema": "constitutional-builder-package-manifest-v1"

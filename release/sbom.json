@@ -1,10 +1,10 @@
 {
-  "component_count": 276,
+  "component_count": 275,
   "components": [
     {
       "path": ".gitignore",
-      "sha256": "eafd659bff563ee5db5b3fdab961367a87e0bf7c199544a633c1d837af93cf6a",
-      "size_bytes": 171,
+      "sha256": "ef1f5094700f779cab29857c323d8829cbce7f23af1f6fc7ae1dfe2c7cbef202",
+      "size_bytes": 184,
       "type": "metadata"
     },
     {
@@ -17,12 +17,6 @@
       "path": "README.md",
       "sha256": "3623dad3ea7c1459a0c5708fa7bc03a9f536663dfa1307828ce68db51387a0f1",
       "size_bytes": 2409,
-      "type": "metadata"
-    },
-    {
-      "path": "audit-smoke.pdf",
-      "sha256": "db06fdfb191626677e2362f9a5abf84b37890dd56d739933aa009b5b37ae510c",
-      "size_bytes": 1899,
       "type": "metadata"
     },
     {
