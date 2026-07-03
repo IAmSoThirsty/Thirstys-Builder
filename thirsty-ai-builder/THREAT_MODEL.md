@@ -1,6 +1,6 @@
 # Threat Model
 
-**Scope:** the ThirstyAi Builder backend (FastAPI in `thirsty-ai-builder/backend/`), the React frontend, the MongoDB persistence layer, and the local Ollama LLM service. The Constitutional Builder (CBEP) at the repo root is a separate kernel; its threat model lives in `spec/volume-07-security-architecture.md`.
+**Scope:** the ThirstyAI Builder backend (FastAPI in `thirsty-ai-builder/backend/`), the React frontend, the MongoDB persistence layer, and the local Ollama LLM service. The Constitutional Builder (CBEP) at the repo root is a separate kernel; its threat model lives in `spec/volume-07-security-architecture.md`.
 
 **Out of scope:** the operator's host OS, the cloud account that hosts the deployment, the Ollama model files themselves, and any third-party services the operator wires in (e.g. a managed MongoDB). Those have their own threat models and the operator owns them.
 

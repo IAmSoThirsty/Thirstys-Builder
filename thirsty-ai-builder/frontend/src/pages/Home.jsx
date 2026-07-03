@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <div className="page space-y-8">
       <header className="space-y-3">
-        <h1 className="h1">ThirstyAi Builder</h1>
+        <h1 className="h1">ThirstyAI Builder</h1>
         <p className="muted text-lg max-w-2xl">
           {home?.tagline ?? "Loading..."}
         </p>

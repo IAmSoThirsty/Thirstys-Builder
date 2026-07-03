@@ -1,4 +1,4 @@
-"""Authentication for the ThirstyAi Builder backend.
+"""Authentication for the ThirstyAI Builder backend.
 
 Single source of truth for the Bearer-token check. The token is supplied
 via the `CB_API_KEY` env var. If unset, the server starts but rejects

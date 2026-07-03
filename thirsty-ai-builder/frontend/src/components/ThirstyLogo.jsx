@@ -10,7 +10,7 @@ export default function ThirstyLogo({ className = "w-8 h-8" }) {
       viewBox="0 0 64 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="ThirstyAi Builder logo"
+      aria-label="ThirstyAI Builder logo"
     >
       <defs>
         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">

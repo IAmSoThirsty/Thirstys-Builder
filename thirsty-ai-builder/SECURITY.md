@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-The ThirstyAi Builder tracks `main`. Security fixes are backported to the most recent release. There is no LTS release; this is a single-tenant local / self-hosted app, not a multi-tenant SaaS.
+The ThirstyAI Builder tracks `main`. Security fixes are backported to the most recent release. There is no LTS release; this is a single-tenant local / self-hosted app, not a multi-tenant SaaS.
 
 | Branch | Supported |
 |---|---|

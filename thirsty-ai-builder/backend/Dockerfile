@@ -33,7 +33,7 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 FROM python:3.11.9-slim-bookworm AS runtime
 
 LABEL org.opencontainers.image.title="thirsty-ai-builder-backend" \
-      org.opencontainers.image.description="ThirstyAi Builder backend (FastAPI)" \
+      org.opencontainers.image.description="ThirstyAI Builder backend (FastAPI)" \
       org.opencontainers.image.source="https://github.com/thirsty-ai/builder" \
       org.opencontainers.image.licenses="Proprietary"
 

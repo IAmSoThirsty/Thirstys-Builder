@@ -6,7 +6,19 @@
 Identity → Policy → Capability → Planner → Execution → Audit → Replay.
 One vertical slice, one Commander audit, one signed release.
 
-[What it is](#what-it-is) · [Why It Matters](#why-it-matters) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](thirsty-ai-builder/LICENSE)
+[![Status: v0.2.0](https://img.shields.io/badge/status-v0.2.0-green.svg)](CHANGELOG.md)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
+[![Kernel: fail-closed](https://img.shields.io/badge/kernel-fail--closed-brightgreen.svg)](source/constitutional_builder/policy.py)
+[![Audit: Ed25519](https://img.shields.io/badge/audit-Ed25519-brightgreen.svg)](scripts/sign_release_package.py)
+[![SBOM: CycloneDX](https://img.shields.io/badge/sbom-CycloneDX-blue.svg)](release/sbom.json)
+[![Spec: 18 volumes](https://img.shields.io/badge/spec-18%20volumes-purple.svg)](spec/)
+[![Cert: local foundation](https://img.shields.io/badge/cert-local%20foundation-green.svg)](commander/final-certification-report.md)
+[![Release signed](https://img.shields.io/badge/release-Ed25519%20signed-brightgreen.svg)](release/signing-public-key.pem)
+[![Tests: 184 passing](https://img.shields.io/badge/tests-184%20passing-brightgreen.svg)](#)
+[![Security: founderoftp@thirstysprojects.com](https://img.shields.io/badge/security-founderoftp%40thirstysprojects.com-blue.svg)](SECURITY.md)
+
+[What it is](#what-it-is) · [Why care](#why-care) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
 
 </div>
 
@@ -47,7 +59,7 @@ reference into clustered, cloud, edge, and high-assurance variants:
   under `scripts/`.
 - The Commander audit log and the final certification report under
   `commander/`.
-- The deployable product surface — **ThirstyAi Builder** — under
+- The deployable product surface — **ThirstyAI Builder** — under
   `thirsty-ai-builder/`, which the kernel gates and audits.
 
 The repository is the engineering baseline. Every shipped commit is
@@ -138,7 +150,7 @@ shapes (Docker, Kubernetes, single-node), and the trust boundaries are
 drawn out in [`docs/architecture.md`](docs/architecture.md) and
 [`docs/operations/runbook.md`](docs/operations/runbook.md).
 
-The product surface this kernel ships to is the **ThirstyAi Builder** at
+The product surface this kernel ships to is the **ThirstyAI Builder** at
 [`thirsty-ai-builder/`](thirsty-ai-builder/) — the kernel gates its
 release, audits its dependency graph, and signs its deploy artifact.
 
@@ -328,10 +340,9 @@ It runs, in order:
 11. `python scripts/build_release_package.py --check`
 12. `python scripts/sign_release_package.py --check`
 13. `python scripts/validate_deployment.py` — deploy-shape validation
-14. `python scripts/validate_thirsty_ai_builder_deployment.py` — product
-    compose config
-15. `python benchmarks/benchmark_kernel.py --iterations 1000` — perf
-    smoke
+14. `python scripts/validate_thirsty_ai_builder_deployment.py` — product compose
+15. `python benchmarks/benchmark_kernel.py --iterations 1000` — perf smoke
+16. `python benchmarks/benchmark_suite.py --iterations 1000` — benchmark suite
 
 ### Run a single test
 
@@ -366,7 +377,7 @@ PYTHONPATH=source python -m unittest tests.test_audit_chain_verification
 
 ### Working on the product surface
 
-The ThirstyAi Builder under `thirsty-ai-builder/` is the deployable
+The ThirstyAI Builder under `thirsty-ai-builder/` is the deployable
 product. Its own README, install matrix, deploy paths, security policy,
 and threat model are in that folder. The kernel gates that product's
 release; the product surfaces the kernel.
@@ -390,7 +401,7 @@ python scripts/validate_deployment.py --config deploy/example-config.json
 # expected: PASS: constitutional-builder deployment config
 ```
 
-For the product surface (ThirstyAi Builder), see
+For the product surface (ThirstyAI Builder), see
 [`thirsty-ai-builder/DEPLOY.md`](thirsty-ai-builder/DEPLOY.md) for the
 four production paths (Railway, Vercel + Render, Fly, VPS).
 
@@ -403,7 +414,7 @@ four production paths (Railway, Vercel + Render, Fly, VPS).
 - [x] 0.1 — CycloneDX SBOM + reproducible release package
 - [x] 0.1 — Ed25519 release signing (per-machine keypair)
 - [x] 0.1 — Docker + Kubernetes smoke for the CBEP reference
-- [x] 0.1 — ThirstyAi Builder compose config + image builds audited
+- [x] 0.1 — ThirstyAI Builder compose config + image builds audited
 - [x] 0.1 — Fail-closed auth + Mongo startup checks
 - [x] 0.1 — Commander certification as **local reference foundation
       with self-hosted production deployment gates**
@@ -466,7 +477,7 @@ four production paths (Railway, Vercel + Render, Fly, VPS).
 - **Thirsty's Projects LLC** — Entity #14694374-0160
   - Registered agent: Entity Protect Registered Agent Services LLC, 169 W 2710 S Circle, STE 202A-65, Saint George, UT 84790-7205
 
-The product surface (ThirstyAi Builder) is registered to the same
+The product surface (ThirstyAI Builder) is registered to the same
 entity; see [`thirsty-ai-builder/OWNERSHIP.md`](thirsty-ai-builder/OWNERSHIP.md)
 for the full filing details and IP inventory.
 

@@ -1,4 +1,4 @@
-# Caddy config for the ThirstyAi Builder.
+# Caddy config for the ThirstyAI Builder.
 #
 # This file is the entry-point for an HTTPS reverse proxy in front of
 # the FastAPI backend. Caddy auto-requests and renews Let's Encrypt certs

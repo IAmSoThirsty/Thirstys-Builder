@@ -1,4 +1,4 @@
-# systemd unit for Ollama, hardened for ThirstyAi Builder hosting.
+# systemd unit for Ollama, hardened for ThirstyAI Builder hosting.
 #
 # Drop into /etc/systemd/system/ollama.service on the host, then:
 #   sudo systemctl daemon-reload
@@ -7,12 +7,12 @@
 #
 # This unit runs Ollama as a dedicated unprivileged user with its own
 # data dir under /var/lib/ollama. It binds the API to 127.0.0.1 only
-# by default; expose it to the ThirstyAi Builder backend over the
+# by default; expose it to the ThirstyAI Builder backend over the
 # loopback interface inside the same host, or over a private overlay
 # network (Tailscale / WireGuard) when the backend runs elsewhere.
 
 [Unit]
-Description=Ollama Service (ThirstyAi Builder)
+Description=Ollama Service (ThirstyAI Builder)
 Documentation=https://ollama.com
 After=network-online.target
 Wants=network-online.target

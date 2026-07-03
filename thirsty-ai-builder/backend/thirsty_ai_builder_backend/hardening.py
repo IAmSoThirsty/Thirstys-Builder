@@ -1,4 +1,4 @@
-"""Hardening middlewares for the ThirstyAi Builder backend.
+"""Hardening middlewares for the ThirstyAI Builder backend.
 
 Three middlewares are exported:
 

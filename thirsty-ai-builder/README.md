@@ -1,8 +1,20 @@
 <div align="center">
 
-# ThirstyAi Builder
+# ThirstyAI Builder
 
 **A private, on-premises AI workspace. One command, one local model, one signed PDF per audit.**
+
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
+[![Status: v0.2.0](https://img.shields.io/badge/status-v0.2.0-green.svg)](CHANGELOG.md)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](backend/requirements.txt)
+[![Node 18+](https://img.shields.io/badge/node-18+-blue.svg)](frontend/package.json)
+[![LLM: Ollama local](https://img.shields.io/badge/llm-Ollama%20local-purple.svg)](https://ollama.com)
+[![Database: MongoDB 6+](https://img.shields.io/badge/db-MongoDB%206%2B-green.svg)](docker-compose.yml)
+[![Audit: Ed25519](https://img.shields.io/badge/audit-Ed25519-brightgreen.svg)](release/signing-public-key.pem)
+[![SBOM: CycloneDX](https://img.shields.io/badge/sbom-CycloneDX-blue.svg)](release/sbom.json)
+[![Code style: standard](https://img.shields.io/badge/code%20style-standard-black.svg)](backend/)
+[![Tests: 184 passing](https://img.shields.io/badge/tests-184%20passing-brightgreen.svg)](#)
+[![Security: founderoftp@thirstysprojects.com](https://img.shields.io/badge/security-founderoftp%40thirstysprojects.com-blue.svg)](SECURITY.md)
 
 [What it is](#what-it-is) · [Why care](#why-care) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Docs](#docs) · [License](#license)
 
@@ -11,7 +23,7 @@
 | Attribute | Value | Source |
 |---|---|---|
 | **License** | Proprietary, all rights reserved | [`LICENSE`](LICENSE) |
-| **Status** | 1.0.0 | [`CHANGELOG.md`](CHANGELOG.md) |
+| **Status** | v0.2.0 | [`CHANGELOG.md`](CHANGELOG.md) |
 | **Python** | 3.11+ | [`backend/requirements.txt`](backend/requirements.txt) |
 | **Node** | 18+ | [`frontend/package.json`](frontend/package.json) |
 | **LLM** | Ollama, local (no API key, no cloud) | [`HOSTED_OLLAMA.md`](HOSTED_OLLAMA.md) |
@@ -24,7 +36,7 @@
 
 ## What it is
 
-ThirstyAi Builder is a **self-hosted AI workspace** — 11-page React UI,
+ThirstyAI Builder is a **self-hosted AI workspace** — 11-page React UI,
 single-file FastAPI backend, MongoDB persistence, a Rust CI auditor, and
 a **local language model served by Ollama** on your own hardware. No API
 keys, no cloud account, no monthly bill.

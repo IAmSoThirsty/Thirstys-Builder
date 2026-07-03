@@ -1,4 +1,4 @@
-"""MongoDB wrapper for the ThirstyAi Builder.
+"""MongoDB wrapper for the ThirstyAI Builder.
 
 Production: connects to a real MongoDB via pymongo. Dev / tests: an
 in-memory dict-backed stub with a Mongo-compatible surface (`insert_one`,

@@ -2,7 +2,7 @@
 name = "commander-auditor"
 version = "0.1.0"
 edition = "2021"
-description = "CI auditor that posts PR metadata to a ThirstyAi Builder Commander backend"
+description = "CI auditor that posts PR metadata to a ThirstyAI Builder Commander backend"
 license = "Proprietary"
 publish = false
 

@@ -1,6 +1,6 @@
 //! Commander Auditor CLI.
 //!
-//! Posts a governance-audit request to a running ThirstyAi Builder
+//! Posts a governance-audit request to a running ThirstyAI Builder
 //! Commander backend. Designed to be invoked from a CI runner. The
 //! backend stores the request, runs `verify_all.py` against the
 //! target, and returns a signed-PDF audit ID.

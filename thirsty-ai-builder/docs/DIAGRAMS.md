@@ -1,6 +1,6 @@
-# ThirstyAi Builder — Diagrams
+# ThirstyAI Builder — Diagrams
 
-The single source of visual truth for the ThirstyAi Builder. Each section
+The single source of visual truth for the ThirstyAI Builder. Each section
 is one ASCII box-and-arrow picture. Rendered in any monospaced font, no
 tooling required.
 
@@ -266,7 +266,7 @@ All four converge on the same backend image and the same env-var contract.
 
 ```
                         ┌────────────────────────────────────────┐
-                        │  ThirstyAi Builder — same backend,     │
+                        │  ThirstyAI Builder — same backend,     │
                         │  same env-var contract, same preflight │
                         └─────────────────┬──────────────────────┘
                                           │

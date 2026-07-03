@@ -1,4 +1,4 @@
-"""Owner / IP constants for the ThirstyAi Builder.
+"""Owner / IP constants for the ThirstyAI Builder.
 
 These are returned by the `/api/` ownership block, the `/about` page,
 the footer, every signed PDF, the LICENSE, and the OWNERSHIP.md. If
@@ -16,7 +16,7 @@ COPYRIGHT_LINE = (
     f"\u00a9 2026 {OWNER_NAME} / {ENTITY_NAME}. "
     f"Entity #{ENTITY_NUMBER}. All rights reserved."
 )
-PRODUCT_NAME = "ThirstyAi Builder"
+PRODUCT_NAME = "ThirstyAI Builder"
 
 
 def ownership_block() -> dict[str, str]:

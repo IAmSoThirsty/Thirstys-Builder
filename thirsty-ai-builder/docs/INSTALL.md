@@ -1,4 +1,4 @@
-# ThirstyAi Builder — Install
+# ThirstyAI Builder — Install
 
 The full install matrix. Three tracks × three operating systems = nine
 install paths. Pick the one that matches what you want to do and the
@@ -34,7 +34,7 @@ machine you are on.
 
 ## §0. Install Ollama (all tracks, all OSes)
 
-The ThirstyAi Builder talks to a local Ollama server. The default URL is
+The ThirstyAI Builder talks to a local Ollama server. The default URL is
 `http://127.0.0.1:11434`. The default model is `qwen2.5-coder:7b`
 (~5 GB on disk). Pick your OS.
 
@@ -318,7 +318,7 @@ After deployment, run the preflight (§4.2) before exposing the service.
 ```bash
 curl http://localhost:8001/api/health
 # expected:
-# {"status":"ok","product":"ThirstyAi Builder","version":"1.0.0",
+# {"status":"ok","product":"ThirstyAI Builder","version":"1.0.0",
 #  "llm_provider":"ollama","ollama":"127.0.0.1:11434",
 #  "model":"qwen2.5-coder:7b"}
 ```

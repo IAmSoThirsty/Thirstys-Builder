@@ -1,6 +1,6 @@
 """LLM client backed by a local Ollama server.
 
-The ThirstyAi Builder talks to a local Ollama instance (default
+The ThirstyAI Builder talks to a local Ollama instance (default
 `http://127.0.0.1:11434`). Ollama is the only supported LLM provider; no
 external keys, no stub responses, no network calls outside the local
 machine.

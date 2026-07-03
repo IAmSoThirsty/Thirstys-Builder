@@ -8,7 +8,7 @@ deployment gates certified.
 The repository satisfies the local end-to-end CBEP reference objective: a clean,
 versioned specification, deterministic single-node reference kernel, file-based
 configuration, HTTP API, SDK, conformance fixtures, deployment artifacts, and a
-single local verification gate. The ThirstyAi Builder app also has verified
+single local verification gate. The ThirstyAI Builder app also has verified
 self-hosted deployment gates: compose config validation, backend/frontend image
 builds, fail-closed auth startup, fail-closed Mongo startup, security hardening
 tests, production preflight, same-origin frontend API routing, private backend
@@ -47,10 +47,10 @@ Infrastructure certification.
 - Security: `security/threat-model.md`.
 - Formal obligations: `formal/proof-obligations.md`.
 - Operations: `docs/operations/runbook.md`.
-- ThirstyAi Builder app: `thirsty-ai-builder/`.
-- ThirstyAi Builder security: `thirsty-ai-builder/THREAT_MODEL.md`,
+- ThirstyAI Builder app: `thirsty-ai-builder/`.
+- ThirstyAI Builder security: `thirsty-ai-builder/THREAT_MODEL.md`,
   `thirsty-ai-builder/SECURITY.md`.
-- ThirstyAi Builder deployment validation:
+- ThirstyAI Builder deployment validation:
   `scripts/validate_thirsty_ai_builder_deployment.py`.
 
 ## Validation Results
@@ -60,7 +60,7 @@ Infrastructure certification.
 - `python -m unittest discover -s thirsty-ai-builder/backend/tests -p test_backend.py`:
   passed, 32 tests covering the ownership block, Ollama dispatch (with
   a live Ollama server round-trip), Mongo stub, letterhead PDF
-  generation, app store, and the full ThirstyAi Builder FastAPI surface
+  generation, app store, and the full ThirstyAI Builder FastAPI surface
   across all 11 page-backed routes.
 - `python -m unittest discover -s thirsty-ai-builder/backend/tests -p test_tls_config.py`:
   passed, 13 tests covering the Caddyfile + nginx.conf TLS termination
@@ -127,7 +127,7 @@ Infrastructure certification.
   Local Docker image build, container CLI/API smoke, and Docker Desktop
   Kubernetes apply/wait are verified. Real multi-node/cloud/edge/air-gapped
   deployment remains separate environment work.
-- ThirstyAi Builder is verified for local/self-hosted deployment gates, but no
+- ThirstyAI Builder is verified for local/self-hosted deployment gates, but no
   external Railway/Render/Fly/VPS production deployment has been executed from
   this thread.
 - Additional SDK languages beyond Python, TypeScript, and PowerShell: requires
@@ -157,7 +157,7 @@ Infrastructure certification.
 - Are there gaps, assumptions, risks, or deviations? Yes, listed above.
 - Can an independent team implement, verify, deploy, operate, and evolve this
   without unpublished knowledge? For local end-to-end reference deployment and
-  self-hosted ThirstyAi Builder deployment, yes. For production distributed
+  self-hosted ThirstyAI Builder deployment, yes. For production distributed
   deployment, they need the listed follow-up work.
 
 Signature: Commander-Agent / Local-E2E-Self-Hosted-Deploy / 2026-07-03

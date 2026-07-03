@@ -3,7 +3,7 @@
 This repository contains two products with separate security policies:
 
 - **Constitutional Builder (CBEP)** — at the repo root. See `commander/audit-log.md` for past security-relevant decisions and `spec/volume-07-security-architecture.md` for the kernel's threat model.
-- **ThirstyAi Builder** — at `thirsty-ai-builder/`. See [`thirsty-ai-builder/SECURITY.md`](thirsty-ai-builder/SECURITY.md) for the disclosure policy, supported versions, and hardening checklist for the FastAPI backend.
+- **ThirstyAI Builder** — at `thirsty-ai-builder/`. See [`thirsty-ai-builder/SECURITY.md`](thirsty-ai-builder/SECURITY.md) for the disclosure policy, supported versions, and hardening checklist for the FastAPI backend.
 
 ## Reporting a vulnerability
 

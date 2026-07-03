@@ -1,4 +1,4 @@
-// Shared client for the ThirstyAi Builder backend. Production defaults
+// Shared client for the ThirstyAI Builder backend. Production defaults
 // to same-origin: nginx serves the SPA and proxies /api to the backend.
 const BASE = process.env.REACT_APP_BACKEND_URL || "";
 const TOKEN_KEY = "thirsty_ai_builder_api_token";

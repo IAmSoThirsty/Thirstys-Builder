@@ -425,7 +425,7 @@ Evidence:
 
 Signature: Commander-Agent / Conformance-AuditChain / 2026-07-03
 
-## Entry 0016 - ThirstyAi Builder Product
+## Entry 0016 - ThirstyAI Builder Product
 
 Scope: a sibling product tree at `thirsty-ai-builder/` containing the
 11-page React+Tailwind UI, FastAPI backend with 30+ endpoints, MongoDB
@@ -470,7 +470,7 @@ Findings:
   tests covering the ownership block, LLM dispatch, DB stub, letterhead
   PDF generation, app store, and the full FastAPI surface (all 11
   page-backed routes). All 28 pass.
-- Complete: `scripts/verify_all.py` now runs the ThirstyAi Builder
+- Complete: `scripts/verify_all.py` now runs the ThirstyAI Builder
   test suite as the last step in the canonical local verification gate.
 - Risk: the Rust auditor is unbuilt in this environment (Windows
   without MSVC build tools); it will build clean in the GitHub Actions
@@ -486,12 +486,12 @@ Evidence:
   test_backend.py`: 28 tests passed.
 - `python scripts/verify_all.py`: passed on 2026-07-03.
 
-Signature: Commander-Agent / ThirstyAi-Builder / 2026-07-03
+Signature: Commander-Agent / ThirstyAI-Builder / 2026-07-03
 
 ## Entry 0017 - Ollama-Only LLM
 
 Scope: drop the Emergent Universal key and the direct Anthropic key
-paths. The ThirstyAi Builder now talks to a local Ollama server only.
+paths. The ThirstyAI Builder now talks to a local Ollama server only.
 
 Changes:
 
@@ -536,7 +536,7 @@ Validation:
   -p test_backend.py`: 32 tests, 168s wall clock (most of the time
   is the live Ollama round-trip test), 0 failures.
 - `python scripts/verify_all.py`: passes end-to-end on 2026-07-03,
-  including the live Ollama dispatch in the ThirstyAi Builder suite.
+  including the live Ollama dispatch in the ThirstyAI Builder suite.
 - The `OllamaLive` class verified that the local Ollama server at
   `http://127.0.0.1:11434` is reachable, has at least one model
   installed, and produces a non-empty response when called via
@@ -587,7 +587,7 @@ Signature: Commander-Agent / Stage-1 / 2026-07-03
 ## Entry 0018 - Hosted Ollama Runbook and TLS Termination Configs
 
 Scope: deployment-side artifacts covering how an operator runs Ollama
-on a remote host and terminates TLS in front of the ThirstyAi Builder
+on a remote host and terminates TLS in front of the ThirstyAI Builder
 backend.
 
 Decision: signed off. Both test suites green; full gate passes end-to-end
@@ -631,7 +631,7 @@ Signature: Commander-Agent / Wave-10 / 2026-07-04
 
 ## Entry 0019 - Self-Hosted Production Deployment Gates
 
-Scope: ThirstyAi Builder production startup gates, deployment validation,
+Scope: ThirstyAI Builder production startup gates, deployment validation,
 release packaging exclusions, and full-gate coverage.
 
 Decision: signed off for self-hosted production deployment gates. Not a
@@ -667,7 +667,7 @@ Findings:
   proxied `/api/health`, and an authenticated proxied `/api/appstore/tools`,
   then tears the stack and volume down.
 - Complete: `scripts/verify_all.py` includes backend tests, frontend
-  test/build, Rust auditor tests, and the ThirstyAi Builder deployment
+  test/build, Rust auditor tests, and the ThirstyAI Builder deployment
   validator.
 - Complete: release package builder excludes generated dependency/build
   directories (`node_modules`, `target`, `build`, `dist`, caches), keeping

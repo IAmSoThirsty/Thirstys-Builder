@@ -1,5 +1,5 @@
 {
-  "product": "ThirstyAi Builder",
+  "product": "ThirstyAI Builder",
   "owner": "Jeremy Karrick",
   "entity": "Thirsty's Projects LLC",
   "entity_number": "14694374-0160",
@@ -66,7 +66,8 @@
   "voice": {
     "tone": "owner-attested, governance-first, dep-light",
     "preferred_words": ["governed", "audited", "attested", "fail-closed", "explicit", "replayable", "in-scope"],
-    "avoid_words": ["cheap", "minimum viable", "shortest", "fastest"]
+    "avoid_words": ["cheap", "minimum viable", "shortest", "fastest"],
+    "display_name": "ThirstyAI Builder"
   },
   "footer": {
     "copyright": "© 2026 Jeremy Karrick / Thirsty's Projects LLC. Entity #14694374-0160. All rights reserved.",

@@ -10,10 +10,10 @@
 
 | Asset | Location | Registered With |
 |---|---|---|
-| ThirstyAi Builder source code | `thirsty-ai-builder/` (this repository) | Owner + LICENSE + OWNERSHIP.md |
-| ThirstyAi Builder design system | `thirsty-ai-builder/design_guidelines.json` | Owner + UI footer attribution |
-| ThirstyAi Builder audit letterhead | `backend/thirsty_ai_builder_backend/letterhead.py` | Owner + SHA-256 attestation per PDF |
-| ThirstyAi Builder ownership block | `backend/thirsty_ai_builder_backend/ownership.py` | `/api/ownership`, X-Owner headers, every signed PDF |
+| ThirstyAI Builder source code | `thirsty-ai-builder/` (this repository) | Owner + LICENSE + OWNERSHIP.md |
+| ThirstyAI Builder design system | `thirsty-ai-builder/design_guidelines.json` | Owner + UI footer attribution |
+| ThirstyAI Builder audit letterhead | `backend/thirsty_ai_builder_backend/letterhead.py` | Owner + SHA-256 attestation per PDF |
+| ThirstyAI Builder ownership block | `backend/thirsty_ai_builder_backend/ownership.py` | `/api/ownership`, X-Owner headers, every signed PDF |
 | Constitutional Builder Engineering Program (CBEP) | repository root | License + Commander audit log |
 
 ## Public-Facing Attribution

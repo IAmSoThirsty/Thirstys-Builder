@@ -1,6 +1,6 @@
 PROPRIETARY SOFTWARE LICENSE
 
-ThirstyAi Builder
+ThirstyAI Builder
 Copyright (c) 2026 Jeremy Karrick / Thirsty's Projects LLC. All rights reserved.
 
 Entity Number: 14694374-0160
@@ -21,14 +21,14 @@ OWNERSHIP ATTRIBUTION
 Any copy, fork, derivative work, or redistribution of this software must
 display the following attribution in a user-visible location:
 
-  "ThirstyAi Builder — © Jeremy Karrick / Thirsty's Projects LLC.
+  "ThirstyAI Builder — © Jeremy Karrick / Thirsty's Projects LLC.
    Entity #14694374-0160. All rights reserved."
 
 THIRD-PARTY COMPONENTS
 
 This software includes open-source components (FastAPI, React, Tailwind,
 MongoDB, Rust standard library, and others). Each component retains its
-own license. The license above applies only to the ThirstyAi Builder
+own license. The license above applies only to the ThirstyAI Builder
 code authored by Thirsty's Projects LLC.
 
 NO WARRANTY

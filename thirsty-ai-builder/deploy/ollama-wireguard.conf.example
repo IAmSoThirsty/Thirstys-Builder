@@ -3,7 +3,7 @@
 # This file is a TEMPLATE. Do not deploy it as-is. Replace every
 # <PLACEHOLDER> with a real value, then drop the result into
 # /etc/wireguard/wg-ollama.conf on the host that runs Ollama, and the
-# matching peer section on each ThirstyAi Builder backend host that
+# matching peer section on each ThirstyAI Builder backend host that
 # needs to reach it.
 #
 # Generate keys with:
@@ -28,7 +28,7 @@ PostUp   = iptables -A FORWARD -i wg-ollama -j ACCEPT; iptables -t nat -A POSTRO
 PostDown = iptables -D FORWARD -i wg-ollama -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
 
-# --- Peer: ThirstyAi Builder backend (repeat per backend host) -----
+# --- Peer: ThirstyAI Builder backend (repeat per backend host) -----
 [Peer]
 # PublicKey = the BACKEND host's WireGuard public key.
 # AllowedIPs = the tunnel IP the backend uses; on the Ollama host
@@ -50,7 +50,7 @@ PersistentKeepalive = 25
 
 
 # ------------------------------------------------------------------
-# Matching peer block on each ThirstyAi Builder backend host.
+# Matching peer block on each ThirstyAI Builder backend host.
 # The backend host's interface block mirrors this one with its own
 # PrivateKey, and the peer block is the Ollama host above.
 #
@@ -64,6 +64,6 @@ PersistentKeepalive = 25
 # AllowedIPs = 10.42.0.1/32
 # PersistentKeepalive = 25
 #
-# Then point the ThirstyAi Builder backend at:
+# Then point the ThirstyAI Builder backend at:
 #   OLLAMA_HOST=http://10.42.0.1:11434
 # ------------------------------------------------------------------

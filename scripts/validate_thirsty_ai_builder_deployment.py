@@ -81,7 +81,7 @@ def validate_compose_runtime() -> None:
         if "ok" not in healthz:
             raise RuntimeError(f"frontend healthz returned unexpected body: {healthz!r}")
         api_health = fetch(f"http://127.0.0.1:{port}/api/health")
-        if "ThirstyAi Builder" not in api_health or "database_backend" not in api_health:
+        if "ThirstyAI Builder" not in api_health or "database_backend" not in api_health:
             raise RuntimeError(f"proxied api health returned unexpected body: {api_health!r}")
         protected = fetch(
             f"http://127.0.0.1:{port}/api/appstore/tools",

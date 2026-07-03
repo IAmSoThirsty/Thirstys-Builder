@@ -1,4 +1,4 @@
-# ThirstyAi Builder — Owner Hand-Off
+# ThirstyAI Builder — Owner Hand-Off
 
 **For:** Jeremy Karrick · founderoftp@thirstysprojects.com
 **Entity:** Thirsty's Projects LLC · #14694374-0160
@@ -58,7 +58,7 @@ ollama pull qwen2.5-coder:7b
 ollama serve
 ```
 
-The ThirstyAi Builder talks to it at `http://127.0.0.1:11434`. Set
+The ThirstyAI Builder talks to it at `http://127.0.0.1:11434`. Set
 `OLLAMA_HOST` to override (e.g. for Docker). Set `OLLAMA_MODEL` to
 swap models. If Ollama isn't running, the chat endpoints return a
 clear 503 error.

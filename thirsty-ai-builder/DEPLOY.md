@@ -93,7 +93,7 @@ Smoke-test:
 
 ```bash
 curl https://<your-frontend-domain>/api/health
-# expected: {"status":"ok","product":"ThirstyAi Builder",...}
+# expected: {"status":"ok","product":"ThirstyAI Builder",...}
 ```
 
 Visit the URL in your browser. The footer should display the entity

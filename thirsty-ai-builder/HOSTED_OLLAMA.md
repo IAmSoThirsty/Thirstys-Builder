@@ -1,6 +1,6 @@
 # Hosted Ollama — Operator Runbook
 
-The ThirstyAi Builder backend talks to a single Ollama server. The
+The ThirstyAI Builder backend talks to a single Ollama server. The
 fastest path is a local Ollama on the same machine as the backend
 (default `http://127.0.0.1:11434`). This runbook is for the cases
 where the backend and Ollama live on different machines: a $5 VPS, a
@@ -81,7 +81,7 @@ $env:OLLAMA_MODEL = "qwen2.5-coder:7b"
 ## 3. Pull a model
 
 ```bash
-ollama pull qwen2.5-coder:7b      # default for ThirstyAi Builder
+ollama pull qwen2.5-coder:7b      # default for ThirstyAI Builder
 # or
 ollama pull llama3.2               # 3B, faster but weaker
 ollama pull codestral              # Mistral code-tuned

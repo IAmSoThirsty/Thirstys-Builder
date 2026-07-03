@@ -36,7 +36,7 @@ export default function App() {
         <div className="max-w-[1100px] mx-auto px-6 py-3 flex items-center gap-6">
           <NavLink to="/" className="flex items-center gap-2">
             <ThirstyLogo className="w-8 h-8" />
-            <span className="font-semibold tracking-tight">ThirstyAi Builder</span>
+            <span className="font-semibold tracking-tight">ThirstyAI Builder</span>
           </NavLink>
           <nav className="flex flex-wrap gap-1 ml-2 text-sm">
             {PAGES.map((p) => (

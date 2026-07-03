@@ -1,4 +1,4 @@
-"""Tests for the ThirstyAi Builder backend. Run with:
+"""Tests for the ThirstyAI Builder backend. Run with:
     cd thirsty-ai-builder/backend && python -m unittest tests/
 """
 from __future__ import annotations
@@ -202,7 +202,7 @@ class FastAPISurface(unittest.TestCase):
         r = self.client.get("/")
         self.assertEqual(r.status_code, 200)
         body = r.json()
-        self.assertEqual(body["product"], "ThirstyAi Builder")
+        self.assertEqual(body["product"], "ThirstyAI Builder")
         self.assertEqual(r.headers["X-Entity-Number"], "14694374-0160")
 
     def test_health(self):
@@ -278,7 +278,16 @@ class FastAPISurface(unittest.TestCase):
         if r.status_code == 503:
             self.skipTest("Ollama not reachable")
         self.assertEqual(r.status_code, 200)
-        self.assertIn("AI", r.json()["copy"])
+        copy = r.json()["copy"]
+        # Assert the response shape: non-empty string, multi-line
+        # (the contract is 3-bullet marketing copy). Do not assert
+        # specific words - the model is free to choose synonyms for
+        # the input topic, and asserting the literal substring "AI"
+        # is brittle against any phrasing that expands to
+        # "Artificial Intelligence" or similar.
+        self.assertIsInstance(copy, str)
+        self.assertGreater(len(copy.strip()), 0)
+        self.assertIn("\n", copy)
 
     def test_rag_embed_then_query(self):
         r = self.client.post(

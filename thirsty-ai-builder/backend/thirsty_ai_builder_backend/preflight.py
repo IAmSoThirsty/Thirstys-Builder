@@ -1,4 +1,4 @@
-"""Production preflight checks for ThirstyAi Builder deployments."""
+"""Production preflight checks for ThirstyAI Builder deployments."""
 from __future__ import annotations
 
 import os

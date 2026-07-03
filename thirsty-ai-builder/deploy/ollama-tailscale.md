@@ -1,9 +1,9 @@
 # Exposing Ollama over Tailscale
 
 Tailscale is the shortest path from "Ollama on a home/office box" to
-"ThirstyAi Builder backend anywhere" without poking firewall holes.
+"ThirstyAI Builder backend anywhere" without poking firewall holes.
 Tailscale gives every machine a stable 100.x.y.z IP on a private
-overlay; the Ollama host and the ThirstyAi Builder backend join the
+overlay; the Ollama host and the ThirstyAI Builder backend join the
 same tailnet, and the backend reaches Ollama by its tailnet IP.
 
 ## Install Tailscale on the Ollama host
@@ -44,7 +44,7 @@ Do NOT bind Ollama to 0.0.0.0. The Tailscale interface (tailscale0)
 is enough; binding to 0.0.0.0 exposes the API to every interface
 including the public internet if the host has one.
 
-## Install Tailscale on the ThirstyAi Builder backend host
+## Install Tailscale on the ThirstyAI Builder backend host
 
 Same install steps. Both machines must show up under the same tailnet
 in `tailscale status`.
