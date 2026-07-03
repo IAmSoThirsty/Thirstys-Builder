@@ -3,8 +3,8 @@
   "files": [
     {
       "path": ".gitignore",
-      "sha256": "3ac181ee2980a4d01e31c6a1e94114879ac67bdd34c4ed6168ba64a63311d780",
-      "size_bytes": 162
+      "sha256": "eafd659bff563ee5db5b3fdab961367a87e0bf7c199544a633c1d837af93cf6a",
+      "size_bytes": 171
     },
     {
       "path": "AGENTS.md",
@@ -148,17 +148,17 @@
     },
     {
       "path": "release/provenance.json",
-      "sha256": "a1bf1de82fbfc37e70171eda7ec6d77c7e097719f91ade70ba92a5a3692df098",
+      "sha256": "52bff89a914a48120bab2ddf48c401cd6bd310b9d398e7a30f93aa213d16a01a",
       "size_bytes": 384
     },
     {
       "path": "release/provenance.signature.json",
-      "sha256": "c541b0f4e5cc509c59135d02ffb1cf34e70daa483f3f7e354ec4da9a13910613",
+      "sha256": "c50bf66df45b455794cb158dd5b39611f92efda33898b59a0f2c88f28cab0b19",
       "size_bytes": 276
     },
     {
       "path": "release/sbom.json",
-      "sha256": "fa6b85aa4d32d7520577c9fa32ebf9f794c4237a8736bce16f8f75ec7d105eaf",
+      "sha256": "698eac2f821cbf73a97e2ad6d5e917fca858f63366fd9c8bb4d136f4800bcc0d",
       "size_bytes": 66404
     },
     {
@@ -1394,8 +1394,8 @@
   ],
   "package": {
     "path": "release/constitutional-builder-0.1.0.zip",
-    "sha256": "3e08a003b41a7460c654bc0c6a140bdb70a94ba0f7c3487ba430d46361b35483",
-    "size_bytes": 1269224
+    "sha256": "739ee56414ce72cfa735215f3c49ace6f7b00bbbb79e2e3ab999cb9a36608880",
+    "size_bytes": 1269226
   },
   "package_name": "constitutional-builder-0.1.0.zip",
   "schema": "constitutional-builder-package-manifest-v1"
