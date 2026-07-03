@@ -409,27 +409,27 @@ four production paths (Railway, Vercel + Render, Fly, VPS).
 
 ## Roadmap
 
-- [x] 0.1 — Single-node reference kernel vertical slice (all 8 modules)
-- [x] 0.1 — Deterministic test suite + 15-gate `verify_all.py`
-- [x] 0.1 — CycloneDX SBOM + reproducible release package
-- [x] 0.1 — Ed25519 release signing (per-machine keypair)
-- [x] 0.1 — Docker + Kubernetes smoke for the CBEP reference
-- [x] 0.1 — ThirstyAI Builder compose config + image builds audited
-- [x] 0.1 — Fail-closed auth + Mongo startup checks
-- [x] 0.1 — Commander certification as **local reference foundation
+- [x] 0.1.0 — Single-node reference kernel vertical slice (all 8 modules)
+- [x] 0.1.0 — Deterministic test suite + 15-gate `verify_all.py`
+- [x] 0.1.0 — CycloneDX SBOM + reproducible release package
+- [x] 0.1.0 — Ed25519 release signing (per-machine keypair)
+- [x] 0.1.0 — Docker + Kubernetes smoke for the CBEP reference
+- [x] 0.1.0 — ThirstyAI Builder compose config + image builds audited
+- [x] 0.1.0 — Fail-closed auth + Mongo startup checks
+- [x] 0.1.0 — Commander certification as **local reference foundation
       with self-hosted production deployment gates**
       ([`commander/final-certification-report.md`](commander/final-certification-report.md))
-- [ ] 0.2 — Multi-host consensus (CBEP volume 8) — actual federation,
+- [ ] 0.2.0 — Multi-host consensus (CBEP volume 8) — actual federation,
       not just the conformance check
-- [ ] 0.3 — Cloud reference deployment (AWS / GCP / Azure)
-- [ ] 0.3 — Edge reference deployment (single-binary, offline Ollama)
-- [ ] 0.4 — Air-gapped production deployment with offline model bundle
-- [ ] 0.4 — External CI execution (the audit runs on a separate runner
+- [ ] 0.3.0 — Cloud reference deployment (AWS / GCP / Azure)
+- [ ] 0.3.0 — Edge reference deployment (single-binary, offline Ollama)
+- [ ] 0.4.0 — Air-gapped production deployment with offline model bundle
+- [ ] 0.4.0 — External CI execution (the audit runs on a separate runner
       pool, not the build runner)
-- [ ] 0.5 — Independent security review (paid external firm)
-- [ ] 0.5 — KMS / HSM-backed release signing (replaces the per-machine
+- [ ] 0.5.0 — Independent security review (paid external firm)
+- [ ] 0.5.0 — KMS / HSM-backed release signing (replaces the per-machine
       keypair)
-- [ ] 1.0 — High-assurance variant (formal proof of the policy
+- [ ] 1.0.0 — High-assurance variant (formal proof of the policy
       module, volume 10 complete)
 
 ---
