@@ -11,3 +11,5 @@ deploy/runtime/
 dist/
 build/
 *.egg-info/
+states/
+states/
