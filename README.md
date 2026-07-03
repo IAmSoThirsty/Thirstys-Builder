@@ -70,8 +70,7 @@ typed objects, the policy bundle is the kernel (not a config file), the
 planner is deterministic, and the audit log is hash-chained and
 Ed25519-signed.
 
-That's the bet. If you ship a system where "did this actually happen,
-and was it authorized" needs to be a yes with a receipt — not a vibe —
+That is the operating premise. If you ship a system where "did this actually happen, and was it authorized" needs to be a yes with a receipt — not a vibe —
 this is the reference kernel you extend.
 
 For the longer argument, see [Why it exists](#why-it-exists) below.
@@ -84,7 +83,7 @@ Most execution runtimes are permissive: an unauthorized request fails
 open, an audit log is append-only until it isn't, and "deterministic
 replay" is a marketing phrase.
 
-Constitutional Builder is the opposite bet:
+Constitutional Builder takes the opposite position:
 
 - **Identity is explicit.** Every actor has a typed identity object. No
   ambient authority, no hidden root.
