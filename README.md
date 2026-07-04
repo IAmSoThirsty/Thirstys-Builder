@@ -419,8 +419,8 @@ four production paths (Railway, Vercel + Render, Fly, VPS).
 - [x] 0.1.0 — Commander certification as **local reference foundation
       with self-hosted production deployment gates**
       ([`commander/final-certification-report.md`](commander/final-certification-report.md))
-- [ ] 0.2.0 — Multi-host consensus (CBEP volume 8) — actual federation,
-      not just the conformance check
+- [x] 0.2.0 — Multi-host consensus (CBEP volume 8) — actual federation,
+      not just the conformance check (shipped as v0.3.0)
 - [ ] 0.3.0 — Cloud reference deployment (AWS / GCP / Azure)
 - [ ] 0.3.0 — Edge reference deployment (single-binary, offline Ollama)
 - [ ] 0.4.0 — Air-gapped production deployment with offline model bundle

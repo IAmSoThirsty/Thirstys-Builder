@@ -3,6 +3,64 @@
 All notable changes to the ThirstyAI Builder are recorded here. Dates
 are in `YYYY-MM-DD` (UTC). Versions follow [SemVer](https://semver.org/).
 
+## [v0.3.0] — 2026-07-04 — Live multi-host consensus (federation)
+
+### Added
+- **Live federation** at `source/constitutional_builder/federation/`.
+  Real HTTP between 3+ node processes on loopback, with the same
+  quorum math as the in-process `QuorumCluster` but exercised over
+  a real wire. Closes the 0.2.0 roadmap line: "Multi-host consensus
+  (CBEP volume 8) - actual federation, not just the conformance check."
+- **Wire protocol** (`federation/protocol.py`): `FederationMessage`
+  with `ASK`, `HEARTBEAT`, `POLICY_DIGEST_MISMATCH` kinds. CBEP-003
+  attestation envelope. `VoteBody` and `HeartbeatBody` payload types.
+  `policy_digest` for drift detection.
+- **HTTP transport** (`federation/transport.py`): standard-library
+  `ThreadingHTTPServer`, JSON only, no new dependencies. Bearer
+  token = SHA-256(public_key)[:16] hex. Loopback-only by default
+  (constructor refuses to bind to non-loopback hosts).
+- **`LiveCluster`** (`federation/cluster_live.py`): N real HTTP
+  nodes, peer topology, partition mask for tests, preserves
+  liveness state across partition changes.
+- **Split-brain guard**: the quorum bar is the *configured* cluster
+  size, not the visible size. A node that can see fewer than
+  quorum-many peers denies the request with reason
+  "cluster partition - quorum unreachable". Same property Raft and
+  Paxos enforce, no leader required.
+- **Drift detection hook**: `policy_digest` is computed from the
+  node's `PolicyEngine` rules and sent in every heartbeat. The
+  enforcement path (refusing a drift peer's vote) is reserved for
+  v0.3.1 — the digest is on the wire today.
+- **`ActionRequest.to_dict` / `from_dict`**: wire-friendly
+  roundtrip on the model. Same shape on the wire as in
+  `policy_bundle.json` for portability.
+- **15 new tests** in `tests/test_live_federation.py`: baseline,
+  single-peer partition, two-peer split-brain, recovery,
+  configured-vs-visible quorum, hash determinism, message
+  roundtrip, version mismatch rejection, fingerprint stability,
+  policy-digest drift detection, vote body roundtrip, server
+  loopback enforcement, info endpoint.
+- **`scripts/run_live_federation_conformance.py`**: 6-step
+  end-to-end conformance used by the CBEP gate. Step 16 of
+  `scripts/verify_all.py`.
+- **`docs/FEDERATION.md`**: full reference for the protocol,
+  the wire format, the test matrix, the multi-host deployment
+  instructions (WireGuard / Tailscale), and the open work.
+
+### Security
+- Server refuses to bind to non-loopback addresses. Multi-host
+  requires either a non-loopback whitelist (open work) or
+  fronting the server with a reverse proxy. Documented.
+- Bearer token is the SHA-256 of the public key (first 16 hex
+  chars). 64 bits of identity, no key material on the wire.
+- Drift detection is in place; enforcement is queued.
+
+### Changed
+- `ActionRequest` gained `to_dict` / `from_dict` for wire
+  serialization. Existing in-process code paths unchanged.
+
+---
+
 ## [v0.2.0] — 2026-07-04 — Thirsty CLI + brand polish
 
 ### Added

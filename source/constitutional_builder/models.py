@@ -30,6 +30,25 @@ class ActionRequest:
         if missing:
             raise ValueError(f"missing required request fields: {', '.join(missing)}")
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "request_id": self.request_id,
+            "subject_id": self.subject_id,
+            "operation": self.operation,
+            "resource": self.resource,
+            "parameters": self.parameters,
+        }
+
+    @staticmethod
+    def from_dict(d: dict[str, Any]) -> "ActionRequest":
+        return ActionRequest(
+            request_id=d["request_id"],
+            subject_id=d["subject_id"],
+            operation=d["operation"],
+            resource=d["resource"],
+            parameters=dict(d.get("parameters") or {}),
+        )
+
 
 @dataclass(frozen=True)
 class ExecutionStep:
