@@ -1,0 +1,207 @@
+{
+  "schema_version": "1.0",
+  "model": "personal-builder-coder",
+  "model_version": "v0.4.0-prep",
+  "generated_by": "scripts/build_personal_builder_coder.py",
+  "paper_count": 22,
+  "papers": [
+    {
+      "slug": "local_coding_caretaker_agent_api",
+      "filename": "# Local Coding CareTaker Agent API.txt",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\# Local Coding CareTaker Agent API.txt",
+      "exists": true,
+      "size_bytes": 75385,
+      "sha256": "6fe876ea0d54768d705d5344437a63ff6e9e480bccef226555f7367b2b9632d4",
+      "sha256_prefix": "6fe876ea0d54768d"
+    },
+    {
+      "slug": "aada_v5_legislative_package",
+      "filename": "AADA_v5_Legislative_Package.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\AADA_v5_Legislative_Package.pdf",
+      "exists": true,
+      "size_bytes": 154699,
+      "sha256": "75fe1cf3ca7fc4f462a3c54067bda742924e0b0d286a2c2d81f80cf461c18a6c",
+      "sha256_prefix": "75fe1cf3ca7fc4f4"
+    },
+    {
+      "slug": "admissibility_debt_paper",
+      "filename": "Admissibility_Debt.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Admissibility_Debt.pdf",
+      "exists": true,
+      "size_bytes": 230792,
+      "sha256": "55f5279faa5e5594103c41e1db6efa8e457775133c81ae33576dda47b9db3c87",
+      "sha256_prefix": "55f5279faa5e5594"
+    },
+    {
+      "slug": "agi_charter_project_ai_paper",
+      "filename": "AGI_Charter_for_Project-AI_v2_3.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\AGI_Charter_for_Project-AI_v2_3.pdf",
+      "exists": true,
+      "size_bytes": 589086,
+      "sha256": "e08d60f5e803a8e06122f96bf6514a9e99539b15f453bf0e34f227f5728e05c3",
+      "sha256_prefix": "e08d60f5e803a8e0"
+    },
+    {
+      "slug": "constitutional_code_store_v1_0",
+      "filename": "Constitutional_Code_Store_v1.0_Karrick.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Constitutional_Code_Store_v1.0_Karrick.pdf",
+      "exists": true,
+      "size_bytes": 171379,
+      "sha256": "49f1205afab09e1758655112472de2a049c21548edcb857660e1537476213204",
+      "sha256_prefix": "49f1205afab09e17"
+    },
+    {
+      "slug": "field_manual_universal_governance_spec",
+      "filename": "Field_Manual_Universal_Governance_Spec_v1_1.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Field_Manual_Universal_Governance_Spec_v1_1.pdf",
+      "exists": true,
+      "size_bytes": 170146,
+      "sha256": "9182b59f5df1232b8edd128de797e71179263802681e6e6c00aea38330a14ca1",
+      "sha256_prefix": "9182b59f5df1232b"
+    },
+    {
+      "slug": "local_coding_caretaker_agent_api_enhanced",
+      "filename": "Local Coding CareTaker Agent API - enhanced.yaml",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Local Coding CareTaker Agent API - enhanced.yaml",
+      "exists": true,
+      "size_bytes": 99665,
+      "sha256": "84c9d9476dc1a5237a63d49931c4284cd88a1fb7002845e72fd46a5d28a1b5e2",
+      "sha256_prefix": "84c9d9476dc1a523"
+    },
+    {
+      "slug": "meta_governance_segment",
+      "filename": "meta_governance_segment_1_3.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\meta_governance_segment_1_3.pdf",
+      "exists": true,
+      "size_bytes": 128111,
+      "sha256": "4d3f9a6ab55fca9efb06b53367ff0beb126030c4b6c817dd53e76621749ccd96",
+      "sha256_prefix": "4d3f9a6ab55fca9e"
+    },
+    {
+      "slug": "operational_destruction_review_v1_0_0",
+      "filename": "Operational_Destruction_Review_v1.0.0.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Operational_Destruction_Review_v1.0.0.pdf",
+      "exists": true,
+      "size_bytes": 53527,
+      "sha256": "3b9d3cdc318fbd6551b3cb12415e7995483667341b087b5e997ebdb0ee411f44",
+      "sha256_prefix": "3b9d3cdc318fbd65"
+    },
+    {
+      "slug": "project_ai_in_drive_technical_specification_v1_0",
+      "filename": "Project AI In-Drive Technical Specification v1.0.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Project AI In-Drive Technical Specification v1.0.pdf",
+      "exists": true,
+      "size_bytes": 107430,
+      "sha256": "274f33f671ec265b589e06da4e8a9862fb9fe4cd55e2f063f725d67b2c201ef2",
+      "sha256_prefix": "274f33f671ec265b"
+    },
+    {
+      "slug": "project_aegis",
+      "filename": "Project_AEGIS.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Project_AEGIS.pdf",
+      "exists": true,
+      "size_bytes": 274530,
+      "sha256": "1c0ab119b482ecbfeb07ffbdbdc68f81ab3c75a3f518a63c470efc4e6da1f1df",
+      "sha256_prefix": "1c0ab119b482ecbf"
+    },
+    {
+      "slug": "project_ai_the_vision_karrick",
+      "filename": "Project-AI_The_Vision_Karrick.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Project-AI_The_Vision_Karrick.pdf",
+      "exists": true,
+      "size_bytes": 87891,
+      "sha256": "b2bb7c0911e995b3a2540d3a2fa0b280edd646de4b783ddabeea97d48ded21cd",
+      "sha256_prefix": "b2bb7c0911e995b3"
+    },
+    {
+      "slug": "sovereign_monolith_temporal_dissonance",
+      "filename": "Sovereign Monolith Temporal Dissonance & Onboarding Guide.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Sovereign Monolith Temporal Dissonance & Onboarding Guide.pdf",
+      "exists": true,
+      "size_bytes": 128787,
+      "sha256": "5c05b2307e60482c59cae8ebffec85a1d1aab15a89edc5dfd47cceea8c09b2d0",
+      "sha256_prefix": "5c05b2307e60482c"
+    },
+    {
+      "slug": "tams_omega_v1_0",
+      "filename": "TAMS_OMEGA_v1.0.md",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\TAMS_OMEGA_v1.0.md",
+      "exists": true,
+      "size_bytes": 25839,
+      "sha256": "201cab9baec3549a48c5f9cd8cd04c3e52c2aad86a0454367bda9c2f45c40115",
+      "sha256_prefix": "201cab9baec3549a"
+    },
+    {
+      "slug": "the_governing_code_caretaker",
+      "filename": "The Governing Code Caretaker.final.yaml",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\The Governing Code Caretaker.final.yaml",
+      "exists": true,
+      "size_bytes": 120519,
+      "sha256": "98f20966ba952a07125b5d8bd9b1cf3de8df42c2a19900466ec638ccd628a26e",
+      "sha256_prefix": "98f20966ba952a07"
+    },
+    {
+      "slug": "the_sovereign_covenant_a_technical",
+      "filename": "The Sovereign Covenant A Technical.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\The Sovereign Covenant A Technical.pdf",
+      "exists": true,
+      "size_bytes": 90122,
+      "sha256": "c30aeafcb66be98bd2e9bc240430452da40f6557410c5852f500cafe0a477f43",
+      "sha256_prefix": "c30aeafcb66be98b"
+    },
+    {
+      "slug": "directness_doctrine_paper",
+      "filename": "The_Directness_Doctrine.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\The_Directness_Doctrine.pdf",
+      "exists": true,
+      "size_bytes": 89548,
+      "sha256": "da21c45962c6445c939ca81a732a0d981098501cebec1480d4568880266b838d",
+      "sha256_prefix": "da21c45962c6445c"
+    },
+    {
+      "slug": "flat_gap_paper",
+      "filename": "The_Flat_Gap.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\The_Flat_Gap.pdf",
+      "exists": true,
+      "size_bytes": 78853,
+      "sha256": "cd22866c8eb0d5fedb083637986c6572b0220e359ae3a449474aec39e4e7ed7e",
+      "sha256_prefix": "cd22866c8eb0d5fe"
+    },
+    {
+      "slug": "state_registry_paper",
+      "filename": "The_State_Registry.txt",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\The_State_Registry.txt",
+      "exists": true,
+      "size_bytes": 7109,
+      "sha256": "2d8f6545739af69f26a142b8745eec608d9809687f5e4c8f6f81ba5f2d43e50e",
+      "sha256_prefix": "2d8f6545739af69f"
+    },
+    {
+      "slug": "thirstys_standard_v3_pdf",
+      "filename": "Thirsty’s Standard v3.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\Thirsty’s Standard v3.pdf",
+      "exists": true,
+      "size_bytes": 105695,
+      "sha256": "798d9bd614c16ba25d632b5292ea732d756aeb65e12ecab97c66a784df376e5b",
+      "sha256_prefix": "798d9bd614c16ba2"
+    },
+    {
+      "slug": "upeo_1_specification",
+      "filename": "UPEO-1_Specification.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\UPEO-1_Specification.pdf",
+      "exists": true,
+      "size_bytes": 117824,
+      "sha256": "ddcdd5d26a581814565675c510205a81e7530c7441f60e428d8e5b03268529a1",
+      "sha256_prefix": "ddcdd5d26a581814"
+    },
+    {
+      "slug": "user_perception_identity_problem_paper",
+      "filename": "User_Perception_and_the_Identity_Problem.pdf",
+      "path": "C:\\Users\\Quencher\\Documents\\Thirsty's Projects LLC\\Project-AI Papers\\User_Perception_and_the_Identity_Problem.pdf",
+      "exists": true,
+      "size_bytes": 84943,
+      "sha256": "9734e877d88cb0d0842f2c3c6c36bbcd254f8ae27c4430ade0260aab51a05f66",
+      "sha256_prefix": "9734e877d88cb0d0"
+    }
+  ]
+}

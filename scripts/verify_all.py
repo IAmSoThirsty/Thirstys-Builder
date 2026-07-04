@@ -30,6 +30,7 @@ COMMANDS = [
     {"argv": [sys.executable, "scripts/run_cluster_conformance.py"]},
     {"argv": [sys.executable, "scripts/run_live_federation_conformance.py"]},
     {"argv": [sys.executable, "scripts/run_chaos_checks.py"]},
+    {"argv": [sys.executable, "scripts/build_personal_builder_coder.py", "--check"]},
     {"argv": [sys.executable, "scripts/generate_release_evidence.py", "--check"]},
     {"argv": [sys.executable, "scripts/build_release_package.py", "--check"]},
     {"argv": [sys.executable, "scripts/sign_release_package.py", "--check"]},

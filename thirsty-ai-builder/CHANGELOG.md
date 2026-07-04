@@ -3,6 +3,81 @@
 All notable changes to the ThirstyAI Builder are recorded here. Dates
 are in `YYYY-MM-DD` (UTC). Versions follow [SemVer](https://semver.org/).
 
+## [v0.4.0-prep] — 2026-07-04 — Personal Builder Coder Modelfile (in-repo)
+
+### Added
+- **Personal Builder Coder Modelfile moved into the repo.**
+  The `personal-builder-coder` Ollama model was previously a hand-curated
+  Modelfile living in Ollama's blob store with a system-prompt
+  generated on 2026-07-02. v0.4.0-prep pins it to `git` and signs it
+  with the project's existing Ed25519 release key, so the model is
+  reproducible from `git clone + python scripts/build_personal_builder_coder.py`.
+- **`models/personal-builder-coder/Modelfile`** — verbatim
+  `ollama show personal-builder-coder:latest --modelfile` output:
+  FROM line, Qwen 2.5 chat template with FIM and tool-calling,
+  full system prompt (core operating contract + 14 trained
+  principles), `PARAMETER num_ctx 8192`, `PARAMETER temperature 0.2`.
+- **`models/personal-builder-coder/source-evidence.json`** — 22 source
+  papers cited by the Modelfile's principle layer, each with path,
+  size, and a real full SHA-256 (not the truncated 16-char prefix
+  from the Modelfile). Manifest includes 8 papers the Modelfile's
+  source list did not cite (AADA, Operational Destruction Review,
+  Constitutional Code Store, Project-AI In-Drive, AEGIS, The Vision,
+  Sovereign Monolith, Sovereign Covenant) so the principle layer
+  has room to grow without losing integrity.
+- **`models/personal-builder-coder/manifest.json`** — schema with
+  name, version, base model (`qwen2.5-coder:7b`), upstream digest
+  (`60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463`),
+  architecture (qwen2, 7.6B, Q4_K_M), parameters, capabilities,
+  Modelfile sha, source-evidence sha. Honest about being a
+  Modelfile, not a fine-tune.
+- **`models/personal-builder-coder/manifest.signature.json`** —
+  Ed25519 signature over the canonical-JSON form of manifest.json,
+  using the same `TEST_SEED` as `release/package-signature.json`.
+  Verifies against `release/signing-public-key.pem`. Key fingerprint
+  `30934b906a55ee6d` (matches).
+- **`scripts/build_personal_builder_coder.py`** — three modes:
+  - default: verifies manifest + signature, then runs
+    `ollama create personal-builder-coder:v0.4.0-prep -f Modelfile`
+  - `--check`: manifest + signature only (no Ollama call)
+  - `--remove`: tears down the tag
+- **`tests/test_personal_builder_coder_manifest.py`** — 14 tests:
+  files exist, Modelfile sha matches, source-evidence sha matches,
+  signature verifies against release public key, signature key
+  fingerprint matches the PEM, schema has required keys, base
+  metadata correct, parameters correct, kind string honest about
+  no-finetune, all 22 papers exist on disk with matching SHA-256,
+  slugs unique, filenames unique.
+
+### Security
+- Manifest signed with the same Ed25519 key as the existing release
+  package. The signature is over the canonical-JSON form, which
+  means any whitespace or key-order change to manifest.json
+  invalidates the signature. Tampering with the Modelfile,
+  source-evidence, or upstream digest all break the chain.
+- The source-evidence SHA-256s are computed at build time and
+  verified at test time. A paper that gets moved or edited
+  without updating the manifest fails `pytest`.
+- `kind: modelfile-on-upstream-weights` and a `note` field that
+  says "It is not a fine-tuned model" so anyone reading the
+  manifest in a year knows what this artifact is.
+
+### Changed
+- `scripts/verify_all.py` — added step 13b: `build_personal_builder_coder.py --check`.
+  Runs on every gate, fails the gate if the manifest is stale,
+  tampered, or missing papers.
+
+### Not in v0.4.0-prep (deferred)
+- **Fine-tuning.** The hardware probe (Windows + AMD Radeon iGPU
+  with 0.5 GB VRAM, no CUDA) means QLoRA on Qwen 2.5 Coder 1.5B/7B
+  is not realistic on this machine. Future work: rent an A100/4090
+  for ~$5-10, or wait for better local hardware. The Modelfile
+  is the model for now; the manifest makes that explicit.
+- **Drift enforcement in the federation protocol.** Queued for v0.3.1
+  (federation work), not the model work.
+
+---
+
 ## [v0.3.0] — 2026-07-04 — Live multi-host consensus (federation)
 
 ### Added

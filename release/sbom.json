@@ -1,5 +1,5 @@
 {
-  "component_count": 209,
+  "component_count": 215,
   "components": [
     {
       "path": ".github/instructions/codacy.instructions.md",
@@ -27,8 +27,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "a56e6628b4c92e5c4e307d5d19e0f86333c61e2c15e083f6ad7d1aaa5098f6ff",
-      "size_bytes": 26007,
+      "sha256": "b362a82bf10f1638d27be08ec4d9eb18cbe0cc56a1a9696fcb3e26a089f7da01",
+      "size_bytes": 26025,
       "type": "metadata"
     },
     {
@@ -188,6 +188,30 @@
       "type": "documentation"
     },
     {
+      "path": "models/personal-builder-coder/Modelfile",
+      "sha256": "4bef3a6bd53e15891086ee8631680d76e1879493e70cc7866e5ddcf8907ecf8a",
+      "size_bytes": 7803,
+      "type": "metadata"
+    },
+    {
+      "path": "models/personal-builder-coder/manifest.json",
+      "sha256": "43939c8f1c89913863e554e36bbe2b65eaff1d12b94a65bb539731976c8a8ac7",
+      "size_bytes": 2003,
+      "type": "metadata"
+    },
+    {
+      "path": "models/personal-builder-coder/manifest.signature.json",
+      "sha256": "945027ca6477d3e2dce9a2f44694e504f30f57176f2e8142282c3a3bfa11e514",
+      "size_bytes": 825,
+      "type": "metadata"
+    },
+    {
+      "path": "models/personal-builder-coder/source-evidence.json",
+      "sha256": "523a66e9730071438740b2e32a938dfc0620473dba073da59a41e3f871089649",
+      "size_bytes": 9611,
+      "type": "metadata"
+    },
+    {
       "path": "proto/constitutional_builder/v1/builder.proto",
       "sha256": "4ace77bd38bf3ef39d39250a61827fe27dda7e9eda86585f5e75449ba2277f4b",
       "size_bytes": 1190,
@@ -203,6 +227,12 @@
       "path": "scripts/__init__.py",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0,
+      "type": "software"
+    },
+    {
+      "path": "scripts/build_personal_builder_coder.py",
+      "sha256": "0c1c06a7011b05c0bf84579386ae59c07daf46b772c91cf0c7ed59b0e4842c94",
+      "size_bytes": 6527,
       "type": "software"
     },
     {
@@ -309,8 +339,8 @@
     },
     {
       "path": "scripts/verify_all.py",
-      "sha256": "b5fdb7bd499b45d6c93bf972128f1cb9ed6f4cc2aea3f8432252413fdc0fe41e",
-      "size_bytes": 3108,
+      "sha256": "924170ec60e582791385faf9386144106f63d63ed0c6c935e68631c2957438ab",
+      "size_bytes": 3194,
       "type": "software"
     },
     {
@@ -716,6 +746,12 @@
       "type": "software"
     },
     {
+      "path": "tests/test_personal_builder_coder_manifest.py",
+      "sha256": "d346982e3878816d7e9430767408a93319293945f4c478938762addbc0f70ea6",
+      "size_bytes": 7054,
+      "type": "software"
+    },
+    {
       "path": "tests/test_policy_bundle.py",
       "sha256": "440a3ba29746529f437a0b3901bd8e2e742bd50e7c902ee9c5af9fabdc9d8ab5",
       "size_bytes": 1880,
@@ -741,8 +777,8 @@
     },
     {
       "path": "thirsty-ai-builder/CHANGELOG.md",
-      "sha256": "fb51ee320e3118f19713e01d7be37203fad16111e9361e283a1c7d9bb8e764a9",
-      "size_bytes": 9788,
+      "sha256": "7b4b48fc8efd61cf5bc1103d543b67561eff138d988b8baf54832f153a88b11c",
+      "size_bytes": 13828,
       "type": "metadata"
     },
     {
@@ -1256,6 +1292,6 @@
       "type": "metadata"
     }
   ],
-  "generated_utc": "2026-07-04T08:56:59+00:00",
+  "generated_utc": "2026-07-04T09:45:52+00:00",
   "schema": "constitutional-builder-sbom-v1"
 }

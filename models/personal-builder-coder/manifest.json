@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "name": "personal-builder-coder",
+  "version": "v0.4.0-prep",
+  "tag": "personal-builder-coder:v0.4.0-prep",
+  "kind": "modelfile-on-upstream-weights",
+  "note": "This is a prompt-engineered Modelfile layered on upstream Qwen 2.5 Coder 7B (Q4_K_M). It is not a fine-tuned model. The Modelfile itself is the model.",
+  "base": {
+    "family": "qwen2.5-coder",
+    "size": "7b",
+    "quantization": "Q4_K_M",
+    "upstream_digest": "60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+    "upstream_digest_source": "ollama show personal-builder-coder:latest --modelfile FROM line",
+    "license": "Apache-2.0",
+    "license_copyright": "Copyright 2024 Alibaba Cloud"
+  },
+  "architecture": {
+    "family": "qwen2",
+    "parameters": "7.6B",
+    "context_length": 32768,
+    "embedding_length": 3584,
+    "quantization": "Q4_K_M"
+  },
+  "parameters": {
+    "num_ctx": 8192,
+    "temperature": 0.2
+  },
+  "capabilities": [
+    "completion",
+    "tools",
+    "insert"
+  ],
+  "system_prompt_generated": "2026-07-02T09:14:28+00:00",
+  "system_prompt_status": "ready",
+  "files": {
+    "Modelfile": {
+      "path": "models/personal-builder-coder/Modelfile",
+      "sha256": "4bef3a6bd53e15891086ee8631680d76e1879493e70cc7866e5ddcf8907ecf8a",
+      "size_bytes": 7803
+    },
+    "source-evidence.json": {
+      "path": "models/personal-builder-coder/source-evidence.json",
+      "sha256": "523a66e9730071438740b2e32a938dfc0620473dba073da59a41e3f871089649",
+      "size_bytes": 9611,
+      "paper_count": 22,
+      "papers_found": 22
+    }
+  },
+  "build_command": "ollama create personal-builder-coder:v0.4.0-prep -f models/personal-builder-coder/Modelfile",
+  "build_script": "scripts/build_personal_builder_coder.py",
+  "test_script": "tests/test_personal_builder_coder_manifest.py",
+  "manifest_digest_algo": "sha256",
+  "signature_algo": "ed25519",
+  "signature_public_key": "release/signing-public-key.pem"
+}

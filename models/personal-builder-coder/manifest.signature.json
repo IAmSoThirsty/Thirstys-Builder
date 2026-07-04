@@ -1,0 +1,13 @@
+{
+  "schema": "constitutional-builder-ed25519-manifest-signature-v1",
+  "model": "personal-builder-coder",
+  "version": "v0.4.0-prep",
+  "manifest_path": "models/personal-builder-coder/manifest.json",
+  "manifest_sha256": "43939c8f1c89913863e554e36bbe2b65eaff1d12b94a65bb539731976c8a8ac7",
+  "algorithm": "Ed25519",
+  "key_scope": "local-test-key",
+  "key_source": "scripts/sign_release_package.py::TEST_SEED (same key as release/package-signature.json)",
+  "key_fingerprint_sha256_16": "30934b906a55ee6d",
+  "signature_base64": "zoibM6ryXxG81fagLAG8Qh4rKjqw4e7lbrq+HcncMxS+RhP3eASAlOna8a5we3FT0+5X8aNzGKtG7tP40zVlCA==",
+  "note": "Manifest signed with the project's existing local-test Ed25519 key. Verification: signature over the canonical-JSON form of manifest.json (sort_keys=True, separators=(',', ':'))."
+}

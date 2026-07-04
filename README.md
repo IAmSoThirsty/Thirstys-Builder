@@ -7,7 +7,7 @@ Identity → Policy → Capability → Planner → Execution → Audit → Repla
 One vertical slice, one Commander audit, one signed release.
 
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](thirsty-ai-builder/LICENSE)
-[![Status: v0.2.0](https://img.shields.io/badge/status-v0.2.0-green.svg)](CHANGELOG.md)
+[![Status: v0.4.0-prep](https://img.shields.io/badge/status-v0.4.0--prep-green.svg)](thirsty-ai-builder/CHANGELOG.md)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
 [![Kernel: fail-closed](https://img.shields.io/badge/kernel-fail--closed-brightgreen.svg)](source/constitutional_builder/policy.py)
 [![Audit: Ed25519](https://img.shields.io/badge/audit-Ed25519-brightgreen.svg)](scripts/sign_release_package.py)
@@ -15,10 +15,10 @@ One vertical slice, one Commander audit, one signed release.
 [![Spec: 18 volumes](https://img.shields.io/badge/spec-18%20volumes-purple.svg)](spec/)
 [![Cert: local foundation](https://img.shields.io/badge/cert-local%20foundation-green.svg)](commander/final-certification-report.md)
 [![Release signed](https://img.shields.io/badge/release-Ed25519%20signed-brightgreen.svg)](release/signing-public-key.pem)
-[![Tests: 184 passing](https://img.shields.io/badge/tests-184%20passing-brightgreen.svg)](#)
+[![Tests: 229 passing](https://img.shields.io/badge/tests-229%20passing-brightgreen.svg)](#)
 [![Security: founderoftp@thirstysprojects.com](https://img.shields.io/badge/security-founderoftp%40thirstysprojects.com-blue.svg)](SECURITY.md)
 
-[What it is](#what-it-is) · [Why It Matters](#why-it-matters) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
+[What it is](#what-it-is) · [Why it matters](#why-it-matters) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
 
 </div>
 
