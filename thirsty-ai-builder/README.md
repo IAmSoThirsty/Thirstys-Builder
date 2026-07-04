@@ -5,7 +5,7 @@
 **A private, on-premises AI workspace. One command, one local model, one signed PDF per audit.**
 
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
-[![Status: v0.2.0](https://img.shields.io/badge/status-v0.2.0-green.svg)](CHANGELOG.md)
+[![Status: v0.3.1](https://img.shields.io/badge/status-v0.3.1-green.svg)](CHANGELOG.md)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](backend/requirements.txt)
 [![Node 18+](https://img.shields.io/badge/node-18+-blue.svg)](frontend/package.json)
 [![LLM: Ollama local](https://img.shields.io/badge/llm-Ollama%20local-purple.svg)](https://ollama.com)
@@ -23,7 +23,7 @@
 | Attribute | Value | Source |
 |---|---|---|
 | **License** | Proprietary, all rights reserved | [`LICENSE`](LICENSE) |
-| **Status** | v0.2.0 | [`CHANGELOG.md`](CHANGELOG.md) |
+| **Status** | v0.3.1 | [`CHANGELOG.md`](CHANGELOG.md) |
 | **Python** | 3.11+ | [`backend/requirements.txt`](backend/requirements.txt) |
 | **Node** | 18+ | [`frontend/package.json`](frontend/package.json) |
 | **LLM** | Ollama, local (no API key, no cloud) | [`HOSTED_OLLAMA.md`](HOSTED_OLLAMA.md) |

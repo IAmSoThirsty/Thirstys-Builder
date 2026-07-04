@@ -66,6 +66,7 @@ class FederationServer:
         public_key: str,
         on_ask: Callable[[ActionRequest], "VoteBody"] | None = None,
         on_heartbeat: Callable[[HeartbeatBody], None] | None = None,
+        local_policy_digest: str | None = None,
     ) -> None:
         if host != "127.0.0.1" and host != "localhost":
             raise ValueError(
@@ -84,6 +85,13 @@ class FederationServer:
         # Track peers by fingerprint -> last_seen timestamp.
         self._peers_lock = threading.Lock()
         self._peers: dict[str, dict[str, Any]] = {}
+        # Drift refusal: if set, an ask carrying a `policy_digest` field is
+        # rejected with HTTP 409 + POLICY_DIGEST_MISMATCH when the digest
+        # does not match the local digest. Heartbeats also update the local
+        # record of a peer's digest.
+        self.local_policy_digest = local_policy_digest
+        # peer_fp -> {node_id, last_digest, last_seen}
+        self._peer_digests: dict[str, dict[str, Any]] = {}
 
     def start(self) -> None:
         outer = self
@@ -110,6 +118,30 @@ class FederationServer:
     def peers(self) -> dict[str, dict[str, Any]]:
         with self._peers_lock:
             return {k: dict(v) for k, v in self._peers.items()}
+
+    def record_peer_digest(self, peer_node_id: str, digest: str) -> None:
+        """Record the most recent policy digest seen for a peer.
+
+        Updated by every ask (which carries the sender's digest and
+        node_id). Used to attribute drift events to a peer and to
+        expose a per-peer digest map for the cluster operator.
+
+        Keyed by `peer_node_id` (the sender's identity), not by the
+        bearer fingerprint - the bearer is the *server's* fingerprint,
+        not the sender's, so it can't be used to distinguish peers.
+        """
+        with self._peers_lock:
+            self._peer_digests[peer_node_id] = {
+                "digest": digest,
+                "last_seen": __import__("time").monotonic(),
+            }
+
+    def peer_digests(self) -> dict[str, dict[str, Any]]:
+        with self._peers_lock:
+            return {k: dict(v) for k, v in self._peer_digests.items()}
+
+    def set_local_policy_digest(self, digest: str) -> None:
+        self.local_policy_digest = digest
 
     @property
     def url(self) -> str:
@@ -168,6 +200,30 @@ def _make_handler(server: FederationServer) -> type[BaseHTTPRequestHandler]:
                 if server._on_ask is None:
                     self._send(503, {"error": "ask_handler_unset"})
                     return
+                sender = msg.sender_node_id or (msg.attestation.sender if msg.attestation else None)
+                # Drift refusal: if the server was constructed with a local
+                # policy digest, the ask must carry a matching digest (or no
+                # digest, which we treat as "this peer predates the drift
+                # check" and allow through - drift refusal is opt-in per
+                # cluster by setting local_policy_digest). If the digests
+                # disagree, reject with 409 POLICY_DIGEST_MISMATCH and do
+                # not run the local kernel.
+                if (
+                    server.local_policy_digest is not None
+                    and msg.policy_digest is not None
+                    and msg.policy_digest != server.local_policy_digest
+                ):
+                    if sender is not None:
+                        server.record_peer_digest(sender, msg.policy_digest)
+                    self._send(409, {
+                        "error": "policy_digest_mismatch",
+                        "local_digest": server.local_policy_digest,
+                        "remote_digest": msg.policy_digest,
+                    })
+                    return
+                # Track the peer's digest for the audit trail.
+                if msg.policy_digest is not None and sender is not None:
+                    server.record_peer_digest(sender, msg.policy_digest)
                 try:
                     request = ActionRequest.from_dict(msg.body)
                     request.validate()
@@ -250,7 +306,13 @@ class FederationClient:
         except (HTTPError, URLError, TimeoutError, OSError) as exc:
             raise FederationError(f"info failed: {exc}") from exc
 
-    def post_ask(self, request: ActionRequest, attestation: Attestation | None = None) -> dict[str, Any]:
+    def post_ask(
+        self,
+        request: ActionRequest,
+        attestation: Attestation | None = None,
+        policy_digest: str | None = None,
+        sender_node_id: str | None = None,
+    ) -> dict[str, Any]:
         body = {"kind": MessageKind.ASK.value, "body": request.to_dict() if hasattr(request, "to_dict") else {
             "request_id": request.request_id,
             "subject_id": request.subject_id,
@@ -260,6 +322,10 @@ class FederationClient:
         }}
         if attestation is not None:
             body["attestation"] = attestation.to_dict()
+        if policy_digest is not None:
+            body["policy_digest"] = policy_digest
+        if sender_node_id is not None:
+            body["sender_node_id"] = sender_node_id
         body["version"] = PROTOCOL_VERSION
         resp = self._post(PATH_ASK, body)
         # Server returns {"vote": {...}}

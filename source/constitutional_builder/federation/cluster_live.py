@@ -27,7 +27,7 @@ from ..kernel import ConstitutionalKernel
 from ..models import ActionRequest, DecisionStatus
 from ..policy import PolicyEffect, PolicyEngine, PolicyRule
 from .node import FederationNode
-from .protocol import HeartbeatBody, VoteBody
+from .protocol import HeartbeatBody, VoteBody, policy_digest
 from .transport import (
     FederationClient,
     FederationError,
@@ -109,11 +109,18 @@ class LiveCluster:
         self._slots: list[_NodeSlot] = []
         for i in range(n):
             port = _free_port()
+            # Each node's server is initialized with the local policy
+            # digest computed from its kernel's PolicyEngine. This enables
+            # drift refusal: when an ask arrives, the server compares the
+            # sender's digest against this local one. The check is opt-in
+            # per cluster (skipped if local_policy_digest is None).
+            local_digest = policy_digest(kernels[i].policies)
             server = FederationServer(
                 host="127.0.0.1",
                 port=port,
                 node_id=ids[i],
                 public_key=keys[i],
+                local_policy_digest=local_digest,
             )
             # We attach the vote handler that runs the local kernel.
             # The handler is closure-bound to this slot's kernel.

@@ -23,8 +23,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "b362a82bf10f1638d27be08ec4d9eb18cbe0cc56a1a9696fcb3e26a089f7da01",
-      "size_bytes": 26025
+      "sha256": "d8491cb4bc731248f07f6a1fd469ce010951e7944f86d80cde06867126c079c0",
+      "size_bytes": 26026
     },
     {
       "path": "SECURITY.md",
@@ -88,8 +88,8 @@
     },
     {
       "path": "docs/FEDERATION.md",
-      "sha256": "73b3f243b0f3732134c94acd27e12a4b280cd6b887216fc6a067bde621da1910",
-      "size_bytes": 8131
+      "sha256": "9de4a417df677e22ba647e9a52a0eff7c8ea8c014d7ebf39dbfe5685a3be1eba",
+      "size_bytes": 10162
     },
     {
       "path": "docs/api/openapi.json",
@@ -188,18 +188,18 @@
     },
     {
       "path": "release/provenance.json",
-      "sha256": "50ed1f3e289a4cd96ac4e1426eba4620cd49a99d1af8b52db07aa7cdcfab0e4a",
+      "sha256": "6f72c1478a65a18f86d9391a88ab649f164566a5d1a7cc04ad72ac727e88e087",
       "size_bytes": 384
     },
     {
       "path": "release/provenance.signature.json",
-      "sha256": "2780c9c36955468d5b994c0e10d3516ad259d0dc338372223d8458ebe3c712e5",
+      "sha256": "ba3c4741b7f0095520dfc83194faf420bf9a5d716b06b4aedf420a726a636b3f",
       "size_bytes": 276
     },
     {
       "path": "release/sbom.json",
-      "sha256": "22ad2cfda1deeb99ed9b2e878bdfba91422548d5cc3198d632f41dfaac2f2033",
-      "size_bytes": 45700
+      "sha256": "01b27524fdeafe985356c8510d9441c2b60c78a4a5957013bf979dc836372288",
+      "size_bytes": 45701
     },
     {
       "path": "scripts/__init__.py",
@@ -423,23 +423,23 @@
     },
     {
       "path": "source/constitutional_builder/federation/cluster_live.py",
-      "sha256": "6452fdcc707a8f0d06b1f91186a02965dc38010341f1ce0ee78c90250b3451da",
-      "size_bytes": 10477
+      "sha256": "cd46f033630aa87e86eb46fd21b7c20e6289568e578703be105502f7c49347d9",
+      "size_bytes": 10965
     },
     {
       "path": "source/constitutional_builder/federation/node.py",
-      "sha256": "f7d59b23250721699288aeae34319726881b4ba230e928946f12ff2bab8d1e1e",
-      "size_bytes": 10994
+      "sha256": "3a272ecb094db1c608a4aed093d63eb22a949809381d33d3b8982d13385d6c05",
+      "size_bytes": 14484
     },
     {
       "path": "source/constitutional_builder/federation/protocol.py",
-      "sha256": "cf6c00d21009b8e458fb7e05e1f101f5e723c305910649bb97a21f34c2bcf91a",
-      "size_bytes": 7266
+      "sha256": "06fdca59d5bb4d0a55e647aa643c6ed32639cf44a1ecd6e1f439cc596664a1b4",
+      "size_bytes": 7736
     },
     {
       "path": "source/constitutional_builder/federation/transport.py",
-      "sha256": "cb93be71f50726d268c6529a7494bc21692f889d974eadc0854f74c61b523deb",
-      "size_bytes": 10867
+      "sha256": "427a83b29ae579565d396be2be32d279573ea1348eb6c3ae5b4b77163f8fcb3e",
+      "size_bytes": 14074
     },
     {
       "path": "source/constitutional_builder/grpc_server.py",
@@ -633,8 +633,8 @@
     },
     {
       "path": "tests/test_live_federation.py",
-      "sha256": "607c60bea43759e734c930c9af6f0d8a89a656d5c30ace7a36ff2c1378409165",
-      "size_bytes": 11083
+      "sha256": "cfdfd37b6a391d59ba5b5a55f5c34ec150d369a56c769a18516197d690d7321c",
+      "size_bytes": 18206
     },
     {
       "path": "tests/test_personal_builder_coder_manifest.py",
@@ -663,8 +663,8 @@
     },
     {
       "path": "thirsty-ai-builder/CHANGELOG.md",
-      "sha256": "7b4b48fc8efd61cf5bc1103d543b67561eff138d988b8baf54832f153a88b11c",
-      "size_bytes": 13828
+      "sha256": "e4fbf4135e1a290a88d90a1ce7542bf574cb1970c39822116d65a7e7d4815380",
+      "size_bytes": 17877
     },
     {
       "path": "thirsty-ai-builder/DEPLOY.md",
@@ -698,8 +698,8 @@
     },
     {
       "path": "thirsty-ai-builder/README.md",
-      "sha256": "3f56bfb8f8270144e779cf5a6abc2dcb7a20e1746e9d477a896c1bb88b07303e",
-      "size_bytes": 17120
+      "sha256": "3587b32d28fbb27d40d78796efb5151ae426bf8d93b08638ec9eef192ec589a5",
+      "size_bytes": 17138
     },
     {
       "path": "thirsty-ai-builder/SECURITY.md",
@@ -833,7 +833,7 @@
     },
     {
       "path": "thirsty-ai-builder/cli/pyproject.toml",
-      "sha256": "16895af1c49d4b8384f05b132bbc51bf5f11d9d07699f708015d815005bd2f09",
+      "sha256": "bc1eb6ae92fd53a3b1e8de2a9d753d8b25e23db5fcf4aa5e8d3d0705843b8a97",
       "size_bytes": 395
     },
     {
@@ -853,7 +853,7 @@
     },
     {
       "path": "thirsty-ai-builder/cli/thirsty_ai_builder_cli/__init__.py",
-      "sha256": "2a0b57a7c71615788008aa3a201a70f22f0ccd38df5b64dca9d888d8ef1512a1",
+      "sha256": "af8e2b8538e22c7438e45a453585d374351e9c66d47e70de3730312bfabd4758",
       "size_bytes": 1021
     },
     {
@@ -1094,8 +1094,8 @@
   ],
   "package": {
     "path": "release/constitutional-builder-0.1.0.zip",
-    "sha256": "2ce1ccc8b9897650663a0a6e2141296ffa20fb4ca32ede5ac03b76952dd56939",
-    "size_bytes": 475207
+    "sha256": "5beb4eb13ec7d617d98830f33cce7e1070b914b27c05e4f446ef1d420fda9aee",
+    "size_bytes": 481076
   },
   "package_name": "constitutional-builder-0.1.0.zip",
   "schema": "constitutional-builder-package-manifest-v1"

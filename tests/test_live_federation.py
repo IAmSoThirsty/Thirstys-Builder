@@ -246,6 +246,128 @@ class TestLiveFederation(unittest.TestCase):
         vb2 = VoteBody.from_dict(vb.to_dict())
         self.assertEqual(vb2.node_id, "node-1")
 
+    # ---- drift refusal (v0.3.1) ----
+
+    def _kernel_with_rule(self, *, allow: bool, effect: PolicyEffect, rule_name: str) -> ConstitutionalKernel:
+        """A kernel with a uniquely-named rule so its policy_digest differs
+        from any other kernel with a different rule_name or effect.
+
+        We use rule_name and effect to construct policies whose digests
+        are guaranteed to differ across calls.
+        """
+        from constitutional_builder.policy import PolicyRule
+        return ConstitutionalKernel(
+            identities=IdentityRegistry([Subject("operator", "Operator")]),
+            policies=PolicyEngine(
+                [PolicyRule(rule_name, effect, "echo", "demo", "operator", "ok")]
+            ),
+            capabilities=(
+                CapabilityRegistry([CapabilityGrant("grant", "operator", "echo", "demo")])
+                if allow
+                else CapabilityRegistry([])
+            ),
+            audit_log=InMemoryAuditLog(),
+            handlers={"echo": lambda resource, parameters: {"resource": resource, "parameters": parameters}},
+        )
+
+    def test_drift_refuses_vote_from_mismatched_peer(self) -> None:
+        """A peer whose policy_digest differs from the local digest
+        refuses to vote. The entry node's submit() treats the
+        refusal as a denial, AND records the drift in its
+        `drifted_peers()` map for the cluster operator to see.
+        """
+        # Node 1 + Node 2 have identical policies (so they can talk).
+        # Node 3 has a different policy (so it refuses Node 1's asks).
+        from constitutional_builder.policy import PolicyRule
+        kernel_allow = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="allow-a")
+        kernel_other = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="allow-b")
+        self.cluster = LiveCluster([kernel_allow, kernel_allow, kernel_other])
+        # Submit via node 1. Node 1 + node 2 allow; node 3 refuses.
+        d = self.cluster.submit(ActionRequest("drift-1", "operator", "echo", "demo", {}))
+        # 2 approvals out of 3 visible (we counted 1 + 1 = 2 since node 3's
+        # refusal counts as a denial). Quorum is 2 -> allowed.
+        self.assertEqual(d.status, DecisionStatus.ALLOWED)
+        self.assertEqual(d.approvals, 2)
+        self.assertEqual(d.denials, 1)
+        # The drift was recorded on the entry node.
+        drifted = self.cluster.entry().drifted_peers()
+        self.assertIn("node-3", drifted)
+        self.assertIn("local_digest", drifted["node-3"])
+        self.assertIn("remote_digest", drifted["node-3"])
+        self.assertNotEqual(drifted["node-3"]["local_digest"], drifted["node-3"]["remote_digest"])
+
+    def test_drift_refusal_with_mismatch_too_many_denies(self) -> None:
+        """If 2 of 3 peers drift, the cluster has only 1 live approval
+        (the entry's own), which is less than quorum=2: denied with
+        a reason that lists the drifted peers.
+        """
+        from constitutional_builder.policy import PolicyRule
+        kernel_allow = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="allow-a")
+        kernel_b = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="allow-b")
+        kernel_c = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="allow-c")
+        # All 3 differ. Each is a unique policy -> all 3 digests differ.
+        # node 1 entry -> node 2 refuses (digest differs), node 3 refuses.
+        # Entry alone: 1 approval, 2 drift refusals, visible=1 < quorum=2.
+        self.cluster = LiveCluster([kernel_allow, kernel_b, kernel_c])
+        d = self.cluster.submit(ActionRequest("drift-2", "operator", "echo", "demo", {}))
+        self.assertEqual(d.status, DecisionStatus.DENIED)
+        self.assertIn("partition", d.reason)
+        self.assertIn("drifted peers", d.reason)
+        # The reason should mention both drifted peers.
+        self.assertIn("node-2", d.reason)
+        self.assertIn("node-3", d.reason)
+
+    def test_drift_clears_after_realignment(self) -> None:
+        """Once a peer's policy realigns (its digest now matches the
+        entry's), the drift is cleared and votes are accepted again.
+        In this test we simulate realignment by re-creating the
+        cluster with a kernel whose digest matches the entry's.
+        """
+        from constitutional_builder.policy import PolicyRule
+        # Two different policies. Entry node uses policy-a; node 3 uses policy-b.
+        kernel_a = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="policy-a")
+        kernel_b = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="policy-b")
+        # Build a 2-node cluster: entry (a), peer (b). Peer will refuse.
+        self.cluster = LiveCluster([kernel_a, kernel_b])
+        d1 = self.cluster.submit(ActionRequest("r-1", "operator", "echo", "demo", {}))
+        # Entry alone -> visible=1 < quorum=2 -> denied with drift.
+        self.assertEqual(d1.status, DecisionStatus.DENIED)
+        self.assertEqual(len(self.cluster.entry().drifted_peers()), 1)
+        # Now we rebuild the peer with the same policy as the entry.
+        # The cluster is replaced; entry's drift state starts empty.
+        self.cluster.stop()
+        kernel_a_again = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="policy-a")
+        self.cluster = LiveCluster([kernel_a_again, kernel_a_again])
+        d2 = self.cluster.submit(ActionRequest("r-2", "operator", "echo", "demo", {}))
+        self.assertEqual(d2.status, DecisionStatus.ALLOWED)
+        self.assertEqual(self.cluster.entry().drifted_peers(), {})
+
+    def test_peer_digest_recorded_in_ask(self) -> None:
+        """Sanity check: when an ask arrives, the server records the
+        peer's digest in its `peer_digests()` map. This is the
+        audit-trail side of drift refusal.
+        """
+        from constitutional_builder.policy import PolicyRule
+        kernel_allow = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="allow-x")
+        kernel_other = self._kernel_with_rule(allow=True, effect=PolicyEffect.ALLOW, rule_name="allow-y")
+        self.cluster = LiveCluster([kernel_allow, kernel_allow, kernel_other])
+        # Drive ask traffic to *every* node by submitting via each entry.
+        # Each submit fans out to all peers; each peer server records
+        # the entry's digest in its peer_digests map.
+        for entry_index in range(3):
+            self.cluster.submit(
+                ActionRequest(f"r-{entry_index}", "operator", "echo", "demo", {}),
+                entry_index=entry_index,
+            )
+        # Every server should have seen asks from the other two nodes.
+        # (A node's own server doesn't get an ask when IT is the entry.)
+        for i, node in enumerate(self.cluster.nodes):
+            digests = node.server.peer_digests()
+            self.assertEqual(
+                len(digests), 2,
+                f"node-{i + 1} server should have 2 peer digests, got {len(digests)}: {digests}",
+            )
+
 
 class TestFederationTransport(unittest.TestCase):
     def test_server_rejects_non_loopback(self) -> None:

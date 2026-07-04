@@ -71,11 +71,17 @@ class FederationMessage:
     kind: MessageKind
     body: dict[str, Any]
     attestation: Attestation | None = None  # signed messages carry one
+    policy_digest: str | None = None  # sender's local policy digest, for drift refusal
+    sender_node_id: str | None = None  # sender's node_id, for server-side bookkeeping
 
     def to_json(self) -> str:
         d: dict[str, Any] = {"version": PROTOCOL_VERSION, "kind": self.kind.value, "body": self.body}
         if self.attestation is not None:
             d["attestation"] = self.attestation.to_dict()
+        if self.policy_digest is not None:
+            d["policy_digest"] = self.policy_digest
+        if self.sender_node_id is not None:
+            d["sender_node_id"] = self.sender_node_id
         return json.dumps(d, sort_keys=True, separators=(",", ":"))
 
     @staticmethod
@@ -88,6 +94,8 @@ class FederationMessage:
             kind=MessageKind(d["kind"]),
             body=d["body"],
             attestation=Attestation.from_dict(att) if att else None,
+            policy_digest=d.get("policy_digest"),
+            sender_node_id=d.get("sender_node_id"),
         )
 
 

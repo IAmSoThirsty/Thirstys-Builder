@@ -45,16 +45,47 @@ fingerprint and rejects the request with 403 if they don't match.
 ### Message kinds
 
 - `ask`: "please run this ActionRequest against your local kernel and
-  return your vote." Used by the entry node to fan out to peers.
+  return your vote." Used by the entry node to fan out to peers. The
+  ask carries the entry's `policy_digest` and `sender_node_id` so the
+  peer can run a drift check before executing the local kernel.
 - `heartbeat`: liveness + drift detection. Sent every
   `heartbeat_interval_seconds` (default 1s). Includes the node's
   `policy_digest` (a SHA-256 of the rules in its `PolicyEngine`).
-  If a peer's digest doesn't match the local node's digest, the
-  peer is refusing to vote (drift detection is an open hook in
-  v0.3.0 - the drift refusal path is not yet enforced; the digest
-  is computed and sent, but nodes don't reject drift peers yet).
-- `policy_digest_mismatch`: reserved for the drift refusal path
-  (not yet emitted by any code).
+- `policy_digest_mismatch`: returned in the 409 response when a peer's
+  local digest disagrees with the asker's. The response body has
+  `local_digest` (the refusing peer's digest) and `remote_digest`
+  (the digest the peer saw in the ask).
+
+### Drift refusal
+
+Drift refusal is **opt-in per cluster**: a `FederationServer` is
+constructed with a `local_policy_digest`, and only then does it
+reject mismatched asks. If `local_policy_digest` is `None`, the
+server accepts asks with any (or no) digest - this is the legacy
+behaviour and lets old clients talk to new servers.
+
+When `local_policy_digest` is set:
+
+1. The entry node computes its own digest from its kernel's
+   `PolicyEngine` and attaches it to every ask.
+2. A peer server compares the ask's digest against its local
+   digest. Mismatch -> 409 with the two digests in the body, the
+   local kernel is *not* run.
+3. The entry node's `submit()` records the drift in
+   `FederationNode.drifted_peers()` and treats the peer as a
+   denial for the request. If the drift causes the visible cluster
+   to drop below configured quorum, the request is denied with
+   `cluster partition - quorum unreachable (visible=N, configured=M);
+   drifted peers: <list>`.
+4. The peer's `peer_digests()` map records the asker's digest and
+   node_id, so a cluster operator can see drift attribution.
+
+`drift` is a real failure mode: a node that has lost contact with
+its policy source (out-of-date config, manually-edited rules, a
+botched rolling deploy) will be refused by the rest of the cluster.
+This is the same property Raft enforces - members that diverge
+from the cluster's authoritative state cannot vote - but at the
+policy layer instead of the log layer.
 
 ### Quorum semantics
 
@@ -141,19 +172,19 @@ If you need TLS without an overlay: front the federation server
 with a reverse proxy (Caddy, nginx) and use that as the peer URL.
 The protocol stays the same.
 
-## Open work (not in v0.3.0)
+## Open work (not in v0.3.1)
 
-- **Drift refusal enforcement.** `policy_digest` is computed and
-  sent in every heartbeat, but a node does not yet refuse votes
-  from a peer whose digest differs. The hook is in place
-  (`MessageKind.POLICY_DIGEST_MISMATCH`); wiring the check is
-  mechanical.
 - **Multi-host release artifact.** The same-host test runs on every
   CI. A multi-host test would need at least 2 machines; the protocol
   is identical.
 - **Persistent peer list.** Currently the peer list is passed in at
   construction. A persistent peer registry (config file, Consul,
   etcd) is the next layer.
+- **Heartbeat-based drift detection.** Drift is currently detected
+  on every ask. A more efficient design detects drift in the
+  heartbeat loop and marks the peer as dead *before* the next ask
+  is even sent. The hook is in place; the loop wiring is the open
+  work.
 
 ## Test matrix
 
@@ -176,6 +207,10 @@ The protocol stays the same.
 | `test_vote_body_round_trip` | vote serialization |
 | `test_server_rejects_non_loopback` | non-loopback bind is refused |
 | `test_info_endpoint` | info endpoint returns version+identity |
+| `test_drift_refuses_vote_from_mismatched_peer` | 1 of 3 peers drift, quorum still met, denial recorded in `drifted_peers()` |
+| `test_drift_refusal_with_mismatch_too_many_denies` | 2 of 3 peers drift, visible=1 < quorum=2, deny with `drifted peers: ...` in reason |
+| `test_drift_clears_after_realignment` | after re-creating the cluster with matching policies, drift state is empty |
+| `test_peer_digest_recorded_in_ask` | server's `peer_digests()` map keys by sender node_id, has 2 entries per node after submitting via each entry |
 
 `scripts/run_live_federation_conformance.py` runs the 6-step
 end-to-end scenario used by the CBEP gate. Step 16 of

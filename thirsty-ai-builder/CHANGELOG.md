@@ -3,6 +3,90 @@
 All notable changes to the ThirstyAI Builder are recorded here. Dates
 are in `YYYY-MM-DD` (UTC). Versions follow [SemVer](https://semver.org/).
 
+## [v0.3.1] — 2026-07-04 — Federation drift refusal (enforced)
+
+### Added
+- **Drift refusal is now enforced.** v0.3.0 shipped the
+  `policy_digest` field on heartbeats and the `MessageKind.POLICY_DIGEST_MISMATCH`
+  enum entry, but no code rejected drifted peers. v0.3.1 closes
+  that loop:
+  - `FederationServer` accepts a new `local_policy_digest` constructor
+    arg. When set, the server compares the ask's `policy_digest`
+    against its local one. Mismatch -> HTTP 409 with the two digests
+    in the body; the local kernel is *not* run.
+  - `LiveCluster` constructs each node's server with the local
+    digest computed from the kernel's `PolicyEngine`, so drift
+    refusal is on by default in the v0.3.1 reference implementation.
+  - `FederationNode.drifted_peers()` exposes the drift attribution:
+    `peer_node_id -> {local_digest, remote_digest, reason}`. Operators
+    can see at a glance which peer is drifted and the digests they
+    disagree on.
+  - `FederationNode.clear_drift(peer_node_id)` clears a single peer's
+    drift state on realignment.
+  - `FederationServer.peer_digests()` is the per-server view of every
+    peer's most recent digest, keyed by the sender's `node_id`. The
+    sender's identity is now carried on the wire as a top-level
+    `sender_node_id` field on `FederationMessage` (alongside
+    `policy_digest`), since the bearer is the *server's* fingerprint
+    and can't be used to distinguish senders.
+  - When drift causes the visible cluster to drop below configured
+    quorum, the deny reason lists the drifted peers:
+    `cluster partition - quorum unreachable (visible=N, configured=M);
+    drifted peers: <list>`.
+
+### Wire protocol
+- `FederationMessage` schema is **additive**: `policy_digest` and
+  `sender_node_id` are optional fields. Older clients/servers (v0.3.0
+  and earlier) that don't send these fields are still accepted -
+  drift refusal is opt-in per cluster, not protocol-level. This
+  keeps federation clusters with mixed-version nodes working during
+  a rolling upgrade.
+
+### Tests (4 new in `tests/test_live_federation.py`)
+- `test_drift_refuses_vote_from_mismatched_peer` - 1 of 3 peers
+  drifted, quorum still met, denial recorded in `drifted_peers()`.
+- `test_drift_refusal_with_mismatch_too_many_denies` - 2 of 3 peers
+  drifted, visible=1 < quorum=2, deny with `drifted peers: ...` in
+  the reason.
+- `test_drift_clears_after_realignment` - after rebuilding the
+  cluster with matching policies, `drifted_peers()` is empty.
+- `test_peer_digest_recorded_in_ask` - `peer_digests()` map keys by
+  sender node_id, has 2 entries per node after submitting via each
+  entry.
+
+Total root suite: 49 tests (was 45). Product suite: 184. CBEP gate
+green.
+
+### Docs
+- `docs/FEDERATION.md` "Message kinds" updated to describe the new
+  fields and the 409 response shape. New "Drift refusal" subsection
+  documents the opt-in semantics, the 4-step enforcement, and the
+  cluster-operator surface (`drifted_peers`, `clear_drift`,
+  `peer_digests`). "Open work" updated: drift enforcement removed,
+  heartbeat-based drift detection added.
+- Test matrix updated with the 4 new tests.
+
+### Changed
+- `thirsty-ai-builder/cli/pyproject.toml`: `0.2.0 -> 0.3.1`.
+- `thirsty-ai-builder/cli/thirsty_ai_builder_cli/__init__.py`:
+  `__version__` `0.2.0 -> 0.3.1`.
+- `thirsty-ai-builder/README.md` and root `README.md`:
+  status badge `v0.2.0 -> v0.3.1`; test count `229 -> 233`.
+
+### Not in v0.3.1 (deferred)
+- **Heartbeat-based drift detection.** Drift is still detected on
+  every ask. The heartbeat loop already records peer digests (the
+  hook is in place); wiring the comparison is a 1-hour follow-up.
+- **Drift reconciliation.** When drift is detected, the cluster
+  currently just refuses votes. The next step is a "drift observed"
+  state where the cluster continues to serve reads but refuses all
+  writes, with an operator-facing recovery command.
+- **Multi-host release artifact, persistent peer list.** Both are
+  real, multi-day pieces of work; see `docs/FEDERATION.md` "Open
+  work".
+
+---
+
 ## [v0.4.0-prep] — 2026-07-04 — Personal Builder Coder Modelfile (in-repo)
 
 ### Added

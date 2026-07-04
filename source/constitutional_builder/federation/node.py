@@ -31,7 +31,12 @@ from .protocol import (
     VoteBody,
     policy_digest,
 )
-from .transport import FederationClient, FederationError, FederationServer, fingerprint
+from .transport import (
+    FederationClient,
+    FederationError,
+    FederationServer,
+    fingerprint,
+)
 
 
 @dataclass(frozen=True)
@@ -55,6 +60,7 @@ class FederationNode:
     _partition_mask: frozenset[str] = field(default_factory=frozenset, repr=False, compare=False)
     _peers_lock: threading.Lock = field(default_factory=threading.Lock, repr=False, compare=False)
     _peers_seen: dict[str, float] = field(default_factory=dict, repr=False, compare=False)
+    _drift_refusals: dict[str, dict[str, str]] = field(default_factory=dict, repr=False, compare=False)
     _hb_thread: threading.Thread | None = field(default=None, repr=False, compare=False)
     _hb_stop: threading.Event = field(default_factory=threading.Event, repr=False, compare=False)
 
@@ -63,9 +69,10 @@ class FederationNode:
     def with_partition(self, partitioned: frozenset[str]) -> "FederationNode":
         """Return a copy of this node with a new partition mask. Used in tests.
 
-        Preserves the `_peers_seen` map (liveness state) and the partition
-        timeout config across the copy. The `_partition_mask` is the only
-        field that changes - and it is the only one callers care about.
+        Preserves the `_peers_seen` map (liveness state), the drift
+        refusal map, and the partition timeout config across the copy.
+        The `_partition_mask` is the only field that changes - and it
+        is the only one callers care about.
         """
         new = FederationNode(
             node_id=self.node_id,
@@ -78,6 +85,7 @@ class FederationNode:
             vote_timeout_seconds=self.vote_timeout_seconds,
             _partition_mask=partitioned,
             _peers_seen=dict(self._peers_seen),
+            _drift_refusals={k: dict(v) for k, v in self._drift_refusals.items()},
         )
         return new
 
@@ -91,6 +99,21 @@ class FederationNode:
             if last is None:
                 return False
             return (time.monotonic() - last) < self.heartbeat_timeout_seconds
+
+    def drifted_peers(self) -> dict[str, dict[str, str]]:
+        """Map of peer_node_id -> {local_digest, remote_digest, reason}.
+
+        Populated when a peer's HTTP ask response is 409 with
+        policy_digest_mismatch, OR when a peer's heartbeat carries a
+        digest that disagrees with the local digest. Cleared on
+        re-alignment by `clear_drift(peer_node_id)`.
+        """
+        with self._peers_lock:
+            return {k: dict(v) for k, v in self._drift_refusals.items()}
+
+    def clear_drift(self, peer_node_id: str) -> None:
+        with self._peers_lock:
+            self._drift_refusals.pop(peer_node_id, None)
 
     # ---- submission ----
 
@@ -116,6 +139,7 @@ class FederationNode:
         request.validate()
         configured_quorum = (len(self.peers) + 1) // 2 + 1
         entry_partitioned = self.node_id in self._partition_mask
+        local_digest = policy_digest(self.kernel.policies)
 
         local_decision = self.kernel.handle(request)
         local_event = self._last_event_for(request.request_id)
@@ -124,6 +148,7 @@ class FederationNode:
 
         approvals = 0
         denials = 0
+        drift_refusals: list[tuple[str, str, str]] = []  # (peer_id, local, remote)
         node_decisions: list[Any] = []
         node_events: list[tuple[str, Any]] = []
 
@@ -140,9 +165,35 @@ class FederationNode:
                 continue
             client = FederationClient(peer_url, bearer=fingerprint(peer_pk), timeout_seconds=self.vote_timeout_seconds)
             try:
-                vote_dict = client.post_ask(request)
+                vote_dict = client.post_ask(
+                    request,
+                    policy_digest=local_digest,
+                    sender_node_id=self.node_id,
+                )
                 vote = VoteBody.from_dict(vote_dict)
             except FederationError as exc:
+                # FederationError raised on HTTP 4xx/5xx and on transport
+                # errors. The 409 case is the only one we can disambiguate
+                # cleanly here; for everything else, treat the peer as a
+                # non-responder (denial, no audit event from them).
+                msg = str(exc)
+                if "policy_digest_mismatch" in msg:
+                    # The peer refused because our digest differs. The drift
+                    # is on OUR side from the peer's view. The 409 response
+                    # carries both digests: `local_digest` is the peer's own
+                    # digest, `remote_digest` is the digest the peer saw
+                    # coming in (which is our digest). We record both for
+                    # the audit trail.
+                    peer_digest, remote_digest = _extract_digests_from_error(msg)
+                    drift_refusals.append((peer_id, local_digest, peer_digest))
+                    with self._peers_lock:
+                        self._drift_refusals[peer_id] = {
+                            "local_digest": local_digest,
+                            "remote_digest": peer_digest,
+                            "reason": "policy_digest_mismatch (entry refused by peer)",
+                        }
+                    denials += 1
+                    continue
                 # A failed peer call counts as a denial (we never got a vote
                 # and we don't fabricate one). The cluster keeps the local
                 # decision and the rest of the live votes.
@@ -161,10 +212,14 @@ class FederationNode:
             1 for n in node_decisions[1:]
         )
         if visible < configured_quorum:
+            reason = f"cluster partition - quorum unreachable (visible={visible}, configured={configured_quorum})"
+            if drift_refusals:
+                drifted = ", ".join(peer_id for peer_id, _, _ in drift_refusals)
+                reason += f"; drifted peers: {drifted}"
             return ClusterDecision(
                 request_id=request.request_id,
                 status=DecisionStatus.DENIED,
-                reason=f"cluster partition - quorum unreachable (visible={visible}, configured={configured_quorum})",
+                reason=reason,
                 quorum=configured_quorum,
                 approvals=approvals,
                 denials=denials,
@@ -259,6 +314,27 @@ class FederationNode:
                     pass  # liveness will catch it
             self._hb_stop.wait(self.heartbeat_interval_seconds)
 
-from ..audit import AuditEvent
 def _event_from_dict(d: dict[str, Any]) -> AuditEvent:
     return AuditEvent(**d)
+
+
+def _extract_digests_from_error(msg: str) -> tuple[str, str]:
+    """Pull `local_digest` and `remote_digest` out of a `FederationError`
+    message like `http 409: {"error": "policy_digest_mismatch",
+    "local_digest": "abc...", "remote_digest": "def..."}`. Returns
+    ("", "") if the digests can't be found.
+
+    `local_digest` in the response is the *server's* policy digest.
+    `remote_digest` in the response is what the server saw the *sender*
+    sending (i.e. the entry's own digest, sent back to it).
+    """
+    import json as _json
+    import re
+    m = re.search(r"\{.*\}", msg)
+    if not m:
+        return ("", "")
+    try:
+        body = _json.loads(m.group(0))
+    except _json.JSONDecodeError:
+        return ("", "")
+    return (str(body.get("local_digest", "")), str(body.get("remote_digest", "")))
