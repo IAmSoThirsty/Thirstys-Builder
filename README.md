@@ -18,7 +18,7 @@ One vertical slice, one Commander audit, one signed release.
 [![Tests: 229 passing](https://img.shields.io/badge/tests-229%20passing-brightgreen.svg)](#)
 [![Security: founderoftp@thirstysprojects.com](https://img.shields.io/badge/security-founderoftp%40thirstysprojects.com-blue.svg)](SECURITY.md)
 
-[What it is](#what-it-is) · [Why it matters](#why-it-matters) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
+[What it is](#what-it-is) · [Why It Matters](#why-it-matters) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Repository layout](#repository-layout) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Security](#security) · [Docs](#docs) · [License](#license)
 
 </div>
 

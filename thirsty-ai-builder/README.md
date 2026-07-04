@@ -16,7 +16,7 @@
 [![Tests: 184 passing](https://img.shields.io/badge/tests-184%20passing-brightgreen.svg)](#)
 [![Security: founderoftp@thirstysprojects.com](https://img.shields.io/badge/security-founderoftp%40thirstysprojects.com-blue.svg)](SECURITY.md)
 
-[What it is](#what-it-is) · [Why care](#why-care) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Docs](#docs) · [License](#license)
+[What it is](#what-it-is) · [Why It Matters](#why-it-matters) · [Why it exists](#why-it-exists) · [Architecture](#architecture) · [Quickstart](#quickstart) · [Tech stack](#tech-stack) · [Development](#development) · [Deploy](#deploy) · [Roadmap](#roadmap) · [Docs](#docs) · [License](#license)
 
 </div>
 
@@ -54,7 +54,7 @@ and the rest of the app keeps working. No silent stubs, no fake answers.
 
 ---
 
-## Why care
+## Why It Matters
 
 If you want a private AI workspace that **you** own — runs on your
 hardware, signs its own audits, and is honest about what's on and what's
