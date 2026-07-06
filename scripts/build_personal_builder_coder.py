@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -30,6 +31,7 @@ PUBLIC_KEY = ROOT / "release" / "signing-public-key.pem"
 
 EXPECTED_TAG = "personal-builder-coder:v0.4.0-prep"
 EXPECTED_BASE = "qwen2.5-coder:7b"
+SOURCE_PAPERS_DIR_ENV = "PROJECT_AI_PAPERS_DIR"
 
 
 def sha256_file(p: Path) -> str:
@@ -38,6 +40,19 @@ def sha256_file(p: Path) -> str:
 
 def canonical_json(obj: dict) -> bytes:
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+
+
+def resolve_source_paper_path(paper: dict) -> Path | None:
+    configured_root = os.environ.get(SOURCE_PAPERS_DIR_ENV)
+    if configured_root:
+        return Path(configured_root) / paper["filename"]
+    path = Path(paper["path"])
+    if path.is_absolute():
+        return path
+    repo_relative = ROOT / path
+    if repo_relative.exists():
+        return repo_relative
+    return None
 
 
 def check_manifest() -> int:
@@ -90,13 +105,20 @@ def check_manifest() -> int:
         print(f"FAIL: manifest signature invalid: {e}")
         return 1
 
-    # 4. Every source paper exists and its hash matches
+    # 4. If the external source archive is available, every source paper
+    # exists and its hash matches. The manifest itself stays repo-portable:
+    # it records relative source paths and SHA-256s, not local workstation
+    # paths.
     bad = []
+    skipped = 0
     for paper in se_obj["papers"]:
         if not paper["exists"]:
             bad.append(f"missing: {paper['filename']}")
             continue
-        path = Path(paper["path"])
+        path = resolve_source_paper_path(paper)
+        if path is None:
+            skipped += 1
+            continue
         if not path.exists():
             bad.append(f"missing on disk: {paper['filename']}")
             continue
@@ -108,7 +130,13 @@ def check_manifest() -> int:
         for b in bad:
             print(f"  - {b}")
         return 1
-    print(f"PASS: {se_obj['paper_count']} source papers present with matching SHA-256")
+    if skipped:
+        print(
+            f"WARN: skipped on-disk source paper verification; set {SOURCE_PAPERS_DIR_ENV} "
+            "to the Project-AI Papers directory to enable it"
+        )
+    else:
+        print(f"PASS: {se_obj['paper_count']} source papers present with matching SHA-256")
 
     return 0
 

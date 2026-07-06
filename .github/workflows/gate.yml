@@ -84,5 +84,5 @@ jobs:
             release/provenance.signature.json
             release/package-manifest.json
             release/package-signature.json
-            release/constitutional-builder-0.1.0.zip
+            release/constitutional-builder-0.3.1.zip
           retention-days: 30

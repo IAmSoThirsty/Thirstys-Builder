@@ -13,6 +13,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -26,6 +27,7 @@ MANIFEST = MODEL_DIR / "manifest.json"
 SOURCE_EVIDENCE = MODEL_DIR / "source-evidence.json"
 SIGNATURE = MODEL_DIR / "manifest.signature.json"
 PUBLIC_KEY = ROOT / "release" / "signing-public-key.pem"
+SOURCE_PAPERS_DIR_ENV = "PROJECT_AI_PAPERS_DIR"
 
 
 def sha256_file(p: Path) -> str:
@@ -34,6 +36,19 @@ def sha256_file(p: Path) -> str:
 
 def canonical_json(obj: dict) -> bytes:
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+
+
+def resolve_source_paper_path(paper: dict) -> Path | None:
+    configured_root = os.environ.get(SOURCE_PAPERS_DIR_ENV)
+    if configured_root:
+        return Path(configured_root) / paper["filename"]
+    path = Path(paper["path"])
+    if path.is_absolute():
+        return path
+    repo_relative = ROOT / path
+    if repo_relative.exists():
+        return repo_relative
+    return None
 
 
 class TestManifestPresent(unittest.TestCase):
@@ -103,9 +118,13 @@ class TestSourcePapers(unittest.TestCase):
     def test_every_paper_exists_and_sha_matches(self):
         missing = []
         mismatched = []
+        skipped = 0
         for paper in self.source_evidence["papers"]:
             self.assertTrue(paper["exists"], f"paper {paper['filename']} must be marked exists=True")
-            path = Path(paper["path"])
+            path = resolve_source_paper_path(paper)
+            if path is None:
+                skipped += 1
+                continue
             if not path.exists():
                 missing.append(paper["filename"])
                 continue
@@ -116,6 +135,14 @@ class TestSourcePapers(unittest.TestCase):
             self.fail(f"{len(missing)} source paper(s) missing on disk: {missing[:3]}")
         if mismatched:
             self.fail(f"{len(mismatched)} source paper(s) sha mismatch: {mismatched[:3]}")
+        if skipped:
+            self.skipTest(
+                f"on-disk source archive not configured; set {SOURCE_PAPERS_DIR_ENV} to verify paper files"
+            )
+
+    def test_paths_are_repo_portable(self):
+        for paper in self.source_evidence["papers"]:
+            self.assertFalse(Path(paper["path"]).is_absolute(), f"{paper['filename']} path must be relative")
 
     def test_slugs_are_unique(self):
         slugs = [p["slug"] for p in self.source_evidence["papers"]]

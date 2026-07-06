@@ -6,23 +6,28 @@ import json
 import zipfile
 from pathlib import Path
 
+try:
+    from .release_config import (
+        PACKAGE_NAME,
+        is_generated_release_metadata,
+        is_local_metadata,
+        is_release_package,
+        repo_relative,
+    )
+except ImportError:  # pragma: no cover - direct script execution
+    from release_config import (
+        PACKAGE_NAME,
+        is_generated_release_metadata,
+        is_local_metadata,
+        is_release_package,
+        repo_relative,
+    )
+
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE_DIR = ROOT / "release"
-PACKAGE_NAME = "constitutional-builder-0.1.0.zip"
 MANIFEST_NAME = "package-manifest.json"
 FIXED_ZIP_DATE = (1980, 1, 1, 0, 0, 0)
-EXCLUDED_PARTS = {
-    ".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
-    ".tool-cache", "states", "target", "node_modules", "dist", "build",
-}
-EXCLUDED_PREFIXES = {
-    "deploy/runtime",
-    f"release/{PACKAGE_NAME}",
-    f"release/{MANIFEST_NAME}",
-    "release/package-signature.json",
-    "release/signing-public-key.pem",
-}
 
 
 def main() -> int:
@@ -74,14 +79,15 @@ def iter_package_files() -> list[Path]:
     for path in ROOT.rglob("*"):
         if not path.is_file():
             continue
-        relative = path.relative_to(ROOT).as_posix()
-        parts = set(Path(relative).parts)
-        if parts & EXCLUDED_PARTS:
+        relative = repo_relative(path, ROOT)
+        if is_local_metadata(relative):
             continue
-        if any(relative == prefix or relative.startswith(f"{prefix}/") for prefix in EXCLUDED_PREFIXES):
+        if is_release_package(relative):
+            continue
+        if is_generated_release_metadata(relative):
             continue
         files.append(path)
-    return sorted(files, key=lambda item: item.relative_to(ROOT).as_posix())
+    return sorted(files, key=lambda item: repo_relative(item, ROOT))
 
 
 def build_manifest(files: list[Path]) -> dict[str, object]:
@@ -108,7 +114,7 @@ def build_zip_bytes(files: list[Path]) -> bytes:
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for path in files:
-            relative = path.relative_to(ROOT).as_posix()
+            relative = repo_relative(path, ROOT)
             info = zipfile.ZipInfo(relative, FIXED_ZIP_DATE)
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o644 << 16

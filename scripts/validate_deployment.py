@@ -7,6 +7,11 @@ import time
 import urllib.request
 from pathlib import Path
 
+try:
+    from .release_config import LOCAL_IMAGE_TAG, RELEASE_IMAGE_TAG
+except ImportError:  # pragma: no cover - direct script execution
+    from release_config import LOCAL_IMAGE_TAG, RELEASE_IMAGE_TAG
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,7 +23,7 @@ def main() -> int:
     docker = shutil.which("docker")
     if docker and docker_daemon_available(docker):
         completed = subprocess.run(
-            [docker, "build", "-f", "deploy/Dockerfile", "-t", "constitutional-builder:local-verify", "."],
+            [docker, "build", "-f", "deploy/Dockerfile", "-t", LOCAL_IMAGE_TAG, "."],
             cwd=ROOT,
             check=False,
             stdout=subprocess.PIPE,
@@ -34,7 +39,7 @@ def main() -> int:
         else:
             print("PASS: docker image build completed")
             smoke = subprocess.run(
-                [docker, "run", "--rm", "constitutional-builder:local-verify", "constitutional-builder", "--help"],
+                [docker, "run", "--rm", LOCAL_IMAGE_TAG, "constitutional-builder", "--help"],
                 cwd=ROOT,
                 check=False,
                 stdout=subprocess.PIPE,
@@ -53,7 +58,7 @@ def main() -> int:
             if live_failure:
                 failures.append(live_failure)
             tag = subprocess.run(
-                [docker, "tag", "constitutional-builder:local-verify", "constitutional-builder:0.1.0"],
+                [docker, "tag", LOCAL_IMAGE_TAG, RELEASE_IMAGE_TAG],
                 cwd=ROOT,
                 check=False,
                 stdout=subprocess.PIPE,
@@ -164,7 +169,7 @@ def docker_api_smoke(docker: str) -> str | None:
             container_name,
             "-p",
             "127.0.0.1::8080",
-            "constitutional-builder:local-verify",
+            LOCAL_IMAGE_TAG,
         ],
         cwd=ROOT,
         check=False,
@@ -306,7 +311,7 @@ def import_image_to_kind_node(docker: str) -> str | None:
         print("WARN: desktop-control-plane node container not found; skipping image import")
         return None
     export = subprocess.Popen(
-        [docker, "save", "constitutional-builder:0.1.0"],
+        [docker, "save", RELEASE_IMAGE_TAG],
         cwd=ROOT,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

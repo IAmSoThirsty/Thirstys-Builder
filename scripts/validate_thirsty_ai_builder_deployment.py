@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import socket
 import subprocess
 import sys
@@ -96,8 +97,41 @@ def validate_compose_runtime() -> None:
             print(f"WARN: thirsty compose cleanup failed\n{down.stdout}")
 
 
+def static_checks() -> None:
+    required = [
+        APP / "docker-compose.yml",
+        APP / "backend" / "Dockerfile",
+        APP / "frontend" / "Dockerfile",
+        APP / "frontend" / "nginx.conf",
+        APP / "backend" / "thirsty_ai_builder_backend" / "preflight.py",
+    ]
+    missing = [path for path in required if not path.exists()]
+    if missing:
+        raise RuntimeError("missing deployment file(s): " + ", ".join(str(path) for path in missing))
+
+    compose = (APP / "docker-compose.yml").read_text(encoding="utf-8")
+    required_tokens = [
+        "CB_API_KEY: \"${CB_API_KEY:?CB_API_KEY must be set in .env}\"",
+        "THIRSTY_AI_REQUIRE_AUTH: \"1\"",
+        "THIRSTY_AI_REQUIRE_MONGO: \"1\"",
+        "read_only: true",
+        "no-new-privileges:true",
+        "127.0.0.1:${THIRSTY_AI_FRONTEND_PORT:-3000}:80",
+    ]
+    for token in required_tokens:
+        if token not in compose:
+            raise RuntimeError(f"docker-compose.yml missing {token!r}")
+
+    print("PASS: thirsty deployment static checks")
+
+
 def main() -> int:
     try:
+        static_checks()
+        if not shutil.which("docker"):
+            print("WARN: docker not available; skipped compose/image/runtime deployment checks")
+            print("PASS: thirsty-ai-builder deployment validation completed (static only)")
+            return 0
         require_ok(
             "thirsty compose config",
             run(

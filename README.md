@@ -25,7 +25,7 @@ One vertical slice, one Commander audit, one signed release.
 | Attribute | Value | Source |
 |---|---|---|
 | **License** | Proprietary, source-available under written agreement | [`thirsty-ai-builder/LICENSE`](thirsty-ai-builder/LICENSE) |
-| **Version** | v0.2.0 | [`pyproject.toml`](pyproject.toml) |
+| **Version** | v0.3.1 | [`pyproject.toml`](pyproject.toml) |
 | **Python** | 3.11+ | [`pyproject.toml`](pyproject.toml) |
 | **Kernel** | fail-closed (deny by default) | [`source/constitutional_builder/policy.py`](source/constitutional_builder/policy.py) |
 | **Audit log** | Ed25519-signed, hash-linked | [`scripts/sign_release_package.py`](scripts/sign_release_package.py) |

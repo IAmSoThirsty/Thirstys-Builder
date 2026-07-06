@@ -77,7 +77,7 @@
     {
       "id": "CBEP-009",
       "statement": "The Builder must produce reproducible local release evidence including SBOM, provenance, and integrity signature.",
-      "implementation": ["scripts/generate_release_evidence.py", "scripts/build_release_package.py", "scripts/sign_release_package.py", "release/sbom.json", "release/provenance.json", "release/provenance.signature.json", "release/package-manifest.json", "release/constitutional-builder-0.1.0.zip", "release/package-signature.json", "release/signing-public-key.pem"],
+      "implementation": ["scripts/generate_release_evidence.py", "scripts/build_release_package.py", "scripts/sign_release_package.py", "release/sbom.json", "release/provenance.json", "release/provenance.signature.json", "release/package-manifest.json", "release/constitutional-builder-0.3.1.zip", "release/package-signature.json", "release/signing-public-key.pem"],
       "tests": ["scripts/generate_release_evidence.py", "scripts/build_release_package.py", "scripts/sign_release_package.py", "scripts/verify_all.py"],
       "benchmarks": ["benchmarks/benchmark_kernel.py"],
       "metrics": ["sbom_component_count", "tree_sha256", "provenance_sha256", "package_sha256", "ed25519_signature_verified"],

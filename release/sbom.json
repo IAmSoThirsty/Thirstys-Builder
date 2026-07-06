@@ -2,21 +2,15 @@
   "component_count": 215,
   "components": [
     {
-      "path": ".github/instructions/codacy.instructions.md",
-      "sha256": "d45a3281ea3021d6899b3c29fe2d2e04e73c48fec65acbbe9303baa2e3e1e9fd",
-      "size_bytes": 4239,
-      "type": "metadata"
-    },
-    {
       "path": ".github/workflows/gate.yml",
-      "sha256": "9d92ab48503a818705a61a6ec7db89de9cd0c697532574937c96d51ae800475d",
+      "sha256": "9c30c197070a552959d9a4db26e5f78da466098fd1e73677e1ba0bf566ff129e",
       "size_bytes": 2861,
       "type": "metadata"
     },
     {
       "path": ".gitignore",
-      "sha256": "2e0b7d9dd327b37a490080c4e462f2d23e99bfb745380b46cc99df4792672d15",
-      "size_bytes": 268,
+      "sha256": "94e008e006a93264f23f941cd833c665367afb3a2afb0c77b2228850b81ae2f1",
+      "size_bytes": 304,
       "type": "metadata"
     },
     {
@@ -27,8 +21,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "d8491cb4bc731248f07f6a1fd469ce010951e7944f86d80cde06867126c079c0",
-      "size_bytes": 26026,
+      "sha256": "15ba2f0dafb08b9ced6789bd27001fa6b5bd5b82e760d87e1f44cbc4a1cde846",
+      "size_bytes": 26025,
       "type": "metadata"
     },
     {
@@ -69,7 +63,7 @@
     },
     {
       "path": "commander/final-certification-report.md",
-      "sha256": "ddb792a9199ed9c435c951402a7feb4d846d8af6219cfefa673cb7682013f6d3",
+      "sha256": "68b3b2d9c72c3ee84f743e31f809b3828760164d4ea1003f3d5affa52d28e456",
       "size_bytes": 9045,
       "type": "documentation"
     },
@@ -99,7 +93,7 @@
     },
     {
       "path": "deploy/kubernetes.yaml",
-      "sha256": "a9cc8fc0c702759cbee6ab1b2ced175be5c62a1224e9b9d1ad2edd81a11f839c",
+      "sha256": "e0a03783050db1b1d2c1b0bcf4f58a4f845ae3a8e3ed1043f4b22789bea44f0b",
       "size_bytes": 1419,
       "type": "deployment"
     },
@@ -111,7 +105,7 @@
     },
     {
       "path": "docs/api/openapi.json",
-      "sha256": "2911e78b135ae8d3c89b9e19d147760648efb0b05792e592317e8170a7742b0e",
+      "sha256": "7d8b7860d9b13acbcae3709f829a9a97d66e88ab611747fa0f3251d74510510f",
       "size_bytes": 2051,
       "type": "documentation"
     },
@@ -195,20 +189,20 @@
     },
     {
       "path": "models/personal-builder-coder/manifest.json",
-      "sha256": "43939c8f1c89913863e554e36bbe2b65eaff1d12b94a65bb539731976c8a8ac7",
-      "size_bytes": 2003,
+      "sha256": "2e7dcb2f3559fefc6f8960cba4b0410af8ac069c57ca24b7b669c90b638ae1d0",
+      "size_bytes": 2005,
       "type": "metadata"
     },
     {
       "path": "models/personal-builder-coder/manifest.signature.json",
-      "sha256": "945027ca6477d3e2dce9a2f44694e504f30f57176f2e8142282c3a3bfa11e514",
-      "size_bytes": 825,
+      "sha256": "d060584b420430bd4f98c2ad8eca17d1e222d82e16a086022da1a578788f36fc",
+      "size_bytes": 827,
       "type": "metadata"
     },
     {
       "path": "models/personal-builder-coder/source-evidence.json",
-      "sha256": "523a66e9730071438740b2e32a938dfc0620473dba073da59a41e3f871089649",
-      "size_bytes": 9611,
+      "sha256": "84097713b86634f4443c7e4fa5c940207be5ee835e1189881f840fac3b04df16",
+      "size_bytes": 8534,
       "type": "metadata"
     },
     {
@@ -219,7 +213,7 @@
     },
     {
       "path": "pyproject.toml",
-      "sha256": "2b8a7aa2b66d31db1537b7a69e98993ed1adea81b36539c5b9f4f8f41d826d59",
+      "sha256": "bba2cfbba86f7f02d297e89bfe32ea95087e95a0e4dfefd9d0af9bcb312e6141",
       "size_bytes": 665,
       "type": "metadata"
     },
@@ -231,14 +225,14 @@
     },
     {
       "path": "scripts/build_personal_builder_coder.py",
-      "sha256": "0c1c06a7011b05c0bf84579386ae59c07daf46b772c91cf0c7ed59b0e4842c94",
-      "size_bytes": 6527,
+      "sha256": "b99cccbde06b6477484abb99df2abc5f326875d29b4bcc0120d5da33eb23231a",
+      "size_bytes": 7464,
       "type": "software"
     },
     {
       "path": "scripts/build_release_package.py",
-      "sha256": "932faee955384b512c58b0f0f68af9e7ac9df4490a8766afc54ad5d52c494b79",
-      "size_bytes": 4244,
+      "sha256": "e57911b4ecfbc70c31c6b802b632c0e036079ceba0fc889637d0684f2545176f",
+      "size_bytes": 4219,
       "type": "software"
     },
     {
@@ -249,8 +243,8 @@
     },
     {
       "path": "scripts/generate_release_evidence.py",
-      "sha256": "7cb75a8dba2c5cee9980405cd21e66562db6b84208d7acef704e0e7b87c9d21f",
-      "size_bytes": 5600,
+      "sha256": "61bdd5d6434d78816c9a606ad593418767e98d943c4cf531083c6194f0d71888",
+      "size_bytes": 5512,
       "type": "software"
     },
     {
@@ -269,6 +263,12 @@
       "path": "scripts/property_fuzz_kernel_authorization.py",
       "sha256": "03761fd6aec7bb04fb56647186f15f2f6799f4833d50f92b42b2ec48cf27a64f",
       "size_bytes": 9939,
+      "type": "software"
+    },
+    {
+      "path": "scripts/release_config.py",
+      "sha256": "456b1b38f02d59283cdf29e3d949bd8778a5d8425584d1377e5084096656b674",
+      "size_bytes": 1329,
       "type": "software"
     },
     {
@@ -303,8 +303,8 @@
     },
     {
       "path": "scripts/sign_release_package.py",
-      "sha256": "12d2d877814424a3751e2ee052d20eb6b6296499ffadc6b3fb4e40c5a4072183",
-      "size_bytes": 4200,
+      "sha256": "3c311f4a01b17ecb1c450dad0446a87fcae70d2ef739e5544263d9adcb4addc8",
+      "size_bytes": 4305,
       "type": "software"
     },
     {
@@ -315,8 +315,8 @@
     },
     {
       "path": "scripts/validate_deployment.py",
-      "sha256": "824bb9dec6526759e29e6514d99d6cb557d27c7b5826949c79e208dac7187c24",
-      "size_bytes": 11568,
+      "sha256": "ca4ba4faa2f9e302ae0ddd59b95f21a838d95db6250872d3032a034662b07cd8",
+      "size_bytes": 11659,
       "type": "software"
     },
     {
@@ -327,20 +327,20 @@
     },
     {
       "path": "scripts/validate_repository.py",
-      "sha256": "338c11d33e8c8c8d67697ac3fa3538c8ee4295a3253ce28af2ae71d27582e9f9",
-      "size_bytes": 3965,
+      "sha256": "4c82e082b2995d236acc846381a1c1a8d8ac1dd279120976bf8ee43fe4ac2847",
+      "size_bytes": 4109,
       "type": "software"
     },
     {
       "path": "scripts/validate_thirsty_ai_builder_deployment.py",
-      "sha256": "d562dff94c1e6bd4d7c716d4bb3ec5597391b267ff0ef631fb402ee9860be643",
-      "size_bytes": 6427,
+      "sha256": "0149f7ec01c59f7f1153f26de540285f34eae1b15772a739ea4df6f8dddffe69",
+      "size_bytes": 7751,
       "type": "software"
     },
     {
       "path": "scripts/verify_all.py",
-      "sha256": "924170ec60e582791385faf9386144106f63d63ed0c6c935e68631c2957438ab",
-      "size_bytes": 3194,
+      "sha256": "e48767c42f4eb42aedbce0561a2466d6655b24a78169bcef2107ac816b9a8416",
+      "size_bytes": 4290,
       "type": "software"
     },
     {
@@ -585,7 +585,7 @@
     },
     {
       "path": "spec/requirements.json",
-      "sha256": "c2670325f1d55065b4155b8400d61dd455e68821996b2836ae1a75a286c72c1f",
+      "sha256": "f9e4493e2e0e5af4d63ab1b9d624841123538384ef2d266869e283751ca373b3",
       "size_bytes": 9980,
       "type": "documentation"
     },
@@ -747,8 +747,8 @@
     },
     {
       "path": "tests/test_personal_builder_coder_manifest.py",
-      "sha256": "d346982e3878816d7e9430767408a93319293945f4c478938762addbc0f70ea6",
-      "size_bytes": 7054,
+      "sha256": "82b74766624e0117e328e8bb6a7f14d7f7ca158e50f7779a46689d44330637d2",
+      "size_bytes": 7993,
       "type": "software"
     },
     {
@@ -1095,7 +1095,7 @@
     },
     {
       "path": "thirsty-ai-builder/docs/DIAGRAMS.md",
-      "sha256": "45d487e30831c89626b0310b792be6aef9567e70f8fc2ca20cc758159507bb3f",
+      "sha256": "0009ec6c8d056bf09bd8060fffa38435ffe2aec67b4b46df608c3168bf7eec77",
       "size_bytes": 29872,
       "type": "metadata"
     },
@@ -1292,6 +1292,7 @@
       "type": "metadata"
     }
   ],
-  "generated_utc": "2026-07-04T10:04:21+00:00",
+  "generated_utc": "2026-07-06T22:22:21+00:00",
+  "project_version": "0.3.1",
   "schema": "constitutional-builder-sbom-v1"
 }

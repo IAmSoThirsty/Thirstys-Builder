@@ -38,7 +38,7 @@ Infrastructure certification.
 - Deployment references: `deploy/`.
 - Release evidence: `release/sbom.json`, `release/provenance.json`,
   `release/provenance.signature.json`.
-- Release package: `release/constitutional-builder-0.1.0.zip`,
+- Release package: `release/constitutional-builder-0.3.1.zip`,
   `release/package-manifest.json`.
 - Package signature: `release/package-signature.json`,
   `release/signing-public-key.pem`.

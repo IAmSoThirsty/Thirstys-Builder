@@ -3,11 +3,11 @@
   "model": "personal-builder-coder",
   "version": "v0.4.0-prep",
   "manifest_path": "models/personal-builder-coder/manifest.json",
-  "manifest_sha256": "43939c8f1c89913863e554e36bbe2b65eaff1d12b94a65bb539731976c8a8ac7",
+  "manifest_sha256": "2e7dcb2f3559fefc6f8960cba4b0410af8ac069c57ca24b7b669c90b638ae1d0",
   "algorithm": "Ed25519",
   "key_scope": "local-test-key",
   "key_source": "scripts/sign_release_package.py::TEST_SEED (same key as release/package-signature.json)",
   "key_fingerprint_sha256_16": "30934b906a55ee6d",
-  "signature_base64": "zoibM6ryXxG81fagLAG8Qh4rKjqw4e7lbrq+HcncMxS+RhP3eASAlOna8a5we3FT0+5X8aNzGKtG7tP40zVlCA==",
+  "signature_base64": "eXyqKmphQdE6gy0+KMKKfu/d8leamO6tA0aw5aJPb8hSki5R0meVPudxzfpyrSyDMw5M/a0bFz36OIZZrX3lBw==",
   "note": "Manifest signed with the project's existing local-test Ed25519 key. Verification: signature over the canonical-JSON form of manifest.json (sort_keys=True, separators=(',', ':'))."
 }

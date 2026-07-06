@@ -11,9 +11,14 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
 
+try:
+    from .release_config import PACKAGE_NAME
+except ImportError:  # pragma: no cover - direct script execution
+    from release_config import PACKAGE_NAME
+
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGE = ROOT / "release" / "constitutional-builder-0.1.0.zip"
+PACKAGE = ROOT / "release" / PACKAGE_NAME
 SIGNATURE = ROOT / "release" / "package-signature.json"
 PUBLIC_KEY = ROOT / "release" / "signing-public-key.pem"
 TEST_SEED = hashlib.sha256(b"constitutional-builder-local-test-signing-key-v1").digest()
@@ -38,7 +43,7 @@ def main() -> int:
     signature_bytes = private_key.sign(package_bytes)
     payload = {
         "schema": "constitutional-builder-ed25519-package-signature-v1",
-        "package": "release/constitutional-builder-0.1.0.zip",
+        "package": f"release/{PACKAGE_NAME}",
         "package_sha256": hashlib.sha256(package_bytes).hexdigest(),
         "algorithm": "Ed25519",
         "signature_base64": base64.b64encode(signature_bytes).decode("ascii"),
@@ -67,7 +72,7 @@ def check_signature() -> int:
     if not PUBLIC_KEY.exists():
         failures.append("missing release/signing-public-key.pem")
     if not PACKAGE.exists():
-        failures.append("missing release/constitutional-builder-0.1.0.zip")
+        failures.append(f"missing release/{PACKAGE_NAME}")
     if failures:
         for failure in failures:
             print(f"FAIL: {failure}")

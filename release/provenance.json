@@ -1,9 +1,10 @@
 {
   "builder": "local-codex",
-  "generated_utc": "2026-07-04T10:04:21+00:00",
+  "generated_utc": "2026-07-06T22:22:21+00:00",
+  "project_version": "0.3.1",
   "sbom_component_count": 215,
   "schema": "constitutional-builder-provenance-v1",
-  "source_root": "C:\\Users\\Quencher\\Documents\\Thirsty's Builder",
-  "tree_sha256": "00e3d71ea8757d7474004343f5ecfc5e8a7c733586bcc145920b5e098af72e19",
+  "source_root": ".",
+  "tree_sha256": "7aa6ddde1b9cf3364d76e67a6165596fadaca85d369d8bea170a097c19207f8d",
   "verification_command": "python scripts/verify_all.py"
 }

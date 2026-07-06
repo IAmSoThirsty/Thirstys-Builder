@@ -405,7 +405,7 @@ from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
 vk = VerifyKey(open('release/signing-public-key.pem','rb').read())
 try:
-    vk.verify(open('release/constitutional-builder-0.1.0.zip','rb').read(),
+    vk.verify(open('release/constitutional-builder-0.3.1.zip','rb').read(),
               open('release/package-signature.json','rb').read())
     print('OK: signature valid')
 except BadSignatureError:

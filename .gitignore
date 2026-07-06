@@ -4,6 +4,7 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 .tool-cache/
+.hermes/
 node_modules/
 deploy/runtime/
 !release/
@@ -19,5 +20,5 @@ audit-*.pdf
 
 
 
-#Ignore vscode AI rules
-.github\instructions\codacy.instructions.md
+# Ignore local AI/tooling rules and handoff state.
+.github/instructions/codacy.instructions.md

@@ -3,6 +3,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+try:
+    from .release_config import PACKAGE_NAME
+except ImportError:  # pragma: no cover - direct script execution
+    from release_config import PACKAGE_NAME
+
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_DIRS = [
@@ -68,7 +73,7 @@ REQUIRED_FILES = [
     "release/provenance.json",
     "release/provenance.signature.json",
     "release/package-manifest.json",
-    "release/constitutional-builder-0.1.0.zip",
+    f"release/{PACKAGE_NAME}",
     "release/package-signature.json",
     "release/signing-public-key.pem",
 ]

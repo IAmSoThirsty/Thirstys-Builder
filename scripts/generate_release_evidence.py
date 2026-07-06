@@ -7,14 +7,14 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:
+    from .release_config import PROJECT_VERSION, is_local_metadata, repo_relative
+except ImportError:  # pragma: no cover - direct script execution
+    from release_config import PROJECT_VERSION, is_local_metadata, repo_relative
+
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE_DIR = ROOT / "release"
-EXCLUDED_DIRS = {
-    ".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
-    ".tool-cache", "states", "target", "node_modules", "dist", "build",
-}
-EXCLUDED_PREFIXES = {"deploy/runtime"}
 
 
 def main() -> int:
@@ -65,23 +65,20 @@ def iter_source_files() -> list[Path]:
     for path in ROOT.rglob("*"):
         if not path.is_file():
             continue
-        relative = path.relative_to(ROOT).as_posix()
-        parts = set(Path(relative).parts)
-        if parts & EXCLUDED_DIRS:
-            continue
-        if any(relative == excluded or relative.startswith(f"{excluded}/") for excluded in EXCLUDED_PREFIXES):
+        relative = repo_relative(path, ROOT)
+        if is_local_metadata(relative):
             continue
         if relative.startswith("release/"):
             continue
         files.append(path)
-    return sorted(files, key=lambda item: item.relative_to(ROOT).as_posix())
+    return sorted(files, key=lambda item: repo_relative(item, ROOT))
 
 
 def build_sbom(files: list[Path]) -> dict[str, object]:
     generated_utc = stable_timestamp(files)
     components = []
     for path in files:
-        relative = path.relative_to(ROOT).as_posix()
+        relative = repo_relative(path, ROOT)
         components.append(
             {
                 "path": relative,
@@ -92,6 +89,7 @@ def build_sbom(files: list[Path]) -> dict[str, object]:
         )
     return {
         "schema": "constitutional-builder-sbom-v1",
+        "project_version": PROJECT_VERSION,
         "generated_utc": generated_utc,
         "component_count": len(components),
         "components": components,
@@ -101,16 +99,17 @@ def build_sbom(files: list[Path]) -> dict[str, object]:
 def build_provenance(files: list[Path], sbom: dict[str, object]) -> dict[str, object]:
     tree_hash = hashlib.sha256()
     for path in files:
-        relative = path.relative_to(ROOT).as_posix()
+        relative = repo_relative(path, ROOT)
         tree_hash.update(relative.encode("utf-8"))
         tree_hash.update(b"\0")
         tree_hash.update(sha256_file(path).encode("ascii"))
         tree_hash.update(b"\n")
     return {
         "schema": "constitutional-builder-provenance-v1",
+        "project_version": PROJECT_VERSION,
         "generated_utc": stable_timestamp(files),
         "builder": "local-codex",
-        "source_root": str(ROOT),
+        "source_root": ".",
         "tree_sha256": tree_hash.hexdigest(),
         "sbom_component_count": sbom["component_count"],
         "verification_command": "python scripts/verify_all.py",

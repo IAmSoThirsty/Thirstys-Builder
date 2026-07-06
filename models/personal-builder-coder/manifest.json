@@ -40,8 +40,8 @@
     },
     "source-evidence.json": {
       "path": "models/personal-builder-coder/source-evidence.json",
-      "sha256": "523a66e9730071438740b2e32a938dfc0620473dba073da59a41e3f871089649",
-      "size_bytes": 9611,
+      "sha256": "84097713b86634f4443c7e4fa5c940207be5ee835e1189881f840fac3b04df16",
+      "size_bytes": 8534,
       "paper_count": 22,
       "papers_found": 22
     }
